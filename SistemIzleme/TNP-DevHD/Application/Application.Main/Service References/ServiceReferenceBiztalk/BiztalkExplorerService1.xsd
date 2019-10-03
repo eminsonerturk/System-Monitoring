@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/Bimar.Integration.LocalMachineExplorer.CustomObjects" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/Bimar.Integration.LocalMachineExplorer.CustomObjects" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="http://localhost:29342/Services/BiztalkExplorerService.svc?xsd=xsd3" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
+  <xs:complexType name="ArrayOfReceivePortTransferMessage">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="ReceivePortTransferMessage" nillable="true" type="tns:ReceivePortTransferMessage" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfReceivePortTransferMessage" nillable="true" type="tns:ArrayOfReceivePortTransferMessage" />
+  <xs:complexType name="ReceivePortTransferMessage">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="ApplicationName" nillable="true" type="xs:string" />
+      <xs:element xmlns:q1="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="AssemblyNames" nillable="true" type="q1:ArrayOfstring" />
+      <xs:element minOccurs="0" name="IsTwoWay" type="xs:boolean" />
+      <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ReceivePortDesc" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ReceivePortTransferMessage" nillable="true" type="tns:ReceivePortTransferMessage" />
+</xs:schema>

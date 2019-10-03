@@ -1,0 +1,18 @@
+﻿@{
+    ViewBag.Title = Rota2.ResourceProviders.RResx.GetResource("Envanter", "LabelYonetici");
+    ViewBag.ControllerName = "Yonetici";
+    ViewBag.GridName = "YoneticiListGrid";
+    Layout = "~/Views/Shared/_LayoutRota2SunucuEnvanter.cshtml";
+    ViewBag.UpMenu = "Ana Veri";
+    ViewBag.Menu = "Yönetici";
+}
+
+@section Filter
+{
+    @Html.Partial("_Filter")
+}
+
+@section List
+{
+    @Html.Partial("_List")
+}

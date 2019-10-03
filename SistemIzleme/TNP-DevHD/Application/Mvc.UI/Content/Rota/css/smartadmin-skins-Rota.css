@@ -1,0 +1,457 @@
+.rota-style body,
+body.rota-style {
+    background: #fff!important;
+    font-family: Arial, sans-serif
+}
+.rota-style #logo img {
+    width: 125px;
+    height: auto;
+    padding-left: 3px;
+    margin-top: -3px
+}
+.rota-style #header {
+    background-color: #f78c40;
+    background-image: -moz-linear-gradient(top, #f78c40, #d67632);
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#f78c40), to(#d67632));
+    background-image: -webkit-linear-gradient(top, #f78c40, #d67632);
+    background-image: -o-linear-gradient(top, #f78c40, #d67632);
+    background-image: linear-gradient(to bottom, #f78c40, #d67632)
+}
+.rota-style #ribbon {
+    background: #fff;
+    min-height: 0px
+}
+.rota-style #ribbon .breadcrumb,
+.rota-style #ribbon .breadcrumb a {
+    color: #7C7C7C!important
+}
+.rota-style #ribbon .breadcrumb li:last-child,
+.rota-style #ribbon .breadcrumb>.active {
+    color: #5F5F5F
+}
+.rota-style.fixed-ribbon #ribbon {
+    box-shadow: 0 .0625em .3125em rgba(0, 0, 0, .35)
+}
+.rota-style #logo-group span#activity,
+.rota-style .btn-header>:first-child>a {
+    background-color: #DD7C37;
+    background-image: -moz-linear-gradient(top, #dd7c37, #b9662b);
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#b9662b), to(#b9662b));
+    background-image: -webkit-linear-gradient(top, #dd7c37, #b9662b);
+    background-image: -o-linear-gradient(top, #dd7c37, #b9662b);
+    background-image: linear-gradient(to bottom, #dd7c37, #b9662b);
+    color: #fff!important;
+    border: 1px solid #f09d61;
+    text-shadow: #985813 0 -1px
+}
+.rota-style #hide-menu i {
+    color: #fff!important
+}
+.rota-style #logo-group span#activity:active,
+.rota-style #logo-group span#activity:hover,
+.rota-style .btn-header>:first-child>a:active,
+.rota-style .btn-header>:first-child>a:hover {
+    -webkit-box-shadow: inset 1px 1px 0 #985813, inset -1px -1px 0 #985813;
+    -moz-box-shadow: inset 1px 1px 0 #985813, inset -1px -1px 0 #985813;
+    box-shadow: inset 1px 1px 0 #985813, inset -1px -1px 0 #985813;
+    background-color: #dd7a35;
+    background-image: -moz-linear-gradient(top, #dd7a35, #984a13);
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#dd7a35), to(#984a13));
+    background-image: -webkit-linear-gradient(top, #dd7a35, #984a13);
+    background-image: -o-linear-gradient(top, #dd7a35, #984a13);
+    background-image: linear-gradient(to bottom, #dd7a35, #984a13)
+}
+.rota-style .header-dropdown-list>li>.dropdown-toggle,
+.rota-style .project-context>:first-child,
+.rota-style .project-selector {
+    color: #fff;
+    text-shadow: #985813 0 -1px
+}
+.rota-style .header-dropdown-list>li>.dropdown-toggle {
+    display: block;
+    background: rgba(0, 0, 0, .2);
+    padding: 2px 7px 3px;
+    border-radius: 3px;
+    margin-top: 14px
+}
+.rota-style .header-search>input[type=text] {
+    border-color: #CA854F
+}
+.rota-style .header-search>button {
+    color: #DF9B45
+}
+.rota-style aside {
+    background: #f2f2f2;
+    border-right: 2px solid #ccc
+}
+.rota-style .login-info span {
+    border-bottom: none
+}
+.rota-style .login-info a span {
+    color: #444!important
+}
+.rota-style .login-info {
+    border-bottom: 1px solid #E2E2E2;
+    background: #fff;
+    box-shadow: none;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none
+}
+.rota-style nav ul li a,
+.rota-style nav ul li.open>a,
+.rota-style nav ul li.open>a b {
+    color: #444!important
+}
+.rota-style nav>ul>li {
+    background-color: #f2f2f2;
+    background-image: -moz-linear-gradient(top, #f9f9f9, #f2f2f2);
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#f9f9f9), to(#f2f2f2));
+    background-image: -webkit-linear-gradient(top, #f9f9f9, #f2f2f2);
+    background-image: -o-linear-gradient(top, #f9f9f9, #f2f2f2);
+    background-image: linear-gradient(to bottom, #f9f9f9, #f2f2f2);
+    border-bottom: 1px solid #DFDFDF
+}
+.rota-style nav>ul>li.active>a:before {
+    top: 10px!important
+}
+.rota-style nav>ul>li>a b {
+    top: 12px
+}
+.rota-style nav ul li.active>a:before {
+    top: 6px
+}
+.rota-style nav>ul>li.open {
+    border-left: 4px solid #058dc7
+}
+.rota-style nav>ul>li>a {
+    padding: 12px 10px 12px 11px;
+    font-size: 13px
+}
+.rota-style nav>ul>li>a>i {
+    color: #058dc7;
+    font-size: 20px
+}
+.rota-style nav ul ul {
+    background: 0 0
+}
+.rota-style nav ul ul li>a {
+    font-size: 13px
+}
+.rota-style nav ul li a:hover {
+    background: rgba(0, 0, 0, .05)!important
+}
+.rota-style nav>ul>li.open>a {
+    padding-left: 7px
+}
+.rota-style nav>ul>li.open ul li>a {
+    padding-left: 38px
+}
+.rota-style nav>ul ul li::before,
+.rota-style nav>ul>li>ul::before {
+    border: none
+}
+.rota-style nav ul li.active>a {
+    font-weight: 700
+}
+.rota-style nav ul li.active>a:before {
+    color: #bbb
+}
+.rota-style .page-footer,
+.rota-style .superbox-show {
+    background: #3D3B39
+}
+.rota-style .superbox-list.active:before {
+    color: #3D3B39
+}
+.rota-style nav>ul>li.open>ul>li>a {
+    padding-left: 38px
+}
+.rota-style.minified nav>ul>li {
+    border-bottom: 1px solid #E9E4E4;
+    border-top: 1px solid #FFF
+}
+.rota-style.minified nav>ul>li>ul,
+.rota-style.minified nav>ul>li>ul>li>ul>li {
+    background-color: rgba(69, 69, 69, .9)
+}
+.rota-style.minified nav ul li a,
+.rota-style.minified nav ul li.open>a,
+.rota-style.minified nav ul li.open>a b {
+    color: #fff!important
+}
+.rota-style.minified nav>ul>li.open ul li>a {
+    padding-left: 14px
+}
+.rota-style .active+.ajax-dropdown {
+    -webkit-box-shadow: 1px 14px 16px rgba(61, 35, 14, .55);
+    box-shadow: 1px 14px 16px rgba(61, 35, 14, .55)
+}
+@media (max-width: 979px) {
+    .rota-style #content {
+        padding-left: 5px;
+        padding-right: 5px
+    }
+    .rota-style #ribbon {
+        margin-left: 0;
+        margin-right: 0;
+        margin-top: 0;
+        border-radius: 0
+    }
+}
+.rota-style .dropdown-menu>.active>a,
+.rota-style .dropdown-menu>.active>a:hover,
+.rota-style .dropdown-menu>li>a:focus,
+.rota-style .dropdown-menu>li>a:hover,
+.rota-style .tt-suggestion.tt-is-under-cursor {
+    background-color: #EC9519;
+    color: #fff
+}
+.rota-style .dropdown-menu>li>a {
+    color: #4E361B
+}
+.rota-style .dropdown-menu {
+    border-radius: 0;
+    border-bottom: 2px solid #ADADAD;
+    background: #FDDFB3
+}
+.rota-style .dropdown-menu .divider {
+    background-color: #EBC7A6
+}
+.rota-style .dropdown-menu-large .dropdown-header {
+    color: #5C391E
+}
+.rota-style .dropdown-menu-large>li ul>li>a:focus,
+.rota-style .dropdown-menu-large>li ul>li>a:hover {
+    border-radius: 3px;
+    background-color: #F1B686
+}
+.rota-style .has-warning .form-control {
+    border-color: #c09853!important
+}
+.rota-style .has-error .form-control {
+    border-color: #b94a48!important
+}
+.rota-style .has-success .form-control {
+    border-color: #468847!important
+}
+.rota-style .select2-container-multi .select2-choices .select2-search-field input,
+.rota-style .tt-hint {
+    box-shadow: none!important;
+    border: none!important
+}
+.rota-style #shortcut {
+    background-color: rgba(25, 16, 6, .85)
+}
+.rota-style .SmallBox span,
+.rota-style .bigBox span {
+    letter-spacing: 0
+}
+.rota-style.menu-on-top nav ul ul li>a {
+    color: inherit
+}
+.rota-style.menu-on-top aside {
+    background: inherit
+}
+.rota-style.menu-on-top aside#left-panel {
+    -webkit-box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .25);
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .25);
+    border-bottom: 1px solid #fff;
+    border-top: 1px solid #fff
+}
+.rota-style.menu-on-top aside#left-panel nav>ul>li {
+    border-right: 1px solid #E2E2E2;
+    border-left: 1px solid #FFF
+}
+.rota-style.menu-on-top nav ul ul,
+.rota-style.menu-on-top nav ul ul ul {
+    border-color: #E2E2E2
+}
+.rota-style.menu-on-top nav ul>li>ul {
+    left: -2px
+}
+.rota-style.menu-on-top aside#left-panel nav>ul>li>a {
+    text-shadow: none!important;
+    font-size: 13px;
+    padding: 10px 9px!important;
+    border: none!important
+}
+.rota-style.menu-on-top nav ul ul li a {
+    padding-left: 10px!important;
+    font-size: 13px
+}
+.rota-style.menu-on-top nav>ul>li>a:hover {
+    background: #fff!important
+}
+.rota-style.menu-on-top nav ul ul li a:hover,
+.rota-style.menu-on-top nav ul ul li:hover>a,
+.rota-style.menu-on-top nav ul ul ul li a:hover {
+    background: rgba(0, 0, 0, .05)
+}
+.rota-style.menu-on-top aside#left-panel nav>ul>li:hover {
+    background: #fff
+}
+.rota-style.menu-on-top nav ul ul li a,
+.rota-style.menu-on-top nav ul ul ul li a {
+    color: #D8DEE5
+}
+.rota-style.menu-on-top nav ul ul li a:hover,
+.rota-style.menu-on-top nav ul ul li:hover>a,
+.rota-style.menu-on-top nav ul ul ul li a:hover {
+    color: #fff
+}
+.rota-style.menu-on-top nav>ul>li>a:after {
+    color: #8AA1B3!important
+}
+.rota-style.menu-on-top nav ul ul li:hover>a:after,
+.rota-style.menu-on-top nav>ul ul>li a:after,
+.rota-style.menu-on-top nav>ul ul>li a:hover:after,
+.rota-style.menu-on-top nav>ul>li>a:after {
+    color: inherit
+}
+.smart-style-1.menu-on-top nav ul ul .active>a:hover,
+.smart-style-1.menu-on-top nav ul ul li.active:hover>a,
+.rota-style.menu-on-top nav ul ul .active>a,
+.rota-style.menu-on-top nav ul ul .active>a:hover,
+.rota-style.menu-on-top nav ul ul li.active:hover>a {
+    color: #333!important
+}
+.rota-style .form header,
+legend {
+    display: block;
+    padding: 0;
+    border-bottom: 1px dashed rgba(0, 0, 0, .2);
+    background: #fff;
+    font-size: 16px;
+    font-weight: 300;
+    color: #222;
+    margin: 5px 0 20px
+}
+.rota-style .form-actions {
+    display: block;
+    padding: 5px 5px 5px;
+    border-top: 1px solid rgba(0, 0, 0, .1);
+    background: rgba(249, 249, 249, .9);
+    margin-top: 25px;
+    margin-left: -13px;
+    margin-right: -13px;
+    margin-bottom: -13px;
+    text-align: right;
+}
+.rota-style .page-title {
+    margin: 12px 0 10px;
+}
+.rota-style .k-block,
+.k-button,
+.k-textbox,
+.k-drag-clue,
+.k-touch-scrollbar,
+.k-window,
+.k-window-titleless .k-window-content,
+.k-window-action,
+.k-inline-block,
+.k-grid .k-filter-options,
+.k-grouping-header .k-group-indicator,
+.k-autocomplete,
+.k-multiselect,
+.k-combobox,
+.k-dropdown,
+.k-dropdown-wrap,
+.k-datepicker,
+.k-timepicker,
+.k-colorpicker,
+.k-datetimepicker,
+.k-numerictextbox,
+.k-picker-wrap,
+.k-numeric-wrap,
+.k-colorpicker.k-list-container,
+.k-calendar-container,
+.k-calendar td,
+.k-calendar .k-link,
+.k-treeview .k-in,
+.k-editor-inline,
+.k-tooltip,
+.k-tile,
+.k-slider-track,
+.k-slider-selection,
+.k-upload {
+    -webkit-border-radius: 0;
+    border-radius: 0;
+}
+.rota-style .k-textbox,
+.k-autocomplete.k-header,
+.k-dropdown-wrap.k-state-active,
+.k-picker-wrap.k-state-active,
+.k-numeric-wrap.k-state-active {
+    border-color: #ccc;
+    background-color: #ebebeb;
+}
+.rota-style .k-autocomplete.k-state-default .k-input,
+.k-combobox .k-state-default .k-input,
+.k-picker-wrap.k-state-default .k-input,
+.k-numeric-wrap.k-state-default .k-input,
+.k-multiselect-wrap,
+.k-slider-track,
+.k-slider-selection,
+.k-progress-status-wrap {
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+    box-shadow: inset 0 0 0 rgba(0, 0, 0, 0.075);
+}
+.rota-style .k-autocomplete.k-state-hover,
+.k-autocomplete.k-state-focused,
+.k-picker-wrap.k-state-hover,
+.k-picker-wrap.k-state-focused,
+.k-numeric-wrap.k-state-hover,
+.k-numeric-wrap.k-state-focused,
+.k-dropdown-wrap.k-state-hover,
+.k-dropdown-wrap.k-state-focused {
+    background-color: #ebebeb;
+    background-image: none;
+    background-position: 50% 50%;
+    border-color: #ccc
+}
+.rota-style .k-autocomplete.k-state-focused,
+.k-picker-wrap.k-state-focused,
+.k-numeric-wrap.k-state-focused,
+.k-dropdown-wrap.k-state-focused,
+.k-multiselect.k-header.k-state-focused {
+    background-color: #ebebeb;
+    background-image: none;
+    background-position: 50% 50%;
+    border-color: #67afe9;
+    -webkit-box-shadow: 0 0 0 0 #67afe9;
+    box-shadow: 0 0 0 0 #67afe9
+}
+.rota-style .well {
+    padding-top: 13px;
+    padding-right: 19px;
+    padding-bottom: 13px;
+    padding-left: 19px;
+}
+.rota-style .k-loading-image {
+    background-image: none;
+}
+.rota-style .k-grouping-header,
+.k-grid-toolbar {
+    margin: 0;
+    padding: .2em .1em .1em .1em;
+    cursor: default;
+}
+.rota-style .field-validation-error {
+    display: block;
+    margin-top: 6px;
+    padding: 0 1px;
+    font-style: normal;
+    font-size: 11px;
+    line-height: 15px;
+    color: #D56161
+}
+.rota-style .field-validation-valid {
+    display: none;
+}
+.rota-style .input-validation-error {} .rota-style .validation-summary-errors {
+    font-weight: bold;
+    color: #f00;
+}
+.rota-style .validation-summary-valid {
+    display: none;
+}

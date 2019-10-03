@@ -1,0 +1,239 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{AEF4955C-A3CF-4999-B362-8E5E5EEA5C27}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Application.Main</RootNamespace>
+    <AssemblyName>Application.Main</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=4.1.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\DllRef\Rota2\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="FluentValidation, Version=4.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\DllRef\Rota2\FluentValidation.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity, Version=1.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\DllRef\Rota2\Microsoft.Practices.Unity.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity.Configuration, Version=3.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\DllRef\Rota2\Microsoft.Practices.Unity.Configuration.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity.Interception, Version=3.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\DllRef\Rota2\Microsoft.Practices.Unity.Interception.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity.Interception.Configuration, Version=3.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\DllRef\Rota2\Microsoft.Practices.Unity.Interception.Configuration.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity.RegistrationByConvention">
+      <HintPath>..\DllRef\Rota2\Microsoft.Practices.Unity.RegistrationByConvention.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Web.Administration, Version=7.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\IIS.Microsoft.Web.Administration.8.5.9600.17042\lib\Microsoft.Web.Administration.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Rota2.AppCore">
+      <HintPath>..\DllRef\Rota2\Rota2.AppCore.dll</HintPath>
+    </Reference>
+    <Reference Include="Rota2.DataCore">
+      <HintPath>..\DllRef\Rota2\Rota2.DataCore.dll</HintPath>
+    </Reference>
+    <Reference Include="Rota2.DomainCore">
+      <HintPath>..\DllRef\Rota2\Rota2.DomainCore.dll</HintPath>
+    </Reference>
+    <Reference Include="Rota2.IoC">
+      <HintPath>..\DllRef\Rota2\Rota2.IoC.dll</HintPath>
+    </Reference>
+    <Reference Include="Rota2.Mvc5Utils">
+      <HintPath>..\DllRef\Rota2\Rota2.Mvc5Utils.dll</HintPath>
+    </Reference>
+    <Reference Include="Rota2.ResourceProviders">
+      <HintPath>..\DllRef\Rota2\Rota2.ResourceProviders.dll</HintPath>
+    </Reference>
+    <Reference Include="Rota2.Resources">
+      <HintPath>..\DllRef\Rota2\Rota2.Resources.dll</HintPath>
+    </Reference>
+    <Reference Include="Rota2.Utils">
+      <HintPath>..\DllRef\Rota2\Rota2.Utils.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Management" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Base\AppDependencyRegister.cs" />
+    <Compile Include="Base\RMvcServiceInterceptorSunucuEnvanter.cs" />
+    <Compile Include="Base\SunucuEnvanterDbAppService.cs" />
+    <Compile Include="Base\RMvcServiceInterceptorIslem.cs" />
+    <Compile Include="Base\ElmahDbAppService.cs" />
+    <Compile Include="Base\IslemDbAppService.cs" />
+    <Compile Include="Base\ReportDbAppService.cs" />
+    <Compile Include="Base\RMvcServiceInterceptorElmah.cs" />
+    <Compile Include="Base\RMvcServiceInterceptorReport.cs" />
+    <Compile Include="Islem\IslemLogAppService.cs" />
+    <Compile Include="Islem\MessageLogAppService.cs" />
+    <Compile Include="Islem\EntityLogAppService.cs" />
+    <Compile Include="Islem\EntityFieldLogAppService.cs" />
+    <Compile Include="Islem\EntityFieldNameAppService.cs" />
+    <Compile Include="Islem\EntityNameAppService.cs" />
+    <Compile Include="Elmah\ElmahErrorAppService.cs" />
+    <Compile Include="Elmah\ExceptionRequestAppService.cs" />
+    <Compile Include="Elmah\KullaniciAppAppService.cs" />
+    <Compile Include="Islem\KullaniciAppService.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Service References\ServiceReferenceBiztalk\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Ssrs\ReportServerAppService.cs" />
+    <Compile Include="SunucuEnvanter\Encrypt.cs" />
+    <Compile Include="SunucuEnvanter\Impersonation.cs" />
+    <Compile Include="SunucuEnvanter\SunucuEnvanterAppNameService.cs" />
+    <Compile Include="SunucuEnvanter\SunucuEnvanterKullaniciAppService.cs" />
+    <Compile Include="SunucuEnvanter\LokasyonAppService.cs" />
+    <Compile Include="SunucuEnvanter\OperatingSystemAppService.cs" />
+    <Compile Include="SunucuEnvanter\SunucuEnvanterLinkedServers.cs" />
+    <Compile Include="SunucuEnvanter\SunucuEnvanterServerAppService.cs" />
+    <Compile Include="SunucuEnvanter\ServerTipiAppService.cs" />
+    <Compile Include="SunucuEnvanter\YoneticiAppService.cs" />
+    <Compile Include="SunucuEnvanter\YoneticiServerAppService.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Application.Dto\Application.Dto.csproj">
+      <Project>{3f700e64-e92a-45ce-8503-aa7f6855704f}</Project>
+      <Name>Application.Dto</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Application.Enumerations\Application.Enumerations.csproj">
+      <Project>{7dd881fb-7898-48fb-9d04-690f0911642b}</Project>
+      <Name>Application.Enumerations</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Application.Main.Interfaces\Application.Main.Interfaces.csproj">
+      <Project>{9353e7a5-0fd2-4ebc-813c-04b0563dea03}</Project>
+      <Name>Application.Main.Interfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Application.ViewModels\Application.ViewModels.csproj">
+      <Project>{768fc1fd-9e89-484e-8284-808bf982cca5}</Project>
+      <Name>Application.ViewModels</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Data.Main\Data.Main.csproj">
+      <Project>{63b5b5ec-854e-411b-8035-08ba9ce274b7}</Project>
+      <Name>Data.Main</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain.Core\Domain.Core.csproj">
+      <Project>{dbd0ccb2-39a3-422f-977f-04078819f2a5}</Project>
+      <Name>Domain.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain.Main\Domain.Main.csproj">
+      <Project>{25636659-4199-4cf9-8828-4f02eeb02fc2}</Project>
+      <Name>Domain.Main</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="packages.config" />
+    <None Include="Service References\ServiceReferenceBiztalk\Application.Main.ServiceReferenceBiztalk.HostInstancesTransferMessage.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ServiceReferenceBiztalk\Application.Main.ServiceReferenceBiztalk.IntegrationDetailsTransferMessage.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ServiceReferenceBiztalk\Application.Main.ServiceReferenceBiztalk.OrchestrationsTransferMessage.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ServiceReferenceBiztalk\Application.Main.ServiceReferenceBiztalk.ReceiveLocationsTransferMessage.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ServiceReferenceBiztalk\Application.Main.ServiceReferenceBiztalk.ReceivePortTransferMessage.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ServiceReferenceBiztalk\Application.Main.ServiceReferenceBiztalk.SendPortsTransferMessage.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ServiceReferenceBiztalk\Application.Main.ServiceReferenceBiztalk.ServiceInstancesTransferMessage.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ServiceReferenceBiztalk\Application.Main.ServiceReferenceBiztalk.WindowsServicesTransferMessage.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ServiceReferenceBiztalk\BiztalkExplorerService.wsdl" />
+    <None Include="Service References\ServiceReferenceBiztalk\BiztalkExplorerService.xsd" />
+    <None Include="Service References\ServiceReferenceBiztalk\BiztalkExplorerService1.xsd" />
+    <None Include="Service References\ServiceReferenceBiztalk\BiztalkExplorerService2.xsd" />
+    <None Include="Service References\ServiceReferenceBiztalk\BiztalkExplorerService3.xsd" />
+    <None Include="Service References\ServiceReferenceBiztalk\BiztalkExplorerService4.xsd" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadataStorage Include="Service References\ServiceReferenceBiztalk\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\ServiceReferenceBiztalk\BiztalkExplorerService.disco" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\ServiceReferenceBiztalk\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\ServiceReferenceBiztalk\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\ServiceReferenceBiztalk\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

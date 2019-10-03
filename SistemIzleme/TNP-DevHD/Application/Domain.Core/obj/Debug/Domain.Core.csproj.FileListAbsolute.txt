@@ -1,0 +1,9 @@
+C:\Soner.Turk\2018\YazDonemi\Operasyonel Ekip\Soner.TURK\1\SistemIzleme\TNP-DevHD\Application\Domain.Core\bin\Debug\Domain.Core.dll
+C:\Soner.Turk\2018\YazDonemi\Operasyonel Ekip\Soner.TURK\1\SistemIzleme\TNP-DevHD\Application\Domain.Core\bin\Debug\Domain.Core.pdb
+C:\Soner.Turk\2018\YazDonemi\Operasyonel Ekip\Soner.TURK\1\SistemIzleme\TNP-DevHD\Application\Domain.Core\bin\Debug\Microsoft.Web.Administration.dll
+C:\Soner.Turk\2018\YazDonemi\Operasyonel Ekip\Soner.TURK\1\SistemIzleme\TNP-DevHD\Application\Domain.Core\bin\Debug\Rota2.DomainCore.dll
+C:\Soner.Turk\2018\YazDonemi\Operasyonel Ekip\Soner.TURK\1\SistemIzleme\TNP-DevHD\Application\Domain.Core\bin\Debug\Rota2.Objects.dll
+C:\Soner.Turk\2018\YazDonemi\Operasyonel Ekip\Soner.TURK\1\SistemIzleme\TNP-DevHD\Application\Domain.Core\bin\Debug\AutoMapper.dll
+C:\Soner.Turk\2018\YazDonemi\Operasyonel Ekip\Soner.TURK\1\SistemIzleme\TNP-DevHD\Application\Domain.Core\obj\Debug\Domain.Core.csprojResolveAssemblyReference.cache
+C:\Soner.Turk\2018\YazDonemi\Operasyonel Ekip\Soner.TURK\1\SistemIzleme\TNP-DevHD\Application\Domain.Core\obj\Debug\Domain.Core.dll
+C:\Soner.Turk\2018\YazDonemi\Operasyonel Ekip\Soner.TURK\1\SistemIzleme\TNP-DevHD\Application\Domain.Core\obj\Debug\Domain.Core.pdb

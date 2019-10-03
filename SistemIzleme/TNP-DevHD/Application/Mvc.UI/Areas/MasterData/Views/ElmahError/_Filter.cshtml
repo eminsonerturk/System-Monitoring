@@ -1,0 +1,146 @@
+﻿@model Application.ViewModels.Elmah.ElmahErrorSearchViewModel
+
+<div class="row">
+    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3">
+        <div class="form-group">
+            @Html.LabelFor(p => p.StartDate, new { @class = "col-lg-4 control-label" })
+            <div class="col-lg-8">
+                @*@Html.Editor("StartDate_RFilter", "DateTime")*@
+                <input id="StartDate_RFilter" name="StartDate_RFilter"  />
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(p => p.EndDate, new { @class = "col-lg-4 control-label" })
+            <div class="col-lg-8">
+                @*@Html.Editor("EndDate_RFilter", "DateTime")*@
+                <input id="EndDate_RFilter" name="EndDate_RFilter"  />
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3">
+        <div class="form-group">
+            @Html.LabelFor(p => p.Host, new { @class = "col-lg-3 control-label" })
+            <div class="col-lg-8">
+                @Html.TextBox("Host", string.Empty, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(p => p.Type, new { @class = "col-lg-3 control-label" })
+            <div class="col-lg-8">
+                @Html.TextBox("Type", string.Empty, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(p => p.MessageNotLike, new { @class = "col-lg-3 control-label", @style = "text-decoration:underline;" })
+            <div class="col-lg-7">
+                @Html.TextBox("MessageNotLike", string.Empty, new { @class = "form-control" })
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3">
+        <div class="form-group">
+            @Html.LabelFor(p => p.User, new { @class = "col-lg-3 control-label" })
+            <div class="col-lg-7">
+                @Html.TextBox("User", string.Empty, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(p => p.Application, new { @class = "col-lg-3 control-label" })
+            <div class="col-lg-7">
+                @Html.EditorFor(p => p.Application)
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(p => p.ErrorIdString, new { @class = "col-lg-3 control-label", @style = "text-decoration:underline;" })
+            <div class="col-lg-7"> 
+                @Html.TextBox("ErrorIdString", string.Empty, new { @class = "form-control" })
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3">
+        <div class="form-group">
+            @Html.LabelFor(p => p.Message, new { @class = "col-lg-3 control-label" })
+            <div class="col-lg-7">
+                @Html.TextBox("Message", string.Empty, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(p => p.Source, new { @class = "col-lg-3 control-label" })
+            <div class="col-lg-7">
+                @Html.TextBox("Source", string.Empty, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(p => p.Sequence, new { @class = "col-lg-3 control-label", @style = "text-decoration:underline;" })
+            <div class="col-lg-7">
+                @Html.TextBox("Sequence", string.Empty, new { @class = "form-control" })
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        var today = new Date();
+        today.setHours(0, 0, 0);
+        var startDate = new Date(today);
+        today.setHours(23, 59, 0);
+        var endDate = new Date(today);
+        $("#StartDate_RFilter").kendoDateTimePicker({
+            culture: "tr-TR",
+            interval: 30,
+            value: startDate,
+            max: endDate,
+            });
+        $("#EndDate_RFilter").kendoDateTimePicker({
+            culture: "tr-TR",
+            interval: 30,
+            value: endDate,
+            max: endDate,
+        });
+    });
+    
+    $(document).ready(function () {
+
+        GetAppsForUser();
+    });
+
+    $("#Application").unbind("change").on("change",function () {
+        var selectedApps = $("#Application").val();
+        
+        if (selectedApps == null) {
+            selectedApps = "";
+        }
+        selectedApps = selectedApps.toString();
+        $.post("/Kullanici/SelectedAppUpdateData/", { ApplicationName: selectedApps },
+            function (result) {
+                RefreshGrid();
+            }
+        ); 
+    });
+    
+    function GetAppsForUser() {
+        var multiselect = $('#Application').data("kendoMultiSelect");
+        $.get("/Kullanici/SelectedAppReadData", function (data) {
+            var values = new Array();
+            if (data != undefined) {
+                for (var i = 0; i < data.length; i++) {
+                    if (data[i] == null)
+                        break;
+                    values[i] = data[i];
+                }
+            }
+            var multiselect = $('#Application').data("kendoMultiSelect");
+            multiselect.value(values);
+
+            setTimeout("RefreshGrid()", 600);
+        });
+    }
+
+    function RefreshGrid() {
+        $("#btnCustomFilterSubmit").click();
+    }   
+</script>

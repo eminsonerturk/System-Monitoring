@@ -1,0 +1,105 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{9353E7A5-0FD2-4EBC-813C-04B0563DEA03}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Application.Main.Interfaces</RootNamespace>
+    <AssemblyName>Application.Main.Interfaces</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.Web.Administration, Version=7.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\IIS.Microsoft.Web.Administration.8.5.9600.17042\lib\Microsoft.Web.Administration.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Rota2.DomainCore">
+      <HintPath>..\DllRef\Rota2\Rota2.DomainCore.dll</HintPath>
+    </Reference>
+    <Reference Include="Rota2.Mvc5Utils">
+      <HintPath>..\DllRef\Rota2\Rota2.Mvc5Utils.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Base\ISunucuEnvanterDbAppService.cs" />
+    <Compile Include="Base\IElmahDbAppService.cs" />
+    <Compile Include="Base\IIslemDbAppService.cs" />
+    <Compile Include="Islem\IMessageLogAppService.cs" />
+    <Compile Include="Islem\IEntityLogAppService.cs" />
+    <Compile Include="Islem\IEntityFieldLogAppService.cs" />
+    <Compile Include="Islem\IEntityFieldNameAppService.cs" />
+    <Compile Include="Islem\IEntityNameAppService.cs" />
+    <Compile Include="Islem\IIslemLogAppService.cs" />
+    <Compile Include="Base\IReportDbAppService.cs" />
+    <Compile Include="Elmah\IElmahErrorAppService.cs" />
+    <Compile Include="Elmah\IExceptionRequestAppService.cs" />
+    <Compile Include="Elmah\IKullaniciAppAppService.cs" />
+    <Compile Include="Islem\IKullaniciAppService.cs" />
+    <Compile Include="Ssrs\IReportServerAppService.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SunucuEnvanter\IIISBindingList.cs" />
+    <Compile Include="SunucuEnvanter\IKullaniciAppService.cs" />
+    <Compile Include="SunucuEnvanter\ILokasyonAppService.cs" />
+    <Compile Include="SunucuEnvanter\IOperatingSystemAppService.cs" />
+    <Compile Include="SunucuEnvanter\IServerAppService.cs" />
+    <Compile Include="SunucuEnvanter\IServerTipiAppService.cs" />
+    <Compile Include="SunucuEnvanter\ISunucuEnvanterAppService.cs" />
+    <Compile Include="SunucuEnvanter\ISunucuEnvanterLinkedServers.cs" />
+    <Compile Include="SunucuEnvanter\IYoneticiAppService.cs" />
+    <Compile Include="SunucuEnvanter\IYoneticiServerAppService.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Application.ViewModels\Application.ViewModels.csproj">
+      <Project>{768fc1fd-9e89-484e-8284-808bf982cca5}</Project>
+      <Name>Application.ViewModels</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain.Main\Domain.Main.csproj">
+      <Project>{25636659-4199-4cf9-8828-4f02eeb02fc2}</Project>
+      <Name>Domain.Main</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

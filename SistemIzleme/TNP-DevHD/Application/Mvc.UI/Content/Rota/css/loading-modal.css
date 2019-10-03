@@ -1,0 +1,58 @@
+﻿/* MODAL */
+.modal-dialog
+{
+    margin-top: 300px;
+}
+
+.modal-dialog-top
+{
+    margin-top: 120px;
+}
+
+.modal-dialog-no-top
+{
+    margin-top: 0px;
+}
+
+.modal-dialog-box
+{
+    margin-top: 300px;
+}
+
+.modal-header
+{
+    background-color:#428BCA;
+    background-color:#F58A3F;
+    color:#fff;
+    font-weight:bold;
+}
+
+.modal-large
+{
+    width: 600px;
+}
+
+.modal-x-large
+{
+    width: 800px;
+}
+
+.modal-xx-large
+{
+    width: 1000px;
+}
+
+.modal-xxx-large
+{
+    width: 1600px;
+}
+.modal-backdrop, .modal-backdrop.fade.in {
+        opacity: 0.5;
+    }
+
+.modal-content {
+    border-color: #3276B1 !important;
+    border-color: #D97833 !important;    
+    border-width: 3px !important;
+}
+/* MODAL*/

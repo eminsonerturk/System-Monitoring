@@ -1,0 +1,18 @@
+﻿@{
+    ViewBag.Title = Rota2.ResourceProviders.RResx.GetResource("Envanter", "LabelLokasyon");
+    ViewBag.ControllerName = "Lokasyon";
+    ViewBag.GridName = "LokasyonListGrid";
+    Layout = "~/Views/Shared/_LayoutRota2SunucuEnvanter.cshtml";
+    ViewBag.UpMenu = "Ana Veri";
+    ViewBag.Menu = "Lokasyon";
+}
+
+@section Filter
+{
+    @Html.Partial("_Filter")
+}
+
+@section List
+{
+    @Html.Partial("_List")
+}

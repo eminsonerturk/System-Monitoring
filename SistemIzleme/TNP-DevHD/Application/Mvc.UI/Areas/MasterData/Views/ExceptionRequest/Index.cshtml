@@ -1,0 +1,20 @@
+﻿@model Application.ViewModels.Elmah.ExceptionRequestViewModel
+@using Rota2.ResourceProviders
+
+@{
+    ViewBag.FilterMode = "Hide";
+    ViewBag.Title = RResx.GetResource("Elmah", "LabelExceptionRequest");
+    ViewBag.ControllerName = "ExceptionRequest";
+    ViewBag.GridName = "ExceptionRequestListGrid";
+    Layout = "~/Views/Shared/_LayoutRota2Elmah.cshtml";
+}
+
+@section Filter
+{
+    @Html.Partial("_Filter")
+}
+
+@section List
+{
+    @Html.Partial("_List")
+}

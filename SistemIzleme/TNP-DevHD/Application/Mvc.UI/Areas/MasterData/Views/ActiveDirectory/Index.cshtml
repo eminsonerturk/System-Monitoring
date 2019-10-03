@@ -1,0 +1,115 @@
+﻿@model IEnumerable<ActiveDirectory.Models.ActiveDirectoryGroup>
+
+@{
+    ViewBag.Title = "Active Directory Search";
+}
+
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+<script src="~/Areas/MasterData/Views/ActiveDirectory/ADSearchScript.js"></script>
+<link href="~/Content/ActiveDirectoryStyle.css" rel="stylesheet" />
+
+<br /><br />
+
+<div class="container">
+    <table id="adTable" class="table-striped">
+        <tr>
+            <th class="text-center success">
+                <div class="form-group">
+                    <!-- Search Filter TextBox (Groups) -->
+                    <p>
+                        <div class="input-group text-center searchGroupNames">
+                            <span class="input-group-addon">Grup İsmi: </span>
+                            <!-- Search Filter TextBox (Groups) -->
+                            <input class="searchTextBox form-control" placeholder="Grupları Ara" id="groupSearchTextBox" type="text" list="" />
+                        </div>
+                    </p>
+                    <p>
+                        <label class="checkbox-inline"><input type="checkbox" name="groupType" onclick="toggle('.mailGroups', this)" checked="checked"><span class="glyphicon glyphicon-envelope" style='color:RGB(138,109,59);'></span>Mail Groups</label>
+
+                        <label class="checkbox-inline"> <input type="checkbox" name="groupType" onclick="toggle('.securityGroups', this)" checked="checked"><span class="glyphicon glyphicon-lock" style='color:RGB(169,68,66);'></span>Security Groups</label>
+                        <br />
+                    </p>
+                </div>
+            </th>
+
+            <th class="text-center">
+                <p>Grup Üyeleri</p>
+                <div class="input-group text-center">
+                    <!-- Search Filter TextBox (Members) -->
+                    <input class="searchTextBox form-control" placeholder="Kullanıcı Ara" id="memberSearchTextBox" type="text" list="mylist" />
+                </div>
+            </th>
+
+            <th class="text-center">
+                <p>Kullanıcının Kayıtlı Olduğu Gruplar</p>
+                <div class="form-group">
+                    <p>
+                        <div class="input-group text-center searchMemberNames ">
+                            <!-- Kullanıcının kayıtlı olduğu grupları aratmak için searchTextBox -->
+                            <span class="input-group-addon">Kullanıcı İsmi: </span>
+                            <input class="searchTextBox form-control" placeholder="Grup Üyeliği Ara" id="membershipSearchTextBox" type="text" list="" />
+                            <button class="searchTextBox form-control btn btn-info" id="membershipSearchButton" type="submit">Ara</button>
+                        </div>
+                    </p>
+                </div>
+            </th>
+
+        </tr>
+
+        <tr>
+            <td>
+                <div id="groupList">
+
+                    <ul id="securityGroups" class="securityGroups navList list-group">
+                        @foreach (var group in @Model)
+                        {
+                            if (group.isSecurityGroup)
+                            {
+                                <li id="security" class="groupName list-group-item"><span class="glyphicon glyphicon-lock" style='color:RGB(169,68,66);'></span> @group.groupName</li>
+                            }
+                        }
+                    </ul>
+
+                    <ul id="mailGroups" class="mailGroups navList list-group">
+                        @foreach (var group in @Model)
+                        {
+                            if (!group.isSecurityGroup)
+                            {
+                                <li id="mail" class="groupName list-group-item"><span class="glyphicon glyphicon-envelope" style='color:RGB(138,109,59);'></span>@group.groupName</li>
+                            }
+                        }
+                    </ul>
+                </div>
+            </td>
+
+            <td>
+                <div id="memberSearchResults">
+                    <div class="loading" id="loadingMembers" hidden="hidden">
+                        Lütfen bekleyiniz... <br />
+                        <img class="loadingGif" src="~/Content/images/loading.gif" alt="Lütfen bekleyiniz..." />
+                    </div>
+                    <div id="groupMemebers">
+                        <p id="groupHeader"></p>
+                        <ul class="list-group" id="membersList"></ul>
+                    </div>
+                </div>
+            </td>
+
+            <td>
+                <div id="membershipGroups">
+                    <div class="loading" id="loadingGroups" hidden="hidden">
+                        Lütfen bekleyiniz... <br />
+                        <img class="loadingGif"  src="~/Content/images/loading.gif" alt="Lütfen bekleyiniz..." />
+                    </div>
+                    <div id="memberships">
+                        <p id="memberName"></p>
+                        <ul class="list-group" id="membershipList"></ul>
+                    </div>
+                </div>
+            </td>
+
+        </tr>
+
+    </table>
+</div>

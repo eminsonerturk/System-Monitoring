@@ -1,0 +1,25 @@
+﻿@model Application.ViewModels.Islem.IslemLogSearchViewModel
+@using Rota2.ResourceProviders
+
+@{
+    ViewBag.Title = RResx.GetResource("IslemLog", "LabelIslemLog");
+    ViewBag.ControllerName = "IslemLog";
+    ViewBag.GridName = "IslemLogListGrid";
+    Layout = "~/Views/Shared/_LayoutRota2IslemLog.cshtml";
+}
+
+
+@section Filter
+{
+    @Html.Partial("_Filter")
+}
+
+@section FilterButton
+{
+    @Html.Partial("_FilterButton")
+}
+
+@section List
+{
+    @Html.Partial("_List")
+}

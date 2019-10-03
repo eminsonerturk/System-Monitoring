@@ -1,0 +1,416 @@
+﻿<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" type="text/css" media="screen" href="@Url.Content("~/Content/Rota/css/bootstrap.min.css")">
+    <link rel="stylesheet" type="text/css" media="screen" href="@Url.Content("~/Content/Rota/css/font-awesome.min.css")">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"> 
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <script>
+    if (!window.jQuery) {
+        document.write('<script src="@Url.Content("~/Content/Rota/js/libs/jquery-2.0.2.min.js")"><\/script>');
+    }
+    </script>
+
+    <script>
+        if (!window.jQuery.ui) {
+            document.write('<script src="@Url.Content("~/Content/Rota/js/libs/jquery-ui-1.10.3.min.js")"><\/script>');
+        }
+    </script>
+
+
+
+<style type="text/css">
+ 
+    .case-border {
+        border-radius: 5px;
+        line-height: 5;
+        margin: auto;
+        text-align: center;
+        vertical-align: middle;
+    }
+
+    .case-wrapper {
+        position: relative;
+        margin: 40px;
+        float: left;
+        width: 150px;
+        height: 100px;
+    }
+
+    .case-wrapper i {
+            font-size: 32px;
+            min-width: 32px;
+            color: #f8f8f8;
+            display: inline-block;
+        }
+
+    .case-label {
+        color: #00008B;
+        padding-top: 10px;
+        text-align: center;
+        
+        font-size:20px;
+    }
+
+  
+    .case-border:hover, .hover-effect {
+        -webkit-box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.2);
+        -o-box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.2);
+        box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.2);
+    }
+
+    .case-border:active, .case-border:focus, .case-border-click {
+        -webkit-box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.3);
+        -o-box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.3);
+        box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.3);
+        transform: scale(0.98, 0.98);
+        -ms-transform: scale(0.98, 0.98); /* IE 9 */
+        -webkit-transform: scale(0.98, 0.98); /* Safari and Chrome */
+        -o-transform: scale(0.98, 0.98); /* Opera */
+        -moz-transform: scale(0.98, 0.98); /* Firefox */
+    }
+
+    .circle-text {
+        color: white;
+        display: inline-block;
+        min-width: 15px;
+    }
+
+    .case-border:hover {      
+        border: 7px solid #00FF00;
+        border-color: #00FF00;
+    }
+
+   
+    /*******************************/
+   body{
+       margin:0;
+       padding:0;
+       border:none;
+       font-family:Arial, Helvetica, sans-serif;
+       font-size:9pt;
+       font-weight:700;
+       background-image:url(/Content/images/bg.jpg);
+       background-color:#7c8089;
+        background-repeat:repeat-x;
+   }
+
+
+
+
+    .body_logo{
+        position:absolute;
+        top:250px;
+        left:0;
+        right:0;
+        width:400px;
+        margin:auto;
+        z-index:1000;
+        opacity:0.5;
+    }
+   
+   #box{
+       margin:auto;
+       margin-top:25px;
+       width:982px;
+       background-color:white;
+   }
+ #box-top{
+     float:left;
+     width:982px;
+     height:4px;
+     background-image:url(/Content/images/box_top.png);
+     background-repeat:repeat-x;
+ }
+ #box-middle{
+    float:left;
+    width:982px;
+    height: 460px;
+    background-image:url(/Content/images/middle_bg.png);
+ }
+ #logo{
+     float:left;
+     width:350px;
+     height:80px;
+     background-image:url(/Content/images/logo.png);
+     background-repeat:no-repeat;
+     background-position:0px 0px;
+ }
+    #box-bottom-left{
+        float:left;
+        width:4px;
+        height:4px;
+        background-image:url(/Content/images/box_bottom_left.png);
+    }
+    #box-bottom{
+        float:left;
+        width:974px;
+        height:4px;
+        background-image:url(/Content/images/box_bottom.png);
+        background-repeat:repeat-x;
+    }
+     #box-bottom-right{
+         float:right;
+         width:4px;
+         height:4px;
+         background-image:url(/Content/images/box_bottom_right.png);
+     }
+     #cboxOverlay{
+         background:url(/Content/images/overlay.png) repeat 0 0;
+     }
+     #colorbox,#cboxOverlay,#cboxWrapper{
+         position:absolute;
+         top:0;
+         left:0;
+         z-index:9999;
+         overflow:hidden;
+     }
+     #cboxTopLeft{
+         width:21px;
+         height:21px;
+         background:url(/Content/images/controls.png) no-repeat -101px 0;
+     }
+     #cboxTopCenter{
+         height:21px;
+         background:url(/Content/images/border.png) 0 0 repeat-x;
+     }
+     #cboxTopRight{
+         width:21px;
+         height:21px;
+         background:url(/Content/images/controls.png) no-repeat -130px 0;
+     }
+     #cboxMiddleLeft{
+         width:21px;
+         background:url(/Content/images/controls.png) left top repeat-y;
+     }
+     #cboxContent{
+         overflow:hidden;
+         background:white;
+     }
+     #cboxMiddleRight{
+         width:21px;
+         background:url(/Content/images/controls.png) right top repeat-y;
+     }
+     #cboxBottomLeft{
+         width:21px;
+         height:21px;
+         background:url(/Content/images/controls.png) no-repeat -101px -29px;
+     }
+     #cboxBottomCenter{
+         height:21px;
+         background:url(/Content/images/border.png) 0 -29px repeat-x;
+     }
+     #cboxBottomRight{
+         width:21px;
+         height:21px;
+         background:url(/Content/images/controls.png) no-repeat -130px -29px;
+     }
+</style>
+
+    </head>
+
+
+<body>
+   <div id="cboxOverlay" style="display:none;"></div>
+
+   <div id="colorbox" style="padding-bottom:42px;padding-right:42px;display:none;">
+        <div id="cboxWrapper">
+            <div>
+                <div id="cboxTopLeft" style="float:left"></div>
+                <div id="cboxTopCenter" style="float:left"></div>
+                <div id="cboxTopRight" style="float:left"></div>
+            </div>
+
+            <div style="clear:left;">
+                <div id="cboxMiddleLeft" style="float:left;"></div>
+                <div id="cboxContent" style="float:left;"></div>
+                <div id="cboxMiddleRight" style="float:left;"></div>
+
+
+            </div>
+
+            <div style="clear:left">
+                <div id="cboxBottomLeft" style="float:left;"></div>
+                <div id="cboxBottomCenter" style="float:left;"></div>
+                <div id="cboxBottomRight" style="float:left;"></div>
+            </div>
+        </div>
+
+        <div style="position:absolute;width:9999px;visibility:hidden;display:none;"></div>
+    </div>
+
+   <div id="box">
+       <div id="box-top"></div>
+       <div id="box-middle">
+           <div style="background-color:white;padding:10px; width:954px;margin:auto;padding-bottom:0px;">
+               <div style="height:80px;">
+                   <a id="logo" href="/"></a>
+               </div>
+
+               <style>#kurumsalMenu ul{display:none;}.new-container{float:left;clear:both;}</style>
+
+               <div style="height:33px;"id="kurumsalMenu">
+                  <div id="mainMenuDiv" style="float:left;height:300px;">
+
+                      <div id="ElmahModule" class="case-wrapper" data-name="Website" data-link="website-home" style="cursor: pointer;">
+                          <div class="case-border" style="background-color: #D2691E; padding-top: 20px; padding-bottom:15px;">
+                              <i class="fa fa-exclamation-triangle"></i>
+                          </div>
+                          <div class="case-label">Elmah</div>
+                      </div>
+
+                      <div id="SsrsModule" class="case-wrapper" data-name="Website" data-link="website-home" style="cursor: pointer;">
+                          <div class="case-border" style="background-color: #6495ED; padding-top: 20px; padding-bottom:15px;">
+                              <i class="glyphicon glyphicon-book"></i>
+                          </div>
+                          <div class="case-label">Ssrs</div>
+                      </div>
+
+                      <div id="IslemModule" class="case-wrapper" data-name="Website" data-link="website-home" style="cursor: pointer;">
+                          <div class="case-border" style="background-color: #DAA520; padding-top: 20px; padding-bottom:15px;">
+                              <i class="fa fa-archive"></i>
+                          </div>
+                          <div class="case-label">İşlem</div>
+                      </div>
+
+                     
+                      <div id="SunucuEnvanterModule" class="case-wrapper" data-name="Website" data-link="website-home" style="cursor: pointer;">
+                          <div class="case-border" style="background-color: #A9A9A9; padding-top: 20px; padding-bottom:15px;">
+                              <i class="glyphicon glyphicon-object-align-bottom"></i> 
+                          </div>
+                          <div class="case-label">Sunucu Envanter</div>
+                      </div>
+
+                      <div id="ActiveDirectoryModule" class="case-wrapper" data-name="Website" data-link="website-home" style="cursor: pointer;">
+                          <div class="case-border" style="background-color: #c2005f; padding-top: 20px; padding-bottom:15px;">
+                              <i class="fa fa-book"></i>
+                          </div>
+                          <div class="case-label">Active Directory</div>
+                      </div>
+
+                          <img src="~/Content/images/arkasBottom.jpg" style="width:950px; padding-top:30px;" />
+                      
+                  </div>
+
+                   @*<div>
+                       <img class="body_logo" src="~/Content/images/body_logo.jpg" style="margin-top:70px;" />
+                   </div>*@
+                   
+                   @*<div >
+                           <img src="~/Content/images/arkasBottom.jpg" style="width:950px; margin-top:300px;" />
+                    </div>*@
+                  
+               </div>
+              
+           </div>
+       </div>
+       <div id="box-bottom-left"></div>
+       <div id="box-bottom"></div>
+       <div id="box-bottom-right"></div>
+       <div style="clear:both"></div>
+   </div>
+
+    
+
+    @*<div id="footer">
+        <div style="margin:auto;width:990px;height:30px;">
+            <img src="~/Content/images/arkasBottom.jpg" />
+        </div>
+    </div>*@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@*<div class="row">
+    <div class="row">
+        <div id="ElmahModule" class="case-wrapper" data-name="Website" data-link="website-home" style="cursor: pointer;">
+            <div class="case-border" style="background-color: #D2691E; padding-top: 20px; padding-bottom:15px;">
+                <i class="fa fa-exclamation-triangle"></i>
+            </div>
+            <div class="case-label">Elmah</div>
+        </div>
+
+        <div id="SsrsModule" class="case-wrapper" data-name="Website" data-link="website-home" style="cursor: pointer;">
+            <div class="case-border" style="background-color: #6495ED; padding-top: 20px; padding-bottom:15px;">
+                <i class="glyphicon glyphicon-book"></i>
+            </div>
+            <div class="case-label">Ssrs</div>
+        </div>
+
+        <div id="IslemModule" class="case-wrapper" data-name="Website" data-link="website-home" style="cursor: pointer;">
+            <div class="case-border" style="background-color: #DAA520; padding-top: 20px; padding-bottom:15px;">
+                <i class="fa fa-archive"></i>
+            </div>
+            <div class="case-label">İşlem</div>
+        </div>
+
+        <div id="BizwatchModule" class="case-wrapper" data-name="Website" data-link="website-home" style="cursor: pointer;">
+            <div class="case-border" style="background-color: #1fa67a; padding-top: 20px; padding-bottom:15px;">
+                <i class="fa fa-bug"></i>
+            </div>
+            <div class="case-label">BizWatch</div>
+        </div>
+
+        </div>
+    </div>
+    <div >
+        <img class="body_logo" src="~/Content/images/body_logo.jpg" />
+    </div>*@
+
+
+
+<script>
+    $(".navbar-brand").text("System Watch");
+</script>
+
+<script>
+    $(document).ready(function () {
+        $("#ElmahModule").click(function () {
+            window.location.href = "/MasterData/ElmahError/Index";
+        });
+        $("#SsrsModule").click(function () {
+            window.location.href = "/MasterData/ReportServer/Index";
+        });
+        $("#IslemModule").click(function () {
+            window.location.href = "/MasterData/IslemLog/Index";
+        });
+        
+        $("#SunucuEnvanterModule").click(function () {
+            window.location.href = "/SunucuEnvanter/Server/Index";
+        });
+        $("#ActiveDirectoryModule").click(function () {
+            window.location.href = "/MasterData/ActiveDirectory/Index";
+        });
+    });
+</script>
+    </body>
+</html>

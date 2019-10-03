@@ -1,0 +1,24 @@
+﻿@model Application.ViewModels.Ssrs.ReportServerSearchViewModel
+@using Rota2.ResourceProviders
+
+@{
+    ViewBag.Title = RResx.GetResource("ReportServer", "LabelReportServer");
+    ViewBag.ControllerName = "ReportServer";
+    ViewBag.GridName = "ReportServerListGrid";
+    Layout = "~/Views/Shared/_LayoutRota2Report.cshtml";
+}
+
+@section Filter
+{
+    @Html.Partial("_Filter")
+}
+
+@section FilterButton
+{
+    @Html.Partial("_FilterButton")
+}
+
+@section List
+{
+    @Html.Partial("_List")
+}

@@ -1,0 +1,10 @@
+﻿@model Application.ViewModels.Envanter.OperatingSystemCrudViewModel
+
+<h2>Operating System Bilgileri</h2>
+@Html.HiddenFor(p => p.Id)
+<div class="form-group">
+    @Html.LabelFor(p => p.Ad, new { @class = "col-lg-2 control-label" })
+    <div class="col-lg-3">
+        @Html.TextBoxFor(p => p.Ad, "", new { @class = "form-control", disabled = "disabled" })
+    </div>
+</div>

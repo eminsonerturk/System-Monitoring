@@ -1,0 +1,15 @@
+﻿<nav>
+    <ul>
+        <li>
+            <a href="#" onclick="navItemClicked('MasterData/ReportServer/Index')"><i class="fa fa-lg fa-fw fa-plane"></i><span class="menu-item-parent">SSRS</span></a>
+        <li><a href="#" onclick="navItemClicked('Home/Index')"><i class="fa fa-lg fa-fw fa-plane"></i>Ana Sayfa</a></li>  
+        </li>       
+    </ul>
+</nav>
+
+<script>
+    $(document).ready(function () {
+        $('a[onclick="navItemClicked(\'' + location.pathname.substr(1) + '\')"]')
+        .closest('li').addClass('active');
+    });
+</script>

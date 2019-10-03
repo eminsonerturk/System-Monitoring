@@ -1,0 +1,16 @@
+﻿<nav>
+    <ul>
+        <li>
+            <a href="#" onclick="navItemClicked('MasterData/ElmahError/Index')"><i class="fa fa-lg fa-fw fa-plane"></i><span class="menu-item-parent">Elmah</span></a>
+        </li>
+        <li><a href="#" onclick="navItemClicked('MasterData/ExceptionRequest/Index')"><i class="fa fa-lg fa-fw fa-plane"></i>Hata Bildirimi</a></li>
+        <li><a href="#" onclick="navItemClicked('Home/Index')"><i class="fa fa-lg fa-fw fa-plane"></i>Ana Sayfa</a></li>  
+    </ul>
+</nav>
+
+<script>
+    $(document).ready(function () {
+        $('a[onclick="navItemClicked(\'' + location.pathname.substr(1) + '\')"]')
+        .closest('li').addClass('active');
+    });
+</script>

@@ -1,0 +1,79 @@
+﻿body {
+    align-content: center;
+    background-image: url('images/background.jpg')!important;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+#groupList {
+    background-color: white;
+    color: black;
+    width: 385px;
+    height: 600px;
+    overflow-y: scroll;
+}
+
+table, th, td {
+    border: 1px solid black;
+    font-family: Calibri;
+}
+
+.groupName, .userName {
+    cursor: pointer;
+}
+
+    .groupName:hover, .userName:hover {
+        background-color: aquamarine;
+    }
+
+    .groupName:active, .userName:active {
+        background-color: darkblue;
+        color: white;
+    }
+
+#memberSearchResults, #membershipGroups {
+    background-color: white;
+    color: black;
+    width: 380px;
+    height: 600px;
+    overflow-y: scroll;
+}
+
+.loading {
+    margin: 200px 0 0 140px;
+}
+
+.loadingGif {
+    width: 30px;
+    margin: 5px 0 0 30px;
+}
+
+#adTable {
+    box-shadow: 0px 0px 5px 5px #AAA;
+}
+
+#memberSearchTextBox {
+    margin-left: 70px;
+}
+
+#groupHeader {
+    font-weight: bold;
+}
+
+.searchGroupNames {
+    margin-left: 60px;
+}
+
+.searchMemberNames {
+    margin-left: 30px;
+}
+
+.starOfAdmin {
+    float: right;
+    color:RGB(95,186,125);
+}
+
+#membershipCount {
+    float: right;
+    margin-right: 10px;
+}

@@ -1,0 +1,86 @@
+﻿<script src="http://cdnjs.cloudflare.com/ajax/libs/jszip/2.4.0/jszip.js"></script>
+
+<div class="AllXml">
+    <textarea id="AllXmlTextArea" readonly="readonly" style="height:200px; display:none;"></textarea>
+</div>
+
+@(Html.Kendo().Grid<Application.ViewModels.Elmah.ElmahErrorViewModel>()
+    .Name("ElmahErrorListGrid")
+    .HtmlAttributes(new { style = "height:500px" })
+    .Columns(columns =>
+    {
+        columns.Bound(p => p.KayitYaratmaTarihi).ClientTemplate("#= kendo.toString(kendo.parseDate(KayitYaratmaTarihi, 'yyyy-MM-ddTHH:mm:ss'), 'HH:mm:ss dd/MM/yyyy') #")
+            .Width(140).HtmlAttributes(new { style = "text-align:center" });
+        columns.Bound(p => p.Host).Width(170).HtmlAttributes(new { style = "text-align:left" });
+        columns.Bound(p => p.Type).Width(220).HtmlAttributes(new { style = "text-align:left" });
+        columns.Bound(p => p.User).Width(110).HtmlAttributes(new { style = "text-align:left" });
+        columns.Bound(p => p.Application).Width(170).HtmlAttributes(new { style = "text-align:left" });
+        columns.Bound(p => p.Source).Width(110).HtmlAttributes(new { style = "text-align:left" });
+        columns.Bound(p => p.Sequence).Width(110).HtmlAttributes(new { style = "text-align:left" });
+        columns.Bound(p => p.Message).HtmlAttributes(new { style = "text-align:left" });
+        columns.Bound(p => p.ErrorId).Hidden();
+    })
+    .Scrollable()
+    .Sortable()
+    .ToolBar(tools => tools.Excel())
+    .Excel(excel => excel
+            .FileName("ElmahLog.xlsx")
+    )
+    .Selectable()
+    .Navigatable()
+    .Groupable()
+    .Resizable(resize => resize.Columns(true))
+    .Selectable(selectable => selectable
+        .Mode(GridSelectionMode.Single)
+        .Type(GridSelectionType.Row)
+        )
+    .AutoBind(false)
+    .DataSource(dataSource => dataSource
+        .Ajax()
+        .ServerOperation(false)
+        .Read(read => read
+            .Action("GridReadData", "ElmahError")
+        )
+        .Sort(sort => sort.Add(p => p.Sequence).Descending())
+    )
+    .Events(events => events.Change("OnChangeElmahErrorListGrid"))
+    .Events(events => events.DataBound("OnDataBoundElmahErrorListGrid"))
+)
+
+<script>
+    function OnChangeElmahErrorListGrid() {
+        $("#AllXmlTextArea").show();
+        var errorId = $('tr.k-state-selected').children('td').last().text();
+        $.post("/ElmahError/AllXmlReadData/", { errorId: errorId },
+            function (data) {
+                $("#AllXmlTextArea").html(data).text();
+            }
+        );
+    }
+
+    $(document).ready(function () {
+        $("#AllXmlTextArea").width($("#ElmahErrorListGrid").width() - 3);
+        $('.AllXml').insertAfter("#ElmahErrorListGrid");
+        $(window).on('resize', function () {
+            $("#AllXmlTextArea").width($("#ElmahErrorListGrid").width() - 3);
+        });
+    });
+</script>
+
+<script>
+    function OnDataBoundElmahErrorListGrid() {
+        var grid = $("#ElmahErrorListGrid");
+        ShowSummary(grid);
+    }
+
+    function ShowSummary(grid) {
+        $("#LogCounter").empty();
+        var recordCount = grid.data("kendoGrid").dataSource.data.length;
+        var all = grid.find("tbody > tr").length;
+        var kGroupingRow = grid.find("tbody > tr.k-grouping-row").length;
+        var ynaLogRows = all - kGroupingRow;
+        $("#LogCounter").append("Number of Records : " + ynaLogRows);
+        $("#LastLogTime").empty();
+        $("#LastLogTime").append("Last Log Time     : " + kendo.toString(kendo.parseDate(new Date(), 'yyyy-MM-ddTHH:mm:ss'), 'HH:mm:ss'));
+    }
+</script>

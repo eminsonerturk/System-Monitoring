@@ -1,0 +1,18 @@
+﻿<script>
+    $(document).ready(function () {
+        $("#btnFilterSubmit").hide();
+        $("#btnCustomFilterSubmit").css("display", '');
+        $("#newItem").hide();
+
+        $(".navbar-rota2 .container").css("max-width", '1920px');
+        $(".container-rota2-main").css("max-width", '1920px');
+
+        $('.slider-button').toggle(function () {
+            $(this).addClass('on').html('ON');
+        }, function () {
+            $(this).removeClass('on').html('OFF');
+        });
+
+        $('.AllXml').hide();
+    });
+</script>

@@ -1,0 +1,11 @@
+C:\Soner.Turk\2018\YazDonemi\Operasyonel Ekip\Soner.TURK\1\SistemIzleme\TNP-DevHD\Application\Application.Resources\bin\Debug\Application.Resources.dll
+C:\Soner.Turk\2018\YazDonemi\Operasyonel Ekip\Soner.TURK\1\SistemIzleme\TNP-DevHD\Application\Application.Resources\bin\Debug\Application.Resources.pdb
+C:\Soner.Turk\2018\YazDonemi\Operasyonel Ekip\Soner.TURK\1\SistemIzleme\TNP-DevHD\Application\Application.Resources\bin\Debug\Microsoft.Web.Administration.dll
+C:\Soner.Turk\2018\YazDonemi\Operasyonel Ekip\Soner.TURK\1\SistemIzleme\TNP-DevHD\Application\Application.Resources\obj\Debug\Application.Resources.Control.resources
+C:\Soner.Turk\2018\YazDonemi\Operasyonel Ekip\Soner.TURK\1\SistemIzleme\TNP-DevHD\Application\Application.Resources\obj\Debug\Application.Resources.Elmah.resources
+C:\Soner.Turk\2018\YazDonemi\Operasyonel Ekip\Soner.TURK\1\SistemIzleme\TNP-DevHD\Application\Application.Resources\obj\Debug\Application.Resources.Envanter.resources
+C:\Soner.Turk\2018\YazDonemi\Operasyonel Ekip\Soner.TURK\1\SistemIzleme\TNP-DevHD\Application\Application.Resources\obj\Debug\Application.Resources.IslemLog.resources
+C:\Soner.Turk\2018\YazDonemi\Operasyonel Ekip\Soner.TURK\1\SistemIzleme\TNP-DevHD\Application\Application.Resources\obj\Debug\Application.Resources.ReportServer.resources
+C:\Soner.Turk\2018\YazDonemi\Operasyonel Ekip\Soner.TURK\1\SistemIzleme\TNP-DevHD\Application\Application.Resources\obj\Debug\Application.Resources.csproj.GenerateResource.Cache
+C:\Soner.Turk\2018\YazDonemi\Operasyonel Ekip\Soner.TURK\1\SistemIzleme\TNP-DevHD\Application\Application.Resources\obj\Debug\Application.Resources.dll
+C:\Soner.Turk\2018\YazDonemi\Operasyonel Ekip\Soner.TURK\1\SistemIzleme\TNP-DevHD\Application\Application.Resources\obj\Debug\Application.Resources.pdb

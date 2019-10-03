@@ -1,0 +1,320 @@
+﻿/*LOADING PANEL*/
+.overlay {
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    font-weight: bold;
+    font-family: Calibri;
+    background-color: RGBA(0,0,0,0.5);
+    width: 100%;
+    height: 100%;
+    vertical-align: bottom;
+    /*filter: progid:DXImageTransform.Microsoft.Alpha(opacity=50);
+    opacity: .5;    
+    -moz-opacity: .5;*/
+    z-index: 1000;
+}
+
+* html .overlay {
+    position: absolute;
+}
+
+
+.messageFrame {
+    position: absolute;
+    width: 240px;
+    height: 80px;
+    left: 50%;
+    top: 50%;
+    margin-left: -115px;
+    margin-top: -47px;
+    background: #fff;
+    text-align: center;
+    padding-top: 7px;
+    border: 2px solid #428BCA;
+    -moz-border-radius: 7px;
+    border-radius: 7px;
+    z-index: 1001;
+    filter: progid:DXImageTransform.Microsoft.Alpha(opacity=100);
+    -moz-opacity: 1;
+    opacity: 1;
+}
+
+.messageFrame .loadingText {
+    font-family: arial;
+    font-size: 13px;
+    margin-bottom: 5px;
+    padding-top: 5px;
+    color: #808080;
+}
+
+.messageFrame img {
+    /*margin: 6px 0;*/
+}
+
+
+/*EXPORT*/
+.export-excel {
+    background-image: url('../images/excel/Excel-icon-24.png');
+    height: 24px;
+    width: 24px;
+}
+
+
+/*DHA*/
+
+.k-grid .k-grid-header .k-header .k-link {
+    height: auto;
+}
+
+.k-grid .k-grid-header .k-header {
+    white-space: normal;
+}
+
+.control-label {
+    font-weight: bolder;
+    text-align: left !important;
+}
+
+.form-horizontal .form-group {
+    margin: 0px;
+    border-top: 1px solid #e6dfdf;
+    background-color: #f2f2f2;
+}
+
+.form-control {
+    height: 26px;
+    margin-top: 2px;
+    margin-bottom: 2px;
+    padding: 6px 6px;
+}
+
+input[type=checkbox], input[type=radio] {
+    margin-top: 8px;
+}
+
+.k-textbox > input, .k-autocomplete .k-input, .k-picker-wrap .k-input, .k-numeric-wrap .k-input, .k-dropdown-wrap .k-input, .k-selectbox .k-input {
+    text-indent: 6px;
+}
+
+.k-dropdown .k-dropdown-wrap {
+    margin-top: 2px;
+    margin-bottom: 2px;
+    height: 25px;
+}
+
+.k-picker-wrap .k-select, .k-numeric-wrap .k-select, .k-dropdown-wrap .k-select {
+    line-height: 1.79em;
+}
+
+.k-textbox, .k-autocomplete, .k-dropdown-wrap, .k-picker-wrap, .k-numeric-wrap {
+    padding :0px;
+}
+
+.jarviswidget .widget-body {
+    min-height:0px;
+}
+
+.fuelux .wizard ul li.complete {
+    color: #568A89;
+    font-style: italic;
+    font-weight:bolder;
+}
+
+
+
+#header-fuelux {
+    margin-left: -15px;
+    margin-right: -14px;
+    margin-top: -10px;
+}
+
+#header-fuelux > div.wizard {
+    -webkit-border-radius: 0px;
+    -moz-border-radius: 0px;
+    -o-border-radius: 0px;
+    border-radius: 0px;
+}
+
+.login-info {    
+    padding-top:7px;    
+}
+
+#left-panel {
+    /*min-height: 100% !important;*/
+    border-bottom: 1px solid #CCCCCC !important;
+}
+
+#main {
+   /*max-height: 860px;*/
+}
+
+html {
+    background: url('');
+    /*background-color: #ECECEC;*/
+    background-color:#fff;
+}
+
+body{
+    /*border-bottom: 1px solid #CCCCCC;*/
+}
+
+/*GRID*/
+.k-grid td {
+    border-style: solid;
+    border-width: 0 0 0 1px;
+    padding: .1em .3em;
+    overflow: hidden;
+    line-height: 1.6em;
+    vertical-align: middle;
+    text-overflow: ellipsis;
+}
+
+.k-grid td {
+    border-bottom: 1px solid #CCCCCC;
+}
+
+nav ul ul li{
+    padding-left:20px !important;
+}
+
+/*Blink*/
+
+@-moz-keyframes blink {
+    0% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+} /* Firefox */
+@-webkit-keyframes blink {
+    0% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+} /* Webkit */
+@-ms-keyframes blink {
+    0% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+} /* IE */
+@keyframes blink {
+    0% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+} /* Opera and prob css3 final iteration */
+.blink {
+
+    -moz-transition:all 1s ease-in-out;
+    -webkit-transition:all 250ms ease-in-out;
+    -o-transition:all 250ms ease-in-out;
+    -ms-transition:all 250ms ease-in-out;
+    transition:all 250ms ease-in-out;
+    /* order: name, direction, duration, iteration-count, timing-function */  
+    -moz-animation:blink normal 1000ms infinite ease-in-out; /* Firefox */
+    -webkit-animation:blink normal 1000ms infinite ease-in-out; /* Webkit */
+    -ms-animation:blink normal 1000ms infinite ease-in-out; /* IE */
+    animation:blink normal 1000ms infinite ease-in-out; /* Opera and prob css3 final iteration */
+}
+
+/*Blink*/
+
+/*Grid expand cell sag border*/
+.k-grid-header th.k-header:first-child, .k-grid tbody td:first-child{
+    border-right : 1px solid #CCC;
+}
+
+/*Grid Custom Color*/
+.plannedFlightColor {
+    background-color:#ffd800;
+}
+.scheduledFlightColor {
+    background-color: #ff6a00;
+}
+.actualFlightColor {
+    background-color: #5fff8a;
+}
+.highlight-red{
+    color: #ff0000;
+    font-weight:bold;
+}
+
+
+
+.rota-style .form header, legend{
+    border-bottom : 1px solid rgba(0, 0, 0, 0.2) !important;
+    background:none;
+}
+
+#logo{
+    margin-top:9px;
+}
+
+#header{
+    border-bottom:1px solid #CCC;
+    background:#EAEAEA  !important;
+}
+
+#left-panel{
+    position:absolute;
+}
+.page-footer{
+    z-index:1000;
+    background:#568A89 !important;
+}
+
+.rota-style #logo-group span#activity, .rota-style .btn-header>:first-child>a{    
+    background-image: linear-gradient(to bottom, #568A89 , #568A89 );
+    border-color:#568A89 !important ;
+    text-shadow:none ;
+}
+.rota-style #logo-group span#activity:active, .rota-style #logo-group span#activity:hover, .rota-style .btn-header>:first-child>a:active, .rota-style .btn-header>:first-child>a:hover{
+    background-image: linear-gradient(to bottom, #446867 , #446867 );
+    border-color: none;
+}
+
+.rota-style .login-info {
+    /*padding-left:5px;*/
+    font-size:14px;
+    font-weight:bold;
+}
+
+#header>:first-child, aside {  
+  position: fixed !important;
+}
+
+#left-panel{
+    position: fixed !important;
+}
+
+/*DHA*/
+

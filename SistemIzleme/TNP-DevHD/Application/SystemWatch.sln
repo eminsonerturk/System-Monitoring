@@ -1,0 +1,114 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mvc.UI", "Mvc.UI\Mvc.UI.csproj", "{3143A2BA-3ACE-4402-BBC8-EF528CBD09F0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain.Main", "Domain.Main\Domain.Main.csproj", "{25636659-4199-4CF9-8828-4F02EEB02FC2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Data.Main", "Data.Main\Data.Main.csproj", "{63B5B5EC-854E-411B-8035-08BA9CE274B7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application.Main.Interfaces", "Application.Main.Interfaces\Application.Main.Interfaces.csproj", "{9353E7A5-0FD2-4EBC-813C-04B0563DEA03}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application.Main", "Application.Main\Application.Main.csproj", "{AEF4955C-A3CF-4999-B362-8E5E5EEA5C27}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application.Resources", "Application.Resources\Application.Resources.csproj", "{C872879A-632C-4434-8603-21F7FC6B50F6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application.ViewModels", "Application.ViewModels\Application.ViewModels.csproj", "{768FC1FD-9E89-484E-8284-808BF982CCA5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain.Core", "Domain.Core\Domain.Core.csproj", "{DBD0CCB2-39A3-422F-977F-04078819F2A5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application.Dto", "Application.Dto\Application.Dto.csproj", "{3F700E64-E92A-45CE-8503-AA7F6855704F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application.Enumerations", "Application.Enumerations\Application.Enumerations.csproj", "{7DD881FB-7898-48FB-9D04-690F0911642B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Rota", "Rota", "{1AED16D9-717D-4CEF-B0B4-9E5BBD504C21}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3143A2BA-3ACE-4402-BBC8-EF528CBD09F0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3143A2BA-3ACE-4402-BBC8-EF528CBD09F0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3143A2BA-3ACE-4402-BBC8-EF528CBD09F0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3143A2BA-3ACE-4402-BBC8-EF528CBD09F0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{25636659-4199-4CF9-8828-4F02EEB02FC2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{25636659-4199-4CF9-8828-4F02EEB02FC2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{25636659-4199-4CF9-8828-4F02EEB02FC2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{25636659-4199-4CF9-8828-4F02EEB02FC2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{63B5B5EC-854E-411B-8035-08BA9CE274B7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{63B5B5EC-854E-411B-8035-08BA9CE274B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{63B5B5EC-854E-411B-8035-08BA9CE274B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{63B5B5EC-854E-411B-8035-08BA9CE274B7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9353E7A5-0FD2-4EBC-813C-04B0563DEA03}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9353E7A5-0FD2-4EBC-813C-04B0563DEA03}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9353E7A5-0FD2-4EBC-813C-04B0563DEA03}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9353E7A5-0FD2-4EBC-813C-04B0563DEA03}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AEF4955C-A3CF-4999-B362-8E5E5EEA5C27}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AEF4955C-A3CF-4999-B362-8E5E5EEA5C27}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AEF4955C-A3CF-4999-B362-8E5E5EEA5C27}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AEF4955C-A3CF-4999-B362-8E5E5EEA5C27}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C872879A-632C-4434-8603-21F7FC6B50F6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C872879A-632C-4434-8603-21F7FC6B50F6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C872879A-632C-4434-8603-21F7FC6B50F6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C872879A-632C-4434-8603-21F7FC6B50F6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{768FC1FD-9E89-484E-8284-808BF982CCA5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{768FC1FD-9E89-484E-8284-808BF982CCA5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{768FC1FD-9E89-484E-8284-808BF982CCA5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{768FC1FD-9E89-484E-8284-808BF982CCA5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DBD0CCB2-39A3-422F-977F-04078819F2A5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DBD0CCB2-39A3-422F-977F-04078819F2A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DBD0CCB2-39A3-422F-977F-04078819F2A5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DBD0CCB2-39A3-422F-977F-04078819F2A5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3F700E64-E92A-45CE-8503-AA7F6855704F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3F700E64-E92A-45CE-8503-AA7F6855704F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3F700E64-E92A-45CE-8503-AA7F6855704F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3F700E64-E92A-45CE-8503-AA7F6855704F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7DD881FB-7898-48FB-9D04-690F0911642B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7DD881FB-7898-48FB-9D04-690F0911642B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7DD881FB-7898-48FB-9D04-690F0911642B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7DD881FB-7898-48FB-9D04-690F0911642B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 11
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = http://35tkntfs2013:8080/tfs/defaultcollection
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = Application.Main.Interfaces\\Application.Main.Interfaces.csproj
+		SccProjectName1 = Application.Main.Interfaces
+		SccLocalPath1 = Application.Main.Interfaces
+		SccProjectUniqueName2 = Application.Main\\Application.Main.csproj
+		SccProjectName2 = Application.Main
+		SccLocalPath2 = Application.Main
+		SccProjectUniqueName3 = Application.Resources\\Application.Resources.csproj
+		SccProjectName3 = Application.Resources
+		SccLocalPath3 = Application.Resources
+		SccProjectUniqueName4 = Application.ViewModels\\Application.ViewModels.csproj
+		SccProjectName4 = Application.ViewModels
+		SccLocalPath4 = Application.ViewModels
+		SccProjectUniqueName5 = Data.Main\\Data.Main.csproj
+		SccProjectName5 = Data.Main
+		SccLocalPath5 = Data.Main
+		SccProjectUniqueName6 = Domain.Main\\Domain.Main.csproj
+		SccProjectName6 = Domain.Main
+		SccLocalPath6 = Domain.Main
+		SccProjectUniqueName7 = Mvc.UI\\Mvc.UI.csproj
+		SccProjectName7 = Mvc.UI
+		SccLocalPath7 = Mvc.UI
+		SccProjectUniqueName8 = Domain.Core\\Domain.Core.csproj
+		SccProjectName8 = Domain.Core
+		SccLocalPath8 = Domain.Core
+		SccProjectUniqueName9 = Application.Dto\\Application.Dto.csproj
+		SccProjectName9 = Application.Dto
+		SccLocalPath9 = Application.Dto
+		SccProjectUniqueName10 = Application.Enumerations\\Application.Enumerations.csproj
+		SccProjectName10 = Application.Enumerations
+		SccLocalPath10 = Application.Enumerations
+	EndGlobalSection
+EndGlobal

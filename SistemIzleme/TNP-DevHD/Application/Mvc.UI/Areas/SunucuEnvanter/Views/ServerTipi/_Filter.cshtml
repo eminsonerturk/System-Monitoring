@@ -1,0 +1,11 @@
+﻿@model  Application.ViewModels.Envanter.ServerTipiSearchViewModel
+@using Rota2.ResourceProviders
+<div class="form-group">
+    @Html.Label(RResx.GetResource("Envanter", "LabelServerTipiAd"), new { @class = "col-lg-1 control-label" })
+    <div class="col-lg-3">
+        @Html.RFilterPageEditorFor(p => p.Ad)
+    </div>
+</div>
+
+
+

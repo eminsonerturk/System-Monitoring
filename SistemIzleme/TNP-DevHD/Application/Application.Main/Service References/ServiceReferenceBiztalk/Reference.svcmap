@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="18091d25-eda0-4cb1-8d77-bafcc4faa0fe" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="http://localhost:29342/Services/BiztalkExplorerService.svc" Protocol="http" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="BiztalkExplorerService.xsd" MetadataType="Schema" ID="94fc5ab9-8dc5-4b65-a828-bb85edeae478" SourceId="1" SourceUrl="http://localhost:29342/Services/BiztalkExplorerService.svc?xsd=xsd0" />
+    <MetadataFile FileName="BiztalkExplorerService1.xsd" MetadataType="Schema" ID="e007581c-3d65-4c03-aba7-8ab974e82dae" SourceId="1" SourceUrl="http://localhost:29342/Services/BiztalkExplorerService.svc?xsd=xsd4" />
+    <MetadataFile FileName="BiztalkExplorerService2.xsd" MetadataType="Schema" ID="4f9ea606-0560-49dc-8cdd-8e3a3177c189" SourceId="1" SourceUrl="http://localhost:29342/Services/BiztalkExplorerService.svc?xsd=xsd1" />
+    <MetadataFile FileName="BiztalkExplorerService3.xsd" MetadataType="Schema" ID="47a30e15-f6a6-4860-b724-6cc298153eb5" SourceId="1" SourceUrl="http://localhost:29342/Services/BiztalkExplorerService.svc?xsd=xsd2" />
+    <MetadataFile FileName="BiztalkExplorerService.wsdl" MetadataType="Wsdl" ID="d2211387-d3be-4a4c-b7d3-4817385711ea" SourceId="1" SourceUrl="http://localhost:29342/Services/BiztalkExplorerService.svc?wsdl" />
+    <MetadataFile FileName="BiztalkExplorerService4.xsd" MetadataType="Schema" ID="e2d85036-db93-4ac4-9387-c7ed0d36b36a" SourceId="1" SourceUrl="http://localhost:29342/Services/BiztalkExplorerService.svc?xsd=xsd3" />
+    <MetadataFile FileName="BiztalkExplorerService.disco" MetadataType="Disco" ID="f2370c66-2813-496f-a0d9-ad894f487da1" SourceId="1" SourceUrl="http://localhost:29342/Services/BiztalkExplorerService.svc?disco" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>

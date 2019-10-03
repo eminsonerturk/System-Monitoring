@@ -1,0 +1,96 @@
+﻿<script src="http://cdnjs.cloudflare.com/ajax/libs/jszip/2.4.0/jszip.js"></script>
+
+@(Html.Kendo().Grid<Application.ViewModels.Ssrs.ReportServerViewModel>()
+    .Name("ReportServerListGrid")
+    .Columns(columns =>
+    {
+        columns.Bound(p => p.LogEntryId).Hidden();
+        columns.Bound(p => p.TimeStart).ClientTemplate("#= kendo.toString(kendo.parseDate(TimeStart, 'yyyy-MM-ddTHH:mm:ss'), 'HH:mm:ss dd/MM/yyyy') #")
+            .Width(140).HtmlAttributes(new { style = "text-align:center" });
+        columns.Bound(p => p.TimeEnd).ClientTemplate("#= kendo.toString(kendo.parseDate(TimeEnd, 'yyyy-MM-ddTHH:mm:ss'), 'HH:mm:ss dd/MM/yyyy') #")
+            .Width(140).HtmlAttributes(new { style = "text-align:center" });
+        columns.Bound(p => p.TotalTime).Width(70).Title("Total(ms)").HtmlAttributes(new { style = "text-align:center" });
+        columns.Bound(p => p.UserName).Width(180).HtmlAttributes(new { style = "text-align:left" });
+        columns.Bound(p => p.ReportName).Width(160).HtmlAttributes(new { style = "text-align:left" });
+        columns.Bound(p => p.ReportFolder).Width(220).HtmlAttributes(new { style = "text-align:left" });
+        columns.Bound(p => p.Format).Width(90).HtmlAttributes(new { style = "text-align:left" });
+        columns.Bound(p => p.Parameters).HtmlAttributes(new { style = "text-align:left" });
+        columns.Command(command =>
+        {
+            command.Custom("CustomParametersShowButton").Text("Parameters").Click("GridCustomParametersShowButtonClicked");
+        }).Title("Prmtr").HtmlAttributes(new { style = "text-align:center;" }).Width(85);
+    })
+    .Scrollable()
+    .HtmlAttributes(new { style = "height:660px" })
+    .Sortable()
+    .Selectable()
+    .Navigatable()
+    .ToolBar(tools => tools.Excel())
+    .Excel(excel => excel
+            .FileName("Reports.xlsx")
+    )
+    .Groupable()
+    .Resizable(resize => resize.Columns(true))
+    .Selectable(selectable => selectable
+        .Mode(GridSelectionMode.Single)
+        .Type(GridSelectionType.Row)
+        )
+    .AutoBind(false)
+    .DataSource(dataSource => dataSource
+        .Ajax()
+        .ServerOperation(false)
+        .Read(read => read
+            .Action("GridReadData", "ReportServer")                     
+        )
+        .Sort(sort => sort.Add(p => p.LogEntryId).Descending())
+    )
+    .Events(events => events.DataBound("OnDataBoundReportServerListGrid"))
+)
+
+<div id="window"></div>
+
+<script>
+
+    $("#ReportServerListGrid").on("mousedown", "tr[role='row']", function (e) {
+        if (e.which === 1) {
+            $(this).addClass("k-state-selected");
+        }
+    });
+
+    function GridCustomParametersShowButtonClicked() {
+            debugger;
+            var wnd = $("#window").kendoWindow({
+                visible: false,
+                title: "Parameters"
+            }).data("kendoWindow");
+            if ($('tr.k-state-selected').text() == null || $('tr.k-state-selected').text() == "")
+                alert("Herhangi bir öğe seçilmedi");
+            else {
+                var text = $('tr.k-state-selected').children('td').last().prev().text();
+                $('tr.k-state-selected').removeClass("k-state-selected");
+                text = decodeURIComponent(text);
+                var count = text.match(/&/g);
+                if (count != null) {
+                    for (var i = 0; i < count.length; i++) {
+                        text = text.replace("&", "<br/>");
+                    }
+                }
+                $("#window").empty();
+                $("#window").append(text);
+                wnd.center().open();
+            }
+    }
+</script>
+
+<script>
+    function OnDataBoundReportServerListGrid() {
+        $("#LogCounter").empty();
+        var recordCount = $("#ReportServerListGrid").data("kendoGrid").dataSource.data.length;
+        var all = $("#ReportServerListGrid").find("tbody > tr").length;
+        var kGroupingRow = $("#ReportServerListGrid").find("tbody > tr.k-grouping-row").length;
+        var ynaLogRows = all - kGroupingRow;
+        $("#LogCounter").append("Number of Records : " + ynaLogRows);
+        $("#LastLogTime").empty();
+        $("#LastLogTime").append("Last Log Time     : " + kendo.toString(kendo.parseDate(new Date(), 'yyyy-MM-ddTHH:mm:ss'), 'HH:mm:ss'));
+    }
+</script>

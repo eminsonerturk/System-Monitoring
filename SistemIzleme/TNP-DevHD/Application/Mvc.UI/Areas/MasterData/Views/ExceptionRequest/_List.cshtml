@@ -1,0 +1,39 @@
+﻿@(Html.Kendo().Grid<Application.ViewModels.Elmah.ExceptionRequestViewModel>()
+    .Name("ExceptionRequestListGrid")
+    .HtmlAttributes(new { style = "height:800px;" })
+    .Columns(columns =>
+        {
+            columns.Bound(p => p.Id).Hidden();
+            columns.Bound(p => p.MailAddress).Width("200");
+            columns.Bound(p => p.ExceptionType).Width("200");
+            columns.Bound(p => p.ExceptionNumber).Width("200");
+            columns.Bound(p => p.TimeInterval).Width("200");
+            columns.Bound(p => p.ExceptionCount).Width("200");
+            columns.Bound(p => p.ApplicationExp1).Width("200");
+            columns.Bound(p => p.ApplicationExp2).Width("200");
+            columns.Command(commands =>
+            {
+                commands.Edit(); // The "edit" command will edit and update data items
+                commands.Destroy(); // The "destroy" command removes data items
+            }).Title(Rota2.ResourceProviders.RResx.GetResource("ExceptionRequest", "LabelGridCommands")).Width(200);
+        })
+        .ToolBar(toolbar => toolbar.Create()) // The "create" command adds new data items
+        .Editable(editable => editable.Mode(GridEditMode.InLine)) // Use inline editing mode
+        .Scrollable()
+        .Sortable()
+        .Groupable()
+        .Resizable(resize => resize.Columns(true))
+        .DataSource(dataSource =>
+            dataSource.Ajax()
+            .Model(model =>
+            {
+                model.Id(request => request.Id);
+                model.Field(request => request.ExceptionCount).Editable(false);
+            })
+            .Create(update => update.Action("GridCreateData", "ExceptionRequest"))
+            .Read(read => read.Action("GridReadData", "ExceptionRequest"))
+            .Update(update => update.Action("GridEditData", "ExceptionRequest"))
+            .Destroy(update => update.Action("GridDeleteData", "ExceptionRequest"))
+        )     
+)
+

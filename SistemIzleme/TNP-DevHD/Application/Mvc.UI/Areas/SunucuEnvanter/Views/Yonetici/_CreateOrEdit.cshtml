@@ -1,0 +1,49 @@
+﻿@model Application.ViewModels.Envanter.YoneticiCrudViewModel
+@Html.HiddenFor(p => p.Id)
+<div class="form-group">
+    <label class="col-lg-2 control-label">E-Mail</label>
+    <div class="col-lg-3">
+        @Html.REditorFor(p => p.EMail)
+        @Html.ValidationMessageFor(p => p.EMail)
+    </div>
+</div>
+
+<div class="form-group">
+    @Html.LabelFor(p => p.Ad, new { @class = "col-lg-2 control-label" })
+    <div class="col-lg-3">
+        @Html.REditorFor(p => p.Ad)
+        @Html.ValidationMessageFor(p => p.Ad)
+    </div>
+</div>
+
+
+<script>
+
+    $(document).ready(function () {
+        $('#btnSave').unbind('click').bind('click', function () {
+            var _Ad = $('#Ad').val();
+            var _EMail = $('#EMail').val();
+        
+                $.ajax({
+                    url: '@(Url.Action("CreateYonetici","Yonetici"))',
+                    type: 'POST',
+                    data: {
+                        Ad: _Ad,
+                        EMail: _EMail
+                    },
+                    success: function (data) {
+                        var JsonResult = JSON.parse(data);
+                        if (JsonResult.Statu == "success") {
+                            toastrSuccessMessagesDisplay(JsonResult.SuccessMessages);
+                            refreshGrid("#YoneticiListGrid");
+                            window.location.replace("/sunucuenvanter/yonetici/index");
+                        }
+                    },
+                    error: function (err) {
+                        toastr.error("Hata: Sorumlu kişi kaydı eklenemedi. Sunucuya erişilemiyor.");
+                    }
+                });
+            
+        });
+    });
+</script>

@@ -1,0 +1,2165 @@
+﻿@model Application.ViewModels.Envanter.ServerListViewModel
+@using Rota2.ResourceProviders
+
+<script src="http://kendo.cdn.telerik.com/2014.3.1029/js/jszip.min.js"></script>
+<link rel="stylesheet" href="http://kendo.cdn.telerik.com/2016.3.914/styles/kendo.common.min.css" />
+<link rel="stylesheet" href="http://kendo.cdn.telerik.com/2016.3.914/styles/kendo.rtl.min.css" />
+<link rel="stylesheet" href="http://kendo.cdn.telerik.com/2016.3.914/styles/kendo.default.min.css" />
+<link rel="stylesheet" href="http://kendo.cdn.telerik.com/2016.3.914/styles/kendo.mobile.all.min.css" />
+<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+<script src="~/vis/vis.min.js"></script>
+<link href="~/vis/vis.min.css" rel="stylesheet" />
+<script src="~/Content/Rota/js/toastr.js"></script>
+
+<style>
+
+    
+    #IliskiBilgileriStyle{
+        display:block; 
+        margin-left:10px
+    }
+
+    #IliskiBilgileriStyle a{
+        font-size:13px;
+        padding-top:5px; 
+        display:block; 
+        width: 200px; 
+        height: 25px; 
+        margin-bottom:3px;
+        margin-top: 3px;
+        border: 1px solid black;
+    }
+    .modal-body { 
+    overflow-y:auto;
+}
+    .glyphicon {
+        color: black;
+    }
+
+    .k-grid tr td {
+        font-size: 11px;
+    }
+
+    .k-grid tbody tr {
+        height: 30px;
+    }
+
+    .k-grid-header, .k-grid-header .k-header {
+        background-color: #0094ff;
+        color: #ffffff;
+    }
+
+    #tabstripServerInfo h2 {
+        font-weight: lighter;
+        font-size: 5em;
+        line-height: 1;
+        padding: 0 0 0 30px;
+        margin: 0;
+    }
+
+        #tabstripServerInfo h2 span {
+            background: none;
+            padding-left: 5px;
+            font-size: .3em;
+            vertical-align: top;
+        }
+
+    #tabstripServerInfo p {
+        margin: 0;
+        padding: 0;
+    }
+</style>
+
+@if (((bool)Session["IsAdmin"]))
+{
+    <a style="display:normal " class="btn btn-primary" id='createNewServerButton' data-toggle='modal' data-target='#newServerModal'>
+        Yeni Server
+    </a>
+    <a style="display:normal" class="btn btn-warning" id='refreshServerInfoButton' onclick="refreshServerInfo()">
+        Güncelle
+    </a>
+    <a style="display:normal; float:right" class="btn btn-warning" id='IliskiDuzenleAnasayfaButton' data-toggle='modal' data-target='#AnasayfaIliskiModal'>
+        <span class='glyphicon glyphicon-edit' style="color:white"></span>
+        İlişki Düzenle
+    </a>
+}
+
+@(Html.Kendo().Grid<Application.ViewModels.Envanter.ServerListViewModel>()
+            .Name("ServerListGrid")
+            .Columns(columns =>
+            {
+                columns.Bound(p => p.LokasyonAd).Filterable(true).Width("6em").Title("Lokasyon").HtmlAttributes(new { style = "text-align:right" }).HeaderHtmlAttributes(new { style = "text-align:right" });
+                columns.Bound(p => p.ServerTipiAd).Filterable(true).Width("6em").Title("Server Tipi");
+                columns.Bound(p => p.OperatingSystemAd).Filterable(true).Width("9em").Title("İşletim Sistemi");
+                columns.Bound(p => p.ServerIp).Filterable(ftb => ftb.Cell(cell => cell.Operator("contains").SuggestionOperator(FilterType.Contains))).Width("8em").Title("Server IP");
+                columns.Bound(p => p.ComputerName).Filterable(true).Width("9em").Title("Makine Adı");
+                columns.Bound(p => p.Aciklama).Filterable(true).Width("10em").Title("Açıklama");
+
+                string userName = User.Identity.Name;
+                userName = userName.Substring(userName.LastIndexOf(@"\") + 1);
+                if (userName == "mustafa.denizalti" || userName == "soner.turk" || userName == "cem.ince" || userName == "idil.akcali" || userName == "olgac.ocek")
+                {
+                    columns.Bound("").ClientTemplate("<a href='javascript:void(0)' title='Sorumlu kişi ekle' onclick=yeniYoneticiEkle(#= Id#) data-id='#= Id#'><h4><i class=\"glyphicon glyphicon-user\"></i></h4></a>").Title("Sorumlu Ekle").Width(40).Filterable(false).Sortable(false).HtmlAttributes(new { style = "text-align:center" }).HeaderHtmlAttributes(new { style = "text-align:center" });
+                    columns.Bound("").ClientTemplate("<a title='Ana verileri düzenle' href=\\# class=\"edit-link\" data-id='#= Id#'><h4><i class=\"glyphicon glyphicon-edit\"></i></h4></a>").Title("Veri Duzenle").Width(40).Filterable(false).Sortable(false).HtmlAttributes(new { style = "text-align:center" }).HeaderHtmlAttributes(new { style = "text-align:center" });
+                    columns.Bound("").ClientTemplate("<a title='Ana veri sil' href=\\# class=\"delete-link\" data-id='#= Id#'><h4><i class=\"glyphicon glyphicon-remove\"></i></h4></a>").Title("Veri Sil").Width(40).Filterable(false).Sortable(false).HtmlAttributes(new { style = "text-align:center" }).HeaderHtmlAttributes(new { style = "text-align:center" });
+                    columns.Bound("").ClientTemplate("#if(!PingYapilsinMi){#<a href='javascript:void(0)' title='Ping atmayı engelle' onclick=updatePing(#= Id#) data-id='#=Id#'><h4><i class=\"glyphicon glyphicon-remove-circle\"></i></h4></a>#} else {#<a href='javascript:void(0)' title='Ping atmaya başla' onclick=updatePing(#= Id#) data-id='#=Id#'><h4><i class=\"glyphicon glyphicon-ok-circle\"></i></h4></a>#}#").Title("Ping").Width(40).Filterable(false).Sortable(false).HtmlAttributes(new { style = "text-align:center" }).HeaderHtmlAttributes(new { style = "text-align:center" });
+                }
+                columns.Bound("").ClientTemplate("<a href='javascript:void(0)' title='IIS site isimleri ve binding bilgileri' onclick=getIISBindings(#= Id#) data-id='#= Id#'><h4><i class=\"glyphicon glyphicon-th-list\"></i></h4></a>").Title("Siteler").Width(40).Filterable(false).Sortable(false).HtmlAttributes(new { style = "text-align:center" }).HeaderHtmlAttributes(new { style = "text-align:center" });
+                columns.Bound("").ClientTemplate("<a href='javascript:void(0)' title='Kurulu Uygulamalar' onclick=installedApplications(#= Id#) data-id='#= Id#'><h4><i class=\"glyphicon glyphicon-download-alt\"></i></h4></a>").Title("Kurulu Uygulamalar").Width(40).Filterable(false).Sortable(false).HtmlAttributes(new { style = "text-align:center" }).HeaderHtmlAttributes(new { style = "text-align:center" });
+                columns.Bound("").ClientTemplate("<a href='javascript:void(0)' title='Sunucu Performans Bilgileri' onclick=listServerInfo(#= Id#) data-id='#= Id#'><h4><i class=\"glyphicon glyphicon-question-sign\"></i></h4></a>").Title("Performans").Width(40).Filterable(false).Sortable(false).HtmlAttributes(new { style = "text-align:center" }).HeaderHtmlAttributes(new { style = "text-align:center" });
+                columns.Bound("").ClientTemplate("<a href='javascript:void(0)' title='Bağlı Sunucular' onclick=listLinkedServer(#= Id#) data-id='#= Id#'><h4><i class=\"glyphicon glyphicon-random\"></i></h4></a>").Title("Bağlı Sunucular").Width(40).Filterable(false).Sortable(false).HtmlAttributes(new { style = "text-align:center" }).HeaderHtmlAttributes(new { style = "text-align:center" });
+            })
+
+            .Pageable(pageable => pageable
+                .Refresh(true)
+                .PageSizes(true)
+                .ButtonCount(10)
+                .PageSizes(new[] { 200, 100, 50, 25 }))
+            .Selectable()
+            .Sortable()
+            .ToolBar(tools => tools.Excel())
+            .Excel(excel => excel
+                .FileName("ServerList.xlsx")
+                .Filterable(true)
+            )
+            .Editable(editable => editable.Mode(GridEditMode.InLine))
+            .Resizable(resize => resize.Columns(true))
+
+            .ClientDetailTemplateId("YoneticiListeGridTemplate")
+            .DataSource(dataSource => dataSource
+            .Ajax()
+            .Model(model =>
+            {
+                model.Id(p => p.Id);
+            }
+            )
+            .PageSize(200)
+            .Read(read => read.Action("GridReadData", "Server")
+
+            .Data("readData()")
+            )
+            .Sort(sort =>
+            {
+                sort.Add(p => p.LokasyonAd).Ascending();
+                sort.Add(p => p.ServerIp).Ascending();
+            })
+            .Create(update => update.Action("GridCreateData", "Server"))
+            .Update(update => update.Action("GridEditData", "Server"))
+            .Destroy(update => update.Action("GridDeleteData", "Server"))
+            .Events(e => e.RequestEnd("refreshGridAfterSave"))
+            )
+            .AutoBind(true)
+    .Events(e => e.ExcelExport("exportToExcel"))
+)
+<script id="ExportToExcel">
+    function exportToExcel(e) {                 //To arrange excel file column width
+
+        var sheet = e.workbook.sheets[0];
+        for (var i = 0; i < sheet.columns.length; i++) {
+            sheet.columns[i].autoWidth = true;
+        }
+    }
+
+</script>
+<script id="RefreshServerOnDB">
+    function refreshServerInfo() {
+        $.ajax(
+            {
+                url: '@(Url.Action("refreshServerInfo", "Server"))',
+                success: function (data) {
+                    toastr.error("Sunucu uygulamaları başarıyla güncellendi.");
+                },
+                error: function (err) {
+                    toastr.error("Hata: Sistemdeki sunucu uygulamaları güncellenemedi.");
+                }
+            });
+    }
+</script>
+
+<script id="IliskiliSunucular">
+
+    var graphServerId;
+    var anaServerIp, anaServerName;
+
+    function listLinkedServer(ServerId) {
+
+        $(function () {
+            $('#LinkedServerModal').on('hidden.bs.modal', function () {
+
+                $('#gridLinkedServer').remove();
+
+                gridDiv = document.createElement('div');
+                gridDiv.setAttribute("id", "gridLinkedServer");
+
+                document.getElementById("gridLinkedServerContainer").appendChild(gridDiv);
+
+                window.graphServerId = "";
+            });
+        });
+
+
+        return $.ajax({
+            url: '@(Url.Action("iliskiliServerlariListele", "Server"))',
+            action: 'GET',
+            data: {
+                Id: ServerId
+            },
+            beforeSend: function () {
+                $("#loaderLinkedServerModal").show();
+                $("#ContainerLinkedServerModal").hide();
+
+            },
+            success: function (data) {
+
+                $("#loaderLinkedServerModal").hide();
+                $("#ContainerLinkedServerModal").show();
+
+                graphServerId = ServerId;
+
+                $("#gridLinkedServer").kendoGrid({
+                    dataSource: {
+                        data: data.serverIpleriveIsimleri,
+                        schema: {
+                            model: {
+                                fields: {
+                                    serverIp: { type: "string" },
+                                    ComputerName: { type: "string" }
+                                }
+                            }
+                        },
+                        pageSize: 15
+                    },
+                    scrollable: true,
+                    sortable: true,
+                    filterable: true,
+                    selectable: true,
+                    pageable: true,
+                    detailInit: detailInitAppName,
+                    columns: [
+                    { field: "serverIp", title: "Sunucu IP", width: "75px" },
+                    { field: "ComputerName", title: "Sunucu Adı", width: "425px" }
+                    ]
+                });
+
+                if (data.nodeList.length == 1) {
+      
+                   toastr.error("Serverın ilişkili olduğu server bulunmamaktadır.", "Hata!");                 
+
+                }
+                else {
+                    window.anaServerIp=data.nodeList[0]; //Sunucu İlişkisi ekleme ekranında; label default değerine ip bilgisini basturmak için yapılan atama.
+                    window.anaServerName=data.nodeisimList[0];// Sunucu İlişkisi ekleme ekranında  label default değerine isim bilgisini bastırmak için yapılan atama
+                $('#LinkedServerModal').modal('show');
+
+                const SUCCESSCOLOR = '#8BC34A';
+                const FAILCOLOR = '#F44336';
+                var nodes = new vis.DataSet();
+
+                var nodebilgisi = null;
+              
+                for (var i = 0; i < data.nodeList.length; i++) {
+
+                    nodebilgisi = "<b>" + data.nodeisimList[i] + "</b>" + " \n" + "(" + data.nodeList[i] + ")";
+
+                    if (data.pingSonuclari[i] == "true") {
+                        if (i == 0) {
+                            nodes.add({
+                                id: data.nodeList[i], font: { size: 10, multi: true }, label: nodebilgisi, shape: 'icon', title: data.nodeAciklamaList[i], color: SUCCESSCOLOR, size: 10, icon: {
+                                    face: 'FontAwesome',
+                                    code: '\uf015',
+                                    size: 35,
+                                    color: SUCCESSCOLOR
+                                }
+                            });
+                        } else {
+                            nodes.add({
+                                id: data.nodeList[i], font: { size: 10, multi: true }, label: nodebilgisi, shape: 'icon', title: data.nodeAciklamaList[i], color: SUCCESSCOLOR, size: 10, icon: {
+                                    face: 'FontAwesome',
+                                    code: '\uf233',
+                                    size: 35,
+                                    color: SUCCESSCOLOR
+                                }
+                            });
+                        }
+                    } else {
+                        if (i == 0) {
+                            nodes.add({
+                                id: data.nodeList[i], font: { size: 10, multi: true }, label: nodebilgisi, shape: 'icon', title: data.nodeAciklamaList[i], color: FAILCOLOR, size: 10, icon: {
+                                    face: 'FontAwesome',
+                                    code: '\uf015',
+                                    size: 35,
+                                    color: FAILCOLOR
+                                }
+                            });
+                        } else {
+                            nodes.add({
+                                id: data.nodeList[i], font: { size: 10, multi: true }, label: nodebilgisi, shape: 'icon', title: data.nodeAciklamaList[i], color: FAILCOLOR, size: 10, icon: {
+                                    face: 'FontAwesome',
+                                    code: '\uf233',
+                                    size: 35,
+                                    color: FAILCOLOR
+                                }
+                            });
+                        }
+                    }
+
+                }
+
+
+                if (data.childList != null) {
+
+                    var edges = new vis.DataSet();
+
+                    for (var i = 0; i < data.childList.length; i++) {
+                        edges.add({ from: data.parentList[i], to: data.childList[i], arrows: 'to' });
+                    }
+                }
+
+                // create a network
+                var container = document.getElementById('graphGoruntusu');
+
+                // provide the data in the vis format
+                var data = {
+                    nodes: nodes,
+                    edges: edges
+                };
+                var options = {
+                    groups: {
+                        server: {
+                            shape: 'icon',
+                            icon: {
+                                face: 'FontAwesome',
+                                code: '\uf233',
+                                size: 100
+                            }
+                        }
+                    },
+                    nodes: {
+
+                    },
+                    edges: {
+                        smooth: true
+                    },
+                    physics: false,
+                    interaction: {
+
+                        dragNodes: true,
+                        zoomView: true,
+                        dragView: true,
+                        dragNodes: true,
+                        hover:true
+                        
+                    },
+                    layout: {
+                        randomSeed: 2,
+                        improvedLayout: true,
+                        hierarchical: {
+                            enabled: true,
+                            levelSeparation: 150,
+                            nodeSpacing: 100,
+                            treeSpacing: 10,
+                            blockShifting: true,
+                            edgeMinimization: true,
+                            parentCentralization: false,
+                            direction: 'UD',
+                            sortMethod: 'directed'
+                              }
+                           }
+                       };
+
+
+                   var network = new vis.Network(container, data, options);               
+                  }
+
+               },
+            error: function (err) {
+                toastr.error("Hata: Sistemdeki ilişkili sunucu bilgileri yüklenemedi. Sunucuya erişilemiyor.");
+            }
+        });
+    }
+
+    function detailInitAppName(e) {
+        return $.ajax({
+            url: '@(Url.Action("getIISSiteNamesFromIP", "Server"))',
+            action: 'GET',
+            beforeSend: function () {
+                $("#loader").show();
+                $("#gridLinkedServer").hide();
+
+            },
+            data: {
+                ServerIP: e.data.serverIp
+            },
+            success: function (data) {
+                $("#loader").hide();
+                $("#gridLinkedServer").show();
+                var IISSiteList = [];
+
+                if (jQuery.isEmptyObject(data.SitesList)) {
+                    IISSiteList.push({'SiteName': "Gösterilecek site bulunamadı"});
+                }
+                else {
+                    console.log(data.SitesList);
+                    if (data.SitesList[0].includes("reddedildi") || data.SitesList[0].includes("Provider") ||
+                        data.SitesList[0].includes("Access is denied") || data.SitesList[0].includes("The RPC server")) {       //If credentials have not got access to reach selected server
+                        IISSiteList.push({ 'SiteName': "Sunucu güvenliği  nedeniyle istenen sunucu bilgilerine erişilememektedir.." });
+                    }
+                    else {
+                        for (var i in data.SitesList) {
+                            IISSiteList.push({ 'SiteName': data.SitesList[i] });
+                        }
+                    }
+                }
+
+                $("<div />").appendTo(e.detailCell).kendoGrid({
+
+                    dataSource: {
+                        data: IISSiteList,
+                        schema: {
+                            model: {
+                                fields: {
+                                    SiteName: { type: "string" }
+
+                                }
+                            }
+                        },
+                        pageSize: 15
+                    },
+                    scrollable: true,
+                    sortable: true,
+                    pageable: true,
+                    filterable: true,
+                    selectable: true,
+                    columns: [
+                    { field: "SiteName", title: "IIS Sites", width: "110px" }
+                    ]
+                });
+            },
+            error: function (err) {
+                $("#loader").hide();
+                $("#gridLinkedServer").show();
+                toastr.error("Hata: Sistemdeki IIS bindingleri yüklenemedi. Sunucuya erişilemiyor.", "Hata!");
+            }
+        });
+    }
+</script>
+<script id="PerformansBilgileri">
+    function listServerInfo(ServerId) {
+        return $.ajax({
+            url: '@(Url.Action("getServerInfo", "Server"))',
+            action: 'GET',
+            data: {
+                Id: ServerId
+            },
+            success: function (data) {
+
+                if (jQuery.isEmptyObject(data.ServerCPUInfoList) || jQuery.isEmptyObject(data.ServerDiskInfoList) || jQuery.isEmptyObject(data.ServerMemoryInfoList)) {
+                    toastr.error("Performans Bilgilerine güvenlik nedeniyle erişilemiyor.", "Hata!");
+                }
+                else {
+                    if (data.ServerCPUInfoList[0].includes("reddedildi") || data.ServerCPUInfoList[0].includes("Provider") ||
+                        data.ServerCPUInfoList[0].includes("Access is denied") || data.ServerCPUInfoList[0].includes("The RPC server")) {       //If credentials have not got access to reach selected server
+                        toastr.error("Performans Bilgilerine güvenlik nedeniyle erişilemiyor.", "Hata!");
+                    }
+                    else {
+                        
+                        $('#ServerInfoMultipleScreen').modal('show');
+                        var serverCPUInfo = [];
+                        var serverDiskInfo = [];
+                        var serverMemoryInfo = [];
+                        for (var i in data.ServerCPUInfoList) {
+                            serverCPUInfo.push({ 'ServerCPUName': data.ServerCPUInfoList[i] });
+                        }
+                        for (var i in data.ServerDiskInfoList) {
+                            serverDiskInfo.push({ 'ServerDiskName': data.ServerDiskInfoList[i] });
+                        }
+                        for (var i in data.ServerMemoryInfoList) {
+                            serverMemoryInfo.push({ 'ServerMemoryName': data.ServerMemoryInfoList[i] });
+                        }
+                        var CPUGrid = $("#gridServerCPUInfo").kendoGrid({
+                            dataSource: {
+                                data: serverCPUInfo,
+                                schema: {
+                                    model: {
+                                        fields: {
+                                            ServerCPUName: { type: "string" },
+                                        }
+                                    }
+                                },
+                            },
+                            height: 600,
+                            scrollable: true,
+                            sortable: true,
+                            filterable: true,
+                            selectable: true,
+                            columns: [
+                                { field: "ServerCPUName", title: "Server CPU Info" },
+                            ]
+                        });
+                        var MemoryGrid = $("#gridServerMemoryInfo").kendoGrid({
+                            dataSource: {
+                                data: serverMemoryInfo,
+                                schema: {
+                                    model: {
+                                        fields: {
+                                            ServerMemoryName: { type: "string" },
+                                        }
+                                    }
+                                },
+                            },
+                            height: 600,
+                            scrollable: true,
+                            sortable: true,
+                            filterable: true,
+                            selectable: true,
+                            columns: [
+                                { field: "ServerMemoryName", title: "Server Memory Info" },
+                            ]
+                        });
+
+                        var DiskGrid = $("#gridServerDiskInfo").kendoGrid({
+                            dataSource: {
+                                data: serverDiskInfo,
+                                schema: {
+                                    model: {
+                                        fields: {
+                                            ServerDiskName: { type: "string" },
+                                        }
+                                    }
+                                },
+                            },
+                            height: 600,
+                            scrollable: true,
+                            sortable: true,
+                            filterable: true,
+                            selectable: true,
+                            columns: [
+                                { field: "ServerDiskName", title: "Server Disk Info" },
+                            ]
+                        });
+                    }
+                }
+
+            },
+            error: function (err) {
+                toastr.error("Hata: Seçili Server'ın performans bilgileri yüklenemedi. Sunucuya erişilemiyor.", "Hata!");
+            }
+        });
+    }
+
+</script>
+<script id="YüklüUygulamalar">
+    function installedApplications(ServerId) {
+        return $.ajax({
+            url: '@(Url.Action("getInstalledApplications", "Server"))',
+            action: 'GET',
+            data: {
+                Id: ServerId
+            },
+            success: function (data) {
+                var applications = [];
+                if (!data.AppList) {
+                    applications.push({ 'SiteName': "Gösterilecek site bulunamadı" });
+                }
+                else {
+                    if (data.AppList[0].includes("reddedildi") || data.AppList[0].includes("Provider") ||
+                        data.AppList[0].includes("Access is denied") || data.AppList[0].includes("The RPC server")) {       //If credentials have not got access to reach selected server
+                        toastr.error("Sunucu güvenliği  nedeniyle istenen sunucu sitelerine erişilememektedir.", "Hata!");
+
+                    }
+                    else {
+
+
+
+                        $('#ApplicationModal').modal('show');
+
+                        for (var i in data.AppList) {
+                            applications.push({ 'AppName': data.AppList[i] });
+                        }
+                        $("#gridInstalledApplications").kendoGrid({
+                            dataSource: {
+                                data: applications,
+                                schema: {
+                                    model: {
+                                        fields: {
+                                            AppName: { type: "string" },
+                                        }
+                                    }
+                                },
+                                pageSize: 200
+                            },
+                            height: 600,
+                            scrollable: true,
+                            sortable: true,
+                            filterable: true,
+                            selectable: true,
+                            columns: [
+                            { field: "AppName", title: "Uygulama Adı" },
+                            ]
+                        });
+                    }
+                }
+            },
+            error: function (err) {
+                toastr.error("Hata: Sistemdeki kurulu uygulamaların isimleri yüklenemedi. Sunucuya erişilemiyor.", "Hata!");
+            }
+        });
+    }
+
+</script>
+
+<script id="IISSiteName ">
+    function getIISBindings(ServerId) {
+        return $.ajax({
+            url: '@(Url.Action("getIISSiteNames", "Server"))',
+            action: 'GET',
+            data: {
+                Id: ServerId
+            },
+            success: function (data) {
+
+                
+                var siteName = [];
+
+                if (!data.SitesList) {
+                    siteName.push({ 'SiteName': "Gösterilecek site bulunamadı" });
+                }
+                else {
+                    if (data.SitesList[0].includes("reddedildi") || data.SitesList[0].includes("Provider") ||
+                        data.SitesList[0].includes("Access is denied") || data.SitesList[0].includes("The RPC server")) {       //If credentials have not got access to reach selected server
+                        toastr.error("Sunucu güvenliği  nedeniyle istenen sunucu sitelerine erişilememektedir.", "Hata!");
+                    }
+                    else {
+                        $('#IISSitesModal').modal('show');
+                        for (var i in data.SitesList) {
+                            siteName.push({ 'SiteName': data.SitesList[i] });
+                        }
+                        $("#gridIISBindings").kendoGrid({
+                            dataSource: {
+                                data: siteName,
+                                schema: {
+                                    model: {
+                                        fields: {
+                                            SiteName: { type: "string" }
+                                        }
+                                    }
+                                },
+                            },
+                            height: 600,
+                            scrollable: true,
+                            sortable: true,
+                            filterable: true,
+                            selectable: true,
+                            detailInit: detailInit,
+                            columns: [
+                            { field: "SiteName", title: "Site Adı", width: "130px" }
+                            ]
+                        });
+                    }
+                }           
+
+
+            },
+            error: function (err) {
+                toastr.error("Hata: Sistemdeki IIS bindingleri yüklenemedi. Sunucuya erişilemiyor.", "Hata!");
+            }
+        });
+    }
+    function detailInit(e) {
+        return $.ajax({
+            url: '@(Url.Action("getIISBindings", "Server"))',
+            action: 'GET',
+            data: {
+                machineName: e.data.SiteName
+            },
+            success: function (data) {
+                var bindingInfo = [];
+
+                    for (var i in data.IISBindings) {
+                        bindingInfo.push({ 'BindingInfo': data.IISBindings[i] });
+                    }
+                
+                $("<div />").appendTo(e.detailCell).kendoGrid({
+                    dataSource: {
+                        data: bindingInfo,
+                        schema: {
+                            model: {
+                                fields: {
+                                    BindingInfo: { type: "string" }
+                                }
+                            }
+                        },
+                        pageSize: 25
+                    },
+                    scrollable: false,
+                    sortable: true,
+                    pageable: true,
+                    columns: [
+                    { field: "BindingInfo", title: "IIS Binding Bilgileri", width: "110px" }
+                    ]
+                });
+            },
+            error: function (err) {
+                toastr.error("Hata: Sistemdeki IIS bindingleri yüklenemedi. Sunucuya erişilemiyor.", "Hata!");
+            }
+        });
+    }
+</script>
+
+<script id="IISBindingInfo" type="text/kendo-tmpl">
+    @(Html.Kendo().TabStrip()
+        .Name("tabStrip_#=SiteName#")
+        .SelectedIndex(0)
+        .Animation(animation => animation.Open(open => open.Fade(FadeDirection.In)))
+        .Items(items =>
+        {
+        items.Add().Text("IIS Binding Bilgileri").Content(
+            @<text>
+                @RenderDeneme();
+            </text>
+                );
+        })
+        .ToClientTemplate()
+    )
+
+    @helper RenderDeneme()
+        {
+    @(Html.Kendo().Grid<Application.ViewModels.Envanter.IISBindingsViewModel>()
+                .Name("deneme_#=SiteName#")
+                .Columns(columns =>
+                {
+                    columns.Template(s => { }).ClientTemplate("<h4><i class=\"glyphicon glyphicon-user\"></i></h4>").Width(2).Title("");
+                    columns.Bound(s => s.SiteName).Width(7);
+                    if ((bool)Session["IsAdmin"])
+                    {
+                        columns.Bound(p => p.Id).ClientTemplate("<a href='javascript:void(0)' title='Düzenle' onclick=UpdateYonetici('#= Id#'); data-id='#= Id#'><h4><i class=\"glyphicon glyphicon-edit\"></i></h4></a>").Title("").Width(3).Filterable(false).Sortable(false);
+                        columns.Bound(s => s.Id).ClientTemplate("<a href='javascript:void(0)' title='Kaldır' onclick=yoneticiKaldır(#= Id#) data-id='#= Id#'><h4><i class=\"glyphicon glyphicon-minus-sign\"></i></h4></a>").Title("").Width(3).Filterable(false).Sortable(false);
+                    }
+                })
+                .DataSource(dataSource => dataSource
+                    .Ajax()
+                    .PageSize(5)
+                            .Model(model =>
+                            {
+                                model.Id(request => request.Id);
+                            })
+
+                      .Read(read => read.Action("getBinding", "Server", new { name = "#=SiteName##" }))
+
+                )
+                .Pageable()
+                        .Sortable()
+                .Selectable()
+                .Editable(editable => editable.Mode(GridEditMode.InLine))
+                .Resizable(resize => resize.Columns(true))
+                .Editable(editable => editable.Mode(GridEditMode.InLine))
+                .Resizable(resize => resize.Columns(true))
+                .AutoBind(true)
+                .ToClientTemplate())
+}
+
+</script>
+
+
+<script id="YoneticiListeGridTemplate" type="text/kendo-tmpl">
+
+    @(Html.Kendo().TabStrip()
+            .Name("tabStrip_#=Id#")
+            .SelectedIndex(0)
+            .Animation(animation => animation.Open(open => open.Fade(FadeDirection.In)))
+            .Items(items =>
+            {
+                items.Add().Text("Sorumlu Kişiler").Content(
+                    @<text>
+                        @RenderYoneticiGrid()
+                    </text>
+                );
+            })
+            .ToClientTemplate()
+    )
+
+    @helper RenderYoneticiGrid()
+        {
+    @(Html.Kendo().Grid<Application.ViewModels.Envanter.YoneticiListViewModel>()
+            .Name("gridYonetici_#=Id#")
+            .Columns(columns =>
+            {
+                columns.Template(s => { }).ClientTemplate("<h4><i class=\"glyphicon glyphicon-user\"></i></h4>").Width(2).Title("");
+                columns.Bound(s => s.Ad).Width(7);
+                columns.Bound(s => s.EMail).Width(10);
+                if ((bool)Session["IsAdmin"])
+                {
+                    columns.Bound(p => p.Id).ClientTemplate("<a href='javascript:void(0)' title='Düzenle' onclick=UpdateYonetici('#= Id#'); data-id='#= Id#'><h4><i class=\"glyphicon glyphicon-edit\"></i></h4></a>").Title("").Width(3).Filterable(false).Sortable(false);
+                    columns.Bound(s => s.Id).ClientTemplate("<a href='javascript:void(0)' title='Kaldır' onclick=yoneticiKaldır(#= Id#) data-id='#= Id#'><h4><i class=\"glyphicon glyphicon-minus-sign\"></i></h4></a>").Title("").Width(3).Filterable(false).Sortable(false);
+                }
+            })
+            .DataSource(dataSource => dataSource
+                .Ajax()
+                .PageSize(5)
+                        .Model(model =>
+                        {
+                            model.Id(request => request.Id);
+                        })
+
+                  .Read(read => read.Action("GridReadYoneticiParameters", "Yonetici", new { Id = "#=Id#" }))
+            )
+            .Pageable()
+                    .Sortable()
+            .Selectable()
+            .Editable(editable => editable.Mode(GridEditMode.InLine))
+            .Resizable(resize => resize.Columns(true))
+            .Editable(editable => editable.Mode(GridEditMode.InLine))
+            .Resizable(resize => resize.Columns(true))
+            .AutoBind(true)
+            .ToClientTemplate())
+}
+
+</script>
+
+<div id="LinkedServerModal" class="modal">
+    <div class="modal-dialog modal-sm modal-dialog-top" style="width: 1300px; height: 1200px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" id="closeButtonServer" data-dismiss="modal" aria-hidden="true">×</button>
+
+                <h4 class="modal-title"><b>İlişkili Sunucu Bilgileri</b></h4>
+            </div>
+            <center>
+                <div id='loaderLinkedServerModal' style='display: none;'>
+                    <img src='~/Images/Loading_icon.gif' align="top">
+                </div>
+            </center>
+            <div id="ContainerLinkedServerModal">
+                <div>
+                    <div class="container-fluid">
+                        <div class="col-lg-6">
+                            @if (((bool)Session["IsAdmin"]))
+                            {
+                                <a style="display:normal" id="YeniIliskiButton" class="btn btn-primary" data-toggle='modal' data-target='#IliskiEkleModal'>
+                                    <span class='glyphicon glyphicon-plus' style="color:white"></span>
+                                    İlişki Ekle
+                                </a>
+                                <a class='btn btn-danger' style="display:normal" id='IliskiSilButton' data-toggle='modal' data-target='#IliskiSilModal'>
+                                    <span class='glyphicon glyphicon-remove' style="color:white"></span>
+                                    İlişki Sil
+                                </a>
+                            }
+                        </div>
+                        <div id="networkAciklamalar"class="col-lg-6">
+
+                            <span class="label label-primary" style="float: right; width: 300px; height:17px; font-size:11px">Mouse Scroll ile zoom in-out yapabilirsiniz</span>
+                            <br />
+                            <span class="label label-success" style="float: right; width: 300px; height:17px; font-size:11px">Yeşil Renk: Ping Olumlu</span>
+                            <br />
+                            <span class="label label-danger" style="float: right; width: 300px; height:17px; font-size:11px">Kırmızı Renk: Ping Olumsuz</span>
+                                          
+                        </div>
+
+                    </div>
+
+
+                    <div id="graphGoruntusu" style="height: 500px"></div>
+
+                </div>
+                <div class="modal-body">
+                    <center>
+                        <div id='loader' style='display: none;'>
+                            <img src='~/Images/Loading_icon.gif' align="top">
+                        </div>
+                    </center>
+                    <div id="gridLinkedServerContainer" style="height: 600px">
+                        <div id="gridLinkedServer"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="IISSitesModal" class="modal">
+    <div class="modal-dialog modal-sm modal-dialog-top" style="width: 400px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" id="closeButtonInstalledApplications" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title"><b>IIS Sites</b></h4>
+            </div>
+            <div class="modal-body">
+                <div id="gridIISBindings"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="ApplicationModal" class="modal">
+    <div class="modal-dialog modal-sm modal-dialog-top" style="width: 500px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" id="closeButton" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title"><b>Sunucuda Kurulu Uygulamalar</b></h4>
+            </div>
+            <div class="modal-body">
+                <div id="gridInstalledApplications"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="ServerInfoModal" class="modal">
+    <div class="modal-dialog modal-sm modal-dialog-top" style="width: 500px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" id="closeButton" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title"><b>Sunucu Performans Bilgileri</b></h4>
+            </div>
+            <div class="modal-body">
+                <div id="gridServerInfo"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="yoneticiGuncelleModal" class="modal">
+    <div class="modal-dialog modal-sm modal-dialog-top">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" id="closeButton" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title" id="myModalLabel"><b>Sorumlu Kişi Bilgileri</b></h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="inputEMail"><b>E-Mail:</b></label>
+                    <input type="text" class="form-control" id="inputEMailToUpdate" />
+                </div>
+                <div class="form-group">
+                    <label for="inputadSoyad"><b>Sorumlu Adı:</b></label>
+                    <input type="text" class="form-control" id="inputAdSoyadToUpdate" />
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a class="btn btn-primary" id="updateYoneticiButton">Güncelle</a>
+                <a class="btn btn-default" data-dismiss="modal">Vazgeç</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script id="yonetici">
+
+    function UpdateYonetici(ServerId) {
+        var GridId = '#gridYonetici_' + ServerId;
+        var Grid = $(GridId).data("kendoGrid");
+        var YoneticiId = Grid.dataItem(Grid.select()).Id;
+        return $.ajax({
+            url: '@Url.Action("GetYoneticiById", "Yonetici")',
+            type: 'GET',
+            data: { Id: YoneticiId },
+            success: function (data) {
+                $('#inputEMailToUpdate').val(data._Yonetici[1]);
+                $('#inputAdSoyadToUpdate').val(data._Yonetici[0]);
+                $('#yoneticiGuncelleModal').modal('show');
+                $('#updateYoneticiButton').unbind('click').bind('click', function () {
+                    $.ajax({
+                        url: '@Url.Action("UpdateYoneticiFromPopUp", "Yonetici")',
+                        type: 'POST',
+                        data: {
+                            Id: YoneticiId,
+                            Ad: $('#inputAdSoyadToUpdate').val(),
+                            EMail: $('#inputEMailToUpdate').val()
+                        },
+                        success: function (data) {
+                            var JsonResult = JSON.parse(data);
+                            if (JsonResult.Statu == "success") {
+                                toastrSuccessMessagesDisplay(JsonResult.SuccessMessages);
+                                $("#yoneticiGuncelleModal").modal('toggle');
+                                refreshGrid("#ServerListGrid");
+                            }
+                        },
+                        error: function (err) {
+                            toastr.error("Hata: Sorumlu kaydı güncellenemedi. Sunucuya erişilemiyor.", "Hata!");
+                        }
+                    });
+                })
+            },
+            error: function (err) {
+                toastr.error("Hata: Sorumlu bilgileri yüklenemedi. Sunucuya erişilemiyor.", "Hata!");
+            }
+        });
+
+    }
+
+    function yoneticiKaldır(ServerId) {
+        var GridId = '#gridYonetici_' + ServerId;
+        var Grid = $(GridId).data("kendoGrid");
+        var YoneticiAd = Grid.dataItem(Grid.select()).Ad;
+        $('#yoneticiSilModal').modal('show');
+        $('#deleteYoneticiButton').unbind('click').bind('click', function () {
+            $.ajax({
+                url: '@(Url.Action("RemoveYoneticiFromSpecificServer", "Yonetici"))',
+                type: 'POST',
+                data: {
+                    Id: ServerId,
+                    Ad: YoneticiAd
+                },
+                success: function (data) {
+                    var JsonResult = JSON.parse(data);
+                    if (JsonResult.Statu == 'success') {
+                        toastrSuccessMessagesDisplay(JsonResult.SuccessMessages);
+                        $("#yoneticiSilModal").modal('toggle');
+                        refreshGrid("#ServerListGrid");
+                    }
+                },
+                error: function (err) {
+                    toastr.error("Hata: Sorumlu kişi kaldırılamadı. Sunucuya erişilemiyor.", "Hata!");
+                }
+            });
+        });
+    }
+
+    function yeniYoneticiEkle(Id) {
+        $('#newManagerModal').modal('show');
+        return $.ajax({
+            url: '@(Url.Action("GetAllYoneticiForDropDown", "Yonetici"))',
+            type: 'GET',
+            success: function (data) {
+                $('#inputyoneticiAdi').empty();
+                for (var i in data.YoneticiList) {
+                    $('#inputyoneticiAdi').append($("<option />").val(data.YoneticiList[i]).text(data.YoneticiList[i]));
+                    $('#addNewYoneticiButton').unbind('click').bind('click', function () {
+                        var Ad = $('#inputyoneticiAdi').val();
+                        $.ajax({
+                            url: '@(Url.Action("AddYoneticiToSpecificServer", "Yonetici"))',
+                            action: 'POST',
+                            data: {
+                                _Id: Id,
+                                _Ad: Ad
+                            },
+                            success: function (data) {
+                                var JsonResult = JSON.parse(data);
+                                if (JsonResult.Statu == 'success') {
+                                    toastrSuccessMessagesDisplay(JsonResult.SuccessMessages);
+                                    $("#newManagerModal").modal('toggle');
+                                    refreshGrid("#ServerListGrid");
+                                }
+                                else {
+                                    toastr.warning(JsonResult.SuccessMessages);
+                                    $("#newManagerModal").modal('toggle');
+                                }
+                            },
+                            error: function (err) {
+                                toastr.error("Hata: Sorumlu kişi eklenemedi. Sunucuya erişilemiyor.", "Hata!");
+                            }
+                        });
+                    });
+                }
+            },
+            error: function (err) {
+                toastr.error("Hata: Sistemdeki sorumlu kişilerin isimleri yüklenemedi. Sunucuya erişilemiyor.", "Hata!");
+            }
+        });
+
+    }
+
+    function YeniYonetici() {
+        $('#yeniYoneticiOlusturModal').modal('show');
+        $('#createNewYoneticiButton').unbind('click').bind('click', function () {
+            var _Ad = $('#inputadSoyad').val();
+            var _EMail = $('#inputEMail').val();
+            $.ajax({
+                url: '@(Url.Action("CreateYonetici", "Yonetici"))',
+                type: 'POST',
+                data: {
+                    Ad: _Ad,
+                    EMail: _EMail
+                },
+                success: function (data) {
+                    var JsonResult = JSON.parse(data);
+                    if (JsonResult.Statu == "success") {
+                        toastrSuccessMessagesDisplay(JsonResult.SuccessMessages);
+                        $('#inputyoneticiAdi').append($("<option />").val(_Ad).text(_Ad));
+                        $("#yeniYoneticiOlusturModal").modal('toggle');
+                    }
+                },
+                error: function (err) {
+                    toastr.error("Hata: Sorumlu kişi kaydı eklenemedi. Sunucuya erişilemiyor.", "Hata!");
+                }
+            });
+        });
+    }
+
+    $('#newManagerModal').on('hidden.bs.modal', function () {
+        $('#inputadSoyad').val('');
+        $('#inputEMail').val('');
+    });
+
+</script>
+
+
+<div id="ServerInfoMultipleScreen" class="modal">
+    <div class="modal-dialog modal-md modal-dialog-top">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" id="closeButton" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title" id="myModalLabel"><b>Sunucu Performans  Bilgileri</b></h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    @(Html.Kendo().TabStrip()
+                        .Name("tabstripServerInfo")
+                        .Animation(animation =>
+                            animation.Open(effect =>
+                                effect.Fade(FadeDirection.In)))
+                        .Items(tabstrip =>
+                        {
+                            tabstrip.Add().Text("CPU")
+                            .Selected(true)
+                            .Content(@<text>
+                                <div id="gridServerCPUInfo"></div>
+                            </text>);
+
+                            tabstrip.Add().Text("Disk")
+                            .Content(@<text>
+                                <div id="gridServerDiskInfo"></div>
+                            </text>);
+
+                            tabstrip.Add().Text("Memory")
+                            .Content(@<text>
+                                <div id="gridServerMemoryInfo"></div>
+                            </text>);
+                        })
+                    )
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="newManagerModal" class="modal">
+    <div class="modal-dialog modal-md modal-dialog-top">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" id="closeButton" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title" id="myModalLabel"><b>Sorumlu Kişi Ekle</b></h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="inputYoneticiAdi" class="col-lg-2"><b>Sorumlu:</b></label>
+                    <div class="col-lg-6">
+                        <select class="form-control " id="inputyoneticiAdi"></select>
+                    </div>
+                    <div class="col-lg-2">
+                        <a href="javascript:void(0)" class="btn btn-default" onclick="YeniYonetici()">
+                            <span class="glyphicon glyphicon-plus"></span>Yeni Oluştur
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a class="btn btn-primary" id="addNewYoneticiButton">Ekle</a>
+                <a class="btn btn-default" data-dismiss="modal">Vazgeç</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="yeniYoneticiOlusturModal" class="modal">
+    <div class="modal-dialog modal-sm modal-dialog-top">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" id="closeButton" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title" id="myModalLabel"><b>Yeni Sorumlu Kişi</b></h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="inputEMail"><b>E-Mail:</b></label>
+                    <input type="text" class="form-control" id="inputEMail" />
+                </div>
+                <div class="form-group">
+                    <label for="inputadSoyad"><b>Sorumlu Adı:</b></label>
+                    <input type="text" class="form-control" id="inputadSoyad" />
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a class="btn btn-primary" id="createNewYoneticiButton">Oluştur</a>
+                <a class="btn btn-default" data-dismiss="modal">Vazgeç</a>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="yoneticiSilModal" class="modal">
+    <div class="modal-dialog modal-md modal-dialog-top">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" id="closeButton" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title" id="myModalLabel"><b>Sorumlu Kişi Kaldır</b></h4>
+            </div>
+            <div class="modal-body">
+                <p>Kişiyi server üzerinden kaldırmak istediğinizden emin misiniz?</p>
+            </div>
+            <div class="modal-footer">
+                <a class="btn btn-primary" id="deleteYoneticiButton">Evet</a>
+                <a class="btn btn-default" data-dismiss="modal">Vazgeç</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="IliskiSilSoruModal" class="modal fade in">
+    <div class="modal-dialog modal-md modal-dialog-top">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" id="IliskiSilSoruCloseButton" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title" id="IliskiSilSoruModalTitle"><b>İlişkiyi Silmek İstediğinize Emin Misiniz?</b></h4>
+            </div>
+            <div id="divSilSoruModal" class="form-horizontal form-bordered">
+                <div class="modal-body">
+                    <center>
+                        <div id='loaderIliskiSilSoruModal' style='display: none;'>
+                            <img src='~/Images/Loading_icon.gif' align="top">
+                        </div>
+                    </center> 
+                    <div id="IliskiBilgileriContainer">
+
+                        <div class="form"  id="IliskiBilgileriStyle" >
+                            <div class="form-group row">
+                                <label class="col-lg-3 ">Parent Server:</label>
+
+                                <span id="computerNameIpParentSil" class="label label-danger"  display: none"> computerNameIpParentSil</span>
+                                
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-lg-3">Child Server: </label>
+
+                                <span id="computerNameIpChildSil" class="label label-danger" display:none"> computerNameIpChildSil</span>
+                            </div>
+                            
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a class="btn btn-danger" id="IliskiSilSoruOnayButton">İlişkiyi Sil</a>
+                <a class="btn btn-default" data-dismiss="modal">Vazgeç</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="IliskiEkleModal" class="modal fade in">
+    <div class="modal-dialog modal-md modal-dialog-top">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" id="closeButton" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title" id="myModalLabel"><b>Sunucular Arası İlişki Ekle</b></h4>
+            </div>
+            <div id="divEkleModal" class="form-horizontal form-bordered">
+                <div class="modal-body">
+                    <center>
+                        <div id='loaderParentChildEkle' style='display: none;'>
+                            <img src='~/Images/Loading_icon.gif' align="top">
+                        </div>
+                    </center>
+                    <div id="parentChildBody">
+
+                        <div class="form-group row">
+                            <label for="inputParentIp" class="col-lg-4 control-label"><b>Parent IP:</b></label>
+                            <span class="label label-success" id="parentIpAdresi"></span>
+                            <a style="display:normal" class="btn" id='parentButton' data-toggle='modal' data-target='#parentListele'>
+                                <span class='glyphicon glyphicon-edit'></span>
+                                 Seç
+                            </a>
+
+                        </div>
+                        <div class="form-group row">
+                            <label for="inputChildIp" class="col-lg-4 control-label"><b>Child IP:</b></label>
+                            <span class="label label-success" id="childIpAdresi" style="display:none"></span>
+                            <a style="display:normal" class="btn" id='childButton' data-toggle='modal' data-target='#childListele'>
+                                <span class='glyphicon glyphicon-edit'></span>
+                                Seç
+                            </a>
+
+                        </div>
+                        <p>(*) Sadece tek bir parent - child ilişkisi eklenebilmektedir.</p>
+                    </div>
+                 </div>
+            </div>
+             
+            <div class="modal-footer">
+                <a class="btn btn-primary" id="IliskiEkleButton">İlişki Ekle</a>
+                <a class="btn btn-default" data-dismiss="modal">Vazgeç</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="IliskiSilModal" class="modal fade in">
+    <div class="modal-dialog modal-md modal-dialog-top">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" id="closeButton" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title" id="myModalLabel"><b>Sunucular Arası İlişki Sil</b></h4>
+            </div>
+            <div id="divSilModal" class="form-horizontal form-bordered">
+                <div class="modal-body">
+                    <center>
+                        <div id='iliskiSilLoader' style='display: none;'>
+                            <img src='~/Images/Loading_icon.gif' align="top">
+                        </div>
+                    </center>
+
+                    <div id="IliskiSilContainer">
+                        <input type="text" placeholder="Server adı veya IP girin" id="iliskiSearchbox">
+                        <button id="iliskilerdeAraButton" onclick="iliskiOnSearch();" type="button"> Ara <span class="glyphicon glyphicon-search"></span>  </button>
+                        <br /><br />
+                        <p><span class="glyphicon glyphicon-hand-down"></span> Çift tıklayarak seçim yapabilirsiniz.</p>
+                        <div id="iliskiSilGrid">
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <a class="btn btn-danger" id="IliskiSilButtonModal">Seçilen ilişkiyi Sil</a>
+                <a class="btn btn-default" data-dismiss="modal">Vazgeç</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div id="AnasayfaIliskiModal" class="modal" >
+    <div class="modal-dialog modal-md ">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" id="closeButton" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title" id="myModalLabel"><b>Sunucular Arası İlişki Düzenle</b></h4>
+            </div>
+                <div class="modal-body">
+                    <center>
+                        <div id='iliskiSilLoader' style='display: none;'>
+                            <img src='~/Images/Loading_icon.gif' align="top">
+                        </div>
+                    </center>
+
+                        <a style="display:normal;width:275px" id="DuzenleYeniIliskiButton" class="btn btn-primary" data-toggle='modal' data-target='#IliskiEkleModal'>
+                            <span class='glyphicon glyphicon-plus' style="color:white"></span>
+                            İlişki Ekle
+                        </a>
+                        <a class='btn btn-danger' style="display:normal; width:275px " id='DuzenleIliskiSilButton' data-toggle='modal' data-target='#IliskiSilModal'>
+                            <span class='glyphicon glyphicon-remove' style="color:white"></span>
+                            İlişki Sil
+                        </a>
+                       
+                    </div>
+
+                
+            </div>
+        </div>
+    </div>
+
+<div id="parentListele" class="modal fade in">
+    <div class="modal-dialog modal-md modal-dialog-top">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" id="closeButton" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title" id="myModalLabel"><b>Sunucu Ipleri</b></h4>
+            </div>
+            <div id="parentDivEkleModal" class="form-horizontal form-bordered">
+                <div class="modal-body">
+                    
+                    <input type="text" placeholder="Server adı veya IP girin"  id="parentSearchbox">
+                    <button id="parentAraButton" onclick="parentOnSearch();" type="button"> Ara <span class="glyphicon glyphicon-search"></span>  </button>
+                    <br /><br/>
+                    <p><span class="glyphicon glyphicon-hand-down"></span> Çift tıklayarak seçim yapabilirsiniz.</p>
+                    <center>
+                        <div id='loaderParentEkle' style='display: none;'>
+                            <img src='~/Images/Loading_icon.gif' align="top">
+                        </div>
+                    </center>
+
+                    <div id="parentListeleContainer">
+                        <div id="parentServerGrid">
+                            
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a class="btn btn-primary" id="parentServerEkleButton">Serveri Ekle..</a>
+                <a class="btn btn-default" data-dismiss="modal">Vazgeç</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div id="childListele" class="modal fade in">
+    <div class="modal-dialog modal-md modal-dialog-top">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" id="closeButton" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title" id="myModalLabel"><b>Sunucu Ipleri</b></h4>
+            </div>
+            <div id="childDivEkleModal" class="form-horizontal form-bordered">
+                <div class="modal-body">
+                    
+                    <input type="text" placeholder="Server adı veya IP girin" id="childSearchbox">
+                    <button id="parentAraButton" onclick="childOnSearch();" type="button"> Ara <span class="glyphicon glyphicon-search"></span>  </button>  
+                    <br /><br />
+                    <p><span class="glyphicon glyphicon-hand-down"></span> Çift tıklayarak seçim yapabilirsiniz.</p>
+                    <center>
+                        <div id='loaderChildEkle' style='display: none;'>
+                            <img src='~/Images/Loading_icon.gif' align="top">
+                        </div>
+                    </center>
+
+                    <div id="childServerContainer">
+                        <div id="childServerGrid">
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a class="btn btn-primary" id="childServerEkleButton">Serveri Ekle..</a>
+                <a class="btn btn-default" data-dismiss="modal">Vazgeç</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="newServerModal">
+    <div class="modal-dialog modal-md modal-dialog-top">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" id="closeButton" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title" id="myModalLabel"><b>Yeni Server Kaydı</b></h4>
+            </div>
+            <div id="divEkleModal" class="form-horizontal form-bordered">
+                <div class="modal-body">
+                    <div class="form-group row">
+                        <label for="inputLokasyon" class="col-lg-4 control-label"><b>Lokasyon:</b></label>
+                        <div class="col-lg-6">
+                            @(Html.Kendo().DropDownList()
+                .Name("lokasyonDropDown")
+                .DataTextField("Text")
+                .DataValueField("Value")
+                .DataSource(source =>
+                {
+                    source.Read(read =>
+                    {
+                        read.Action("GetLocationForDropdown", "Lokasyon");
+                    });
+                })
+                            )
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="inputServerTipi" class="col-lg-4 control-label"><b>Server Tipi:</b></label>
+                        <div class="col-lg-6">
+                            @(Html.Kendo().DropDownList()
+                .Name("serverTipiDropDown")
+                .DataTextField("Text")
+                .DataValueField("Value")
+                .DataSource(source =>
+                {
+                    source.Read(read =>
+                    {
+                        read.Action("GetServerTypeForDropdown", "ServerTipi");
+                    });
+                })
+                            )
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="inputOperatingSystem" class="col-lg-4 control-label"><b>İşletim Sistemi:</b></label>
+                        <div class="col-lg-6">
+                            @(Html.Kendo().DropDownList()
+                .Name("operatingSystemDropDown")
+                .DataTextField("Text")
+                .DataValueField("Value")
+                .DataSource(source =>
+                {
+                    source.Read(read =>
+                    {
+                        read.Action("GetOperatingSystemForDropdown", "OperatingSystem");
+                    });
+                })
+                            )
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="inputServerIp" class="col-lg-4 control-label"><b>IP:</b></label>
+                        <div class="col-lg-6">
+                            <input type="text" class="form-control" id="inputServerIp">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="inputComputerName" class="col-lg-4 control-label"><b>Makina Adı:</b></label>
+                        <div class="col-lg-6">
+                            <input type="text" class="form-control" id="inputComputerName">
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="inputIsValid" class="col-lg-4 control-label"><b>Wcf servis mevcut mu?:</b></label>
+                        <div class="col-lg-6">
+                            @(Html.Kendo().DropDownList()
+                            .Name("isValidDropDown")
+                            .DataTextField("Text")
+                            .DataValueField("Value")
+                            .BindTo(new List<SelectListItem>()
+                            {
+                                    new SelectListItem(){
+                                        Text="Hayır",
+                                        Value="false"
+                                    },
+                                    new SelectListItem(){
+                                        Text="Evet",
+                                        Value="True"
+                                    }
+                            })
+                            )
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="inputAciklama" class="col-lg-4 control-label"><b>Açıklama:</b></label>
+                        <div class="col-lg-6">
+                            <input type="text" class="form-control" id="inputAciklama" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a class="btn btn-primary" id="addNewServerButton">Ekle</a>
+                <a class="btn btn-default" data-dismiss="modal">Vazgeç</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script id="server">
+
+    var computerNameParent, computerNameChild;
+    var serverIpParent, serverIpChild;
+
+    var computerNameParentSilme, computerNameChildSilme;
+    var serverIpParentSilme, serverIpChildSilme;
+
+    $("#YeniIliskiButton").unbind('click').bind('click', function () {
+
+        $('#parentIpAdresi').show();
+
+        $('#childIpAdresi').show();
+
+        if (window.anaServerIp && window.anaServerName) {
+
+            document.getElementById("parentIpAdresi").textContent = "(" + window.anaServerIp + ") " + window.anaServerName;
+
+            document.getElementById("childIpAdresi").textContent = "(" + window.anaServerIp + ") " + window.anaServerName;
+
+
+            window.serverIpParent = window.anaServerIp;
+            window.computerNameParent = window.anaServerName;
+            window.serverIpChild = window.anaServerIp;
+            window.computerNameChild = window.anaServerName;
+
+        }
+    });
+
+    $("#DuzenleYeniIliskiButton").unbind('click').bind('click', function () {
+        $('#parentIpAdresi').hide();
+        $('#childIpAdresi').hide();
+        $("#AnasayfaIliskiModal").modal('hide');
+    });
+    $("#DuzenleIliskiSilButton").unbind('click').bind('click', function () {
+
+        $("#AnasayfaIliskiModal").modal('hide');
+    });
+
+    $("#IliskiSilSoruOnayButton").unbind('click').bind('click', function () {
+        $.ajax({
+            url: '@(Url.Action("IliskiSil", "Server"))',
+            type: 'GET',
+            dataType: 'json',
+            data: {
+                serverIp: window.serverIpChildSilme,
+                parentIp: window.serverIpParentSilme
+            },
+            beforeSend: function () {
+                $("#loaderIliskiSilSoruModal").show();
+                $("#IliskiBilgileriContainer").hide();
+
+            },
+            success: function (data) {
+
+              
+
+                var JsonResult = JSON.parse(data);
+                if (JsonResult.Statu == 'success') {
+                    toastrSuccessMessagesDisplay(JsonResult.SuccessMessages);
+
+
+                    $("#IliskiSilSoruModal").modal('toggle');
+                    
+
+                    $("#loaderIliskiSilSoruModal").hide();
+                    $("#IliskiBilgileriContainer").show();
+                    if (window.graphServerId || window.graphServerId!="")
+                    {
+                        $('#gridLinkedServer').remove();
+
+                        gridDiv = document.createElement('div');
+
+                        gridDiv.setAttribute("id", "gridLinkedServer");
+
+                        document.getElementById("gridLinkedServerContainer").appendChild(gridDiv);
+
+                        listLinkedServer(window.graphServerId);
+                    }
+
+
+
+
+                } else if (JsonResult.Statu == 'fail') {
+                    toastr.warning(JsonResult.WarningMessages[0]);
+
+                    $("#loaderIliskiSilSoruModal").hide();
+                    $("#IliskiBilgileriContainer").show();
+                }
+            },
+            error: function (err) {
+                toastr.warning("İlişki silinemedi. Verilerinizi tekrar kontrol ediniz.", "Hata!");
+
+                $("#loaderIliskiSilSoruModal").hide();
+                $("#IliskiBilgileriContainer").show();
+            }
+        });
+    });
+    $("#IliskiSilButtonModal").unbind('click').bind('click', function () {
+
+
+        if(window.serverIpParentSilme && window.serverIpChildSilme) {
+             $("#computerNameIpParentSil").show();
+             $("#computerNameIpChildSil").show();
+
+             document.getElementById("computerNameIpParentSil").textContent = "(" + window.serverIpParentSilme + ") " + window.computerNameParentSilme;
+
+             document.getElementById("computerNameIpChildSil").textContent = "(" + window.serverIpChildSilme + ") " + window.computerNameChildSilme;
+
+
+             $("#IliskiSilModal").modal('toggle');
+
+             $("#IliskiSilSoruModal").modal();
+        }
+        else {
+            toastr.warning("İlişki değerleri alınamadı.. Lütfen Parent Ip ve Child Ip'si olan bir satır seçiniz..", "Hata!");
+        }
+    });
+
+
+
+
+    function TumiliskileriAl() {
+        $.ajax({
+            url: '@(Url.Action("tumIliskileriAl", "Server"))',
+            type: 'GET',
+            beforeSend: function () {
+                $("#iliskiSilLoader").show();
+                $("#IliskiSilContainer").hide();
+
+            },
+            success: function (data) {
+                var _data = data.parentVeChildIcinTabloDegerleri;
+                $("#iliskiSilLoader").hide();
+                $("#IliskiSilContainer").show();
+                if (window.graphServerId)// ilişkili sunucu ekranında ilişkiler isteniyorsa data ana sunucuya göre filtrelenir. 
+                {
+                    var data_filter = _data.filter(element => element.parentIp == window.anaServerIp || element.childIp==window.anaServerIp);
+                    _data=data_filter;
+                }     
+                $("#iliskiSilGrid").kendoGrid({
+                    dataSource: {
+                        data: _data,
+                        schema: {
+                            model: {
+                                fields: {
+                                    parentIp: { type: "string" },
+                                    parentName: { type: "string" },
+                                    childIp: { type: "string" },
+                                    childName: { type: "string" }
+                                }
+                            }
+                        },
+                    },
+                    height: 600,
+                    scrollable: true,
+                    sortable: true,
+                    filterable: true,
+                    selectable: true,
+                    selectable: "row",
+                    change: function (e) {
+
+                        var selectedRows = this.select();
+                        var selectedDataItems = [];
+                        for (var i = 0; i < selectedRows.length; i++) {
+                            var dataItem = this.dataItem(selectedRows[i]);
+                        }
+
+                        window.serverIpParentSilme = dataItem.parentIp;
+                        window.computerNameParentSilme = dataItem.parentName;
+                        window.serverIpChildSilme = dataItem.childIp;
+                        window.computerNameChildSilme = dataItem.childName;
+
+                    },
+                    dataBound: function (e) {
+                        var grid = this;
+                        grid.tbody.find("tr").dblclick(function (e) {
+
+                            if (window.serverIpParentSilme && window.serverIpChildSilme) {
+
+                                $("#computerNameIpParentSil").show();
+                                $("#computerNameIpChildSil").show();
+
+                                document.getElementById("computerNameIpParentSil").textContent = "(" + window.serverIpParentSilme + ") " + window.computerNameParentSilme;
+
+                                document.getElementById("computerNameIpChildSil").textContent = "(" + window.serverIpChildSilme + ") " + window.computerNameChildSilme;
+
+
+                                $("#IliskiSilModal").modal('toggle');
+
+                                $("#IliskiSilSoruModal").modal();
+
+                            }
+                            else {
+                                toastr.warning("İlişki silinemedi.. Parent Ip veya Child Ip bulunamadı..", "Hata!");
+                            }
+
+
+                        });
+                    },
+                    columns: [
+                        { field: "parentIp", title: "Parent IP", width: "65px" },
+                        { field: "parentName", title: "Parent Name", width: "65px" },
+                        { field: "childIp", title: "Child IP", width: "65px" },
+                        { field: "childName", title: "Child Name", width: "65px" }
+                    ]
+                });
+
+            },
+            error: function (err) {
+                toastr.warning("İlişkiler listelenirken bir hata oluştu.", "Hata!");
+            }
+        });
+    }
+
+
+
+    $(function () {
+        $('#IliskiSilSoruModal').on('hidden.bs.modal', function () {
+
+            $("#computerNameIpParentSil").hide();
+            $("#computerNameIpChildSil").hide();
+
+            if (window.serverIpParentSilme && window.serverIpChildSilme) {
+
+                window.computerNameParentSilme = "";
+                window.serverIpParentSilme = "";
+                window.computerNameChildSilme = "";
+                window.serverIpChildSilme = "";
+            }
+
+
+        });
+    });
+    $("#IliskiSilButton").unbind('click').bind('click', function () {
+        TumiliskileriAl();
+    });
+    $("#DuzenleIliskiSilButton").unbind('click').bind('click', function () {
+        $("#AnasayfaIliskiModal").modal('hide');
+        TumiliskileriAl();
+
+    });
+
+    function refreshServerInfo() {
+        $.ajax({
+            url: '@Url.Action("refreshServerInfo", "Server")'
+        });
+    }
+
+    $(function () {
+        $('#IliskiEkleModal').on('hidden.bs.modal', function () {
+            window.computerNameParent = "";
+            window.computerNameChild = "";
+            window.serverIpParent = "";
+            window.serverIpChild = "";
+        });
+    });
+
+
+
+    $("#createNewServerButton").unbind('click').bind('click', function () {
+        $("#addNewServerButton").unbind('click').bind('click', function () {
+            var _isValid = $('#isValidDropDown').data("kendoDropDownList").text();
+            var _lokasyon = $('#lokasyonDropDown').data("kendoDropDownList").text();
+            var _serverTipi = $('#serverTipiDropDown').data("kendoDropDownList").text();
+            var _operatingSystem = $('#operatingSystemDropDown').data("kendoDropDownList").text();
+            var _serverIp = $('#inputServerIp').val();
+            var _computerName = $('#inputComputerName').val();
+            var _aciklama = $('#inputAciklama').val();
+
+            $.ajax({
+                url: '@(Url.Action("AddServer", "Server"))',
+                type: 'POST',
+                dataType: 'json',
+                data: {
+                    lokasyon: _lokasyon,
+                    serverTipi: _serverTipi,
+                    operatingSystem: _operatingSystem,
+                    serverIp: _serverIp,
+                    computerName: _computerName,
+                    aciklama: _aciklama
+                },
+                success: function (data) {
+                    var JsonResult = JSON.parse(data);
+                    if (JsonResult.Statu == 'success') {
+                        toastrSuccessMessagesDisplay(JsonResult.SuccessMessages);
+                        refreshGrid("#ServerListGrid");
+                        $("#newServerModal").modal('toggle');
+                    }
+                },
+                error: function (err) {
+                    toastr.warning("Server kaydı eklenemedi. Verilerinizi tekrar kontrol ediniz.", "Hata!");
+                }
+            });
+        });
+    });
+
+    
+
+
+
+    $("#IliskiEkleButton").unbind('click').bind('click', function () {
+        $.ajax({
+            url: '@(Url.Action("IliskiEkle", "Server"))',
+            type: 'POST',
+            dataType: 'json',
+            data: {
+                serverIp: window.serverIpChild,
+                parentIp: window.serverIpParent
+            },
+            beforeSend: function () {
+                $("#loaderParentChildEkle").show();
+                $("#parentChildBody").hide();
+
+            },
+            success: function (data) {
+
+                var JsonResult = JSON.parse(data);
+                if (JsonResult.Statu == 'success') {
+                    toastrSuccessMessagesDisplay(JsonResult.SuccessMessages);
+                    $("#IliskiEkleModal").modal('toggle');
+
+                    $("#loaderParentChildEkle").hide();
+                    $("#parentChildBody").show();
+
+                    if (window.graphServerId || window.graphServerId != "") { //Çağrılma işlemi ana sayfada yapılıyorsa
+
+                        $('#gridLinkedServer').remove();
+
+                        gridDiv = document.createElement('div');
+                        gridDiv.setAttribute("id", "gridLinkedServer");
+
+                        document.getElementById("gridLinkedServerContainer").appendChild(gridDiv);
+
+                        listLinkedServer(window.graphServerId);
+
+                        //Graph yenilenme işlemi yapıldı.
+                    }
+
+
+                } else if (JsonResult.Statu == 'fail') {
+
+                    toastr.warning(JsonResult.WarningMessages[0]);
+
+                    $("#loaderParentChildEkle").hide();
+                    $("#parentChildBody").show();
+                }
+            },
+            error: function (err) {
+                toastr.warning("İlişki eklenemedi. Verilerinizi tekrar kontrol ediniz.", "Hata!");
+
+                $("#loaderParentChildEkle").hide();
+                $("#parentChildBody").show();
+            }
+        });
+    });
+    //parent ilişkisi ekleme modal'ındaki textbox grid filtreleme işlemi fonksiyonu
+    function parentOnSearch() {
+        var q = $("#parentSearchbox").val();
+        var grid = $("#parentServerGrid").data("kendoGrid");
+        grid.dataSource.query({
+            page: 1,
+            pageSize: 20,
+            filter: {
+                logic: "or",
+                filters: [
+                  { field: "ComputerName", operator: "contains", value: q },
+                  { field: "serverIp", operator: "contains", value: q }          
+                ]
+            }
+        });
+        $('#parentSearchbox').val("");
+
+    }
+    //Iliski silme modal'ındaki textbox grid filtreleme işlemi fonksiyonu
+    function iliskiOnSearch() {
+        var q = $("#iliskiSearchbox").val();
+        var grid = $("#iliskiSilGrid").data("kendoGrid");
+        grid.dataSource.query({
+            page: 1,
+            pageSize: 10,
+            filter: {
+                logic: "or",
+                filters: [
+                  { field: "parentIp", operator: "contains", value: q },
+                  { field: "parentName", operator: "contains", value: q },
+                  { field: "childIp", operator: "contains", value: q },
+                  { field: "childName", operator: "contains", value: q }
+                ]
+            }
+        });
+        $('#iliskiSearchbox').val("");
+    }
+
+    //child  ilişkisi ekleme modal'ındaki textbox grid filtreleme işlemi fonksiyonu
+    function childOnSearch() {
+        var q = $("#childSearchbox").val();
+        var grid = $("#childServerGrid").data("kendoGrid");
+        grid.dataSource.query({
+            page: 1,
+            pageSize: 20,
+            filter: {
+                logic: "or",
+                filters: [
+                  { field: "ComputerName", operator: "contains", value: q },
+                  { field: "serverIp", operator: "contains", value: q }
+                ]
+            }
+        });
+        $('#childSearchbox').val("");
+    }
+
+    //Parent eklenmesiyle ilgili gridin listelenmesi işlemi yapılacaktır..
+    $("#parentButton").unbind('click').bind('click', function () {
+
+        $.ajax({
+            url: '@(Url.Action("serverlariListele", "Server"))',
+            type: 'GET',
+            beforeSend: function () {
+                $("#loaderParentEkle").show();
+                $("#parentServerGrid").hide();
+
+            },
+            success: function (data) {
+
+                $("#loaderParentEkle").hide();
+                $("#parentServerGrid").show();
+
+
+                $("#parentServerGrid").kendoGrid({
+                    dataSource: {
+                        data: data.serverlar,
+                        schema: {
+                            model: {
+                                fields: {
+                                    ComputerName: { type: "string" },
+                                    serverIp: { type: "string" }
+                                }
+                            }
+                        },
+                    },
+                    height: 600,
+                    scrollable: true,
+                    sortable: true,
+                    filterable: true,
+                    selectable: true,
+                    selectable: "row",
+                    change: function (e) {
+                        var selectedRows = this.select();
+                        var selectedDataItems = [];
+                        for (var i = 0; i < selectedRows.length; i++) {
+                            var dataItem = this.dataItem(selectedRows[i]);
+                        }
+
+                        window.computerNameParent = dataItem.ComputerName;
+                        window.serverIpParent = dataItem.serverIp;
+
+                    },
+                    dataBound: function (e) {
+                        var grid = this;
+                        grid.tbody.find("tr").dblclick(function (e) {
+
+                            if (window.serverIpParent) {
+                                $('#parentIpAdresi').show();
+                                document.getElementById("parentIpAdresi").textContent = "(" + window.serverIpParent + ") " + window.computerNameParent;
+
+                                $("#parentListele").modal('toggle');
+                            }
+
+
+                        });
+                    },
+                    columns: [
+                        { field: "ComputerName", title: "Bilgisayar Adı", width: "130px" },
+                        { field: "serverIp", title: "Server IP", width: "130px" }
+                    ]
+                });
+
+            },
+            error: function (err) {
+                toastr.warning("Sunucular listelenemedi..", "Hata!");
+            }
+        });
+
+    });
+
+
+    //Child eklenmesiyle ilgili gridin listelenmesi işlemi yapılacaktır..
+    $("#childButton").unbind('click').bind('click', function () {
+
+        $.ajax({
+            url: '@(Url.Action("serverlariListele", "Server"))',
+            type: 'GET',
+            beforeSend: function () {
+                $("#loaderChildEkle").show();
+                $("#childServerGrid").hide();
+
+            },
+            success: function (data) {
+
+                $("#childServerGrid").show();
+                $("#loaderChildEkle").hide();
+
+
+                $("#childServerGrid").kendoGrid({
+                    dataSource: {
+                        data: data.serverlar,
+                        schema: {
+                            model: {
+                                fields: {
+                                    ComputerName: { type: "string" },
+                                    serverIp: { type: "string" }
+                                }
+                            }
+                        },
+                    },
+                    height: 600,
+                    scrollable: true,
+                    sortable: true,
+                    filterable: true,
+                    selectable: true,
+                    selectable: "row",
+                    change: function (e) {
+                        var selectedRows = this.select();
+                        var selectedDataItems = [];
+                        for (var i = 0; i < selectedRows.length; i++) {
+                            var dataItem = this.dataItem(selectedRows[i]);
+                        }
+
+                        window.computerNameChild = dataItem.ComputerName;
+                        window.serverIpChild = dataItem.serverIp;
+
+                    },
+                    dataBound: function (e) {
+                        var grid = this;
+                        grid.tbody.find("tr").dblclick(function (e) {
+
+                            if (window.serverIpChild) {
+                                $('#childIpAdresi').show();
+                                document.getElementById("childIpAdresi").textContent = "(" + window.serverIpChild + ") " + window.computerNameChild;
+
+                                $("#childListele").modal('toggle');
+                            }
+
+
+                        });
+                    },
+                    columns: [
+                        { field: "ComputerName", title: "Bilgisayar Adı", width: "130px" },
+                        { field: "serverIp", title: "Server IP", width: "130px" }
+                    ]
+                });
+
+            },
+            error: function (err) {
+                toastr.warning("Sunucular listelenemedi", "Hata!");
+
+                $("#childServerGrid").show();
+                $("#loaderChildEkle").hide();
+            }
+        });
+
+    });
+
+
+    $("#childServerEkleButton").unbind('click').bind('click', function () {
+            $('#childIpAdresi').show();
+            document.getElementById("childIpAdresi").textContent = "(" + window.serverIpChild + ") " + window.computerNameChild;
+
+            $("#childListele").modal('toggle');
+
+    });
+
+
+
+
+    $("#parentServerEkleButton").unbind('click').bind('click', function () {
+        if (window.serverIpParent) {
+            $('#parentIpAdresi').show();
+            document.getElementById("parentIpAdresi").textContent = "(" + window.serverIpParent + ") " + window.computerNameParent;
+
+            $("#parentListele").modal('toggle');
+
+        } else {
+            $('#parentIpAdresi').hide();
+        }
+
+    });
+
+
+    function updatePing(ServerId) {
+        $.ajax({
+            url: '@(Url.Action("UpdatePing", "Server"))',
+            type: 'Post',
+            data: { Id: ServerId },
+            success: function (data) {
+                var JsonResult = JSON.parse(data);
+                if (JsonResult.Statu == 'success') {
+                    toastrSuccessMessagesDisplay(JsonResult.SuccessMessages);
+                    refreshGrid("#ServerListGrid");
+                }
+            },
+            error: function (err) {
+                toastr.warning("Ping atlama durumunu güncelleme işlemi başarısız.", "Hata!");
+            }
+        });
+    };
+
+    $(function () {
+        $('#newServerModal').on('hidden.bs.modal', function () {
+            $('#inputServerIp').val('');
+            $('#inputComputerName').val('');
+            $('#inputAciklama').val('');
+        });
+    });
+
+</script>

@@ -1,0 +1,47 @@
+﻿@model Application.ViewModels.Envanter.LokasyonListViewModel
+@using Rota2.ResourceProviders
+
+@(Html.Kendo().Grid<Application.ViewModels.Envanter.LokasyonListViewModel>()
+        .Name("LokasyonListGrid")
+    .Columns(columns =>
+    {
+        columns.Bound(p => p.Ad).Filterable(true).Width("16em").Title("LOKASYON").Sortable(true);
+        string userName = User.Identity.Name;
+        userName = userName.Substring(userName.LastIndexOf(@"\") + 1);
+        if (userName == "mustafa.denizalti" || userName == "soner.turk" || userName == "cem.ince" || userName == "idil.akcali" || userName == "olgac.ocek")
+        {//Hide options
+            columns.Bound(p => p.Id).ClientTemplate("<a href=\\# class=\"view-link\" data-id='#= Id#'><h4><i class=\"glyphicon glyphicon-search\"></i></h4></a>").Title("").Width(40).Filterable(false).Sortable(false);
+            columns.Bound(p => p.Id).ClientTemplate("<a href=\\# class=\"edit-link\" data-id='#= Id#'><h4><i class=\"glyphicon glyphicon-edit\"></i></h4></a>").Title("").Width(40).Filterable(false).Sortable(false);
+            columns.Bound(p => p.Id).ClientTemplate("<a href=\\# class=\"delete-link\" data-id='#= Id#'><h4><i class=\"glyphicon glyphicon-remove\"></i></h4></a>").Title("").Width(40).Filterable(false).Sortable(false);
+        }
+    })
+    .Pageable()
+    .Sortable()
+    .Scrollable(scr => scr.Height("30em"))
+    .Editable(editable => editable.Mode(GridEditMode.InLine))
+    .DataSource(dataSource => dataSource
+        .Ajax()
+        .Model(model =>
+        {
+            model.Id(p => p.Id);
+        }
+            )
+        .PageSize(20)
+                .Read(read => read.Action("GridReadData", "Lokasyon")
+            .Data("readData()")
+            )
+                    .Create(update => update.Action("GridCreateData", "Lokasyon"))
+                                    .Update(update => update.Action("GridEditData", "Lokasyon"))
+                                    .Destroy(update => update.Action("GridDeleteData", "Lokasyon"))
+        .Events(e => e.RequestEnd("refreshGridAfterSave"))
+     )
+    .AutoBind(true)
+    .Events(e => e.DataBound("RGridOnDataBound"))
+)
+
+
+<script>
+    $(function () {
+        document.getElementById("newItem").className = "btn btn-primary pull-right";
+    });
+</script>

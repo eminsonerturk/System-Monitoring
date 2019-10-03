@@ -1,0 +1,183 @@
+﻿<script src="http://cdnjs.cloudflare.com/ajax/libs/jszip/2.4.0/jszip.js"></script>
+
+@(Html.Kendo().Grid<Application.ViewModels.Islem.IslemLogViewModel>()
+    .Name("IslemLogListGrid")
+    .Columns(columns =>
+    {
+        columns.Bound(p => p.KullaniciAdi);
+        columns.Bound(p => p.IslemAdi);
+        columns.Bound(p => p.RequestMessageDate).Width(220).HtmlAttributes(new { style = "text-align:left" }).ClientTemplate("#= kendo.toString(kendo.parseDate(RequestMessageDate, 'yyyy-MM-ddTHH:mm:ss:fff'), 'HH:mm:ss:fff dd/MM/yyyy') #");
+        columns.Bound(p => p.ResponseStatusId).ClientTemplate("#=ConvertResponseStatusId(ResponseStatusId)#").Width(110).HtmlAttributes(new { style = "text-align:left" });
+        columns.Bound(p => p.EntityName).Width(110).HtmlAttributes(new { style = "text-align:left" });
+        columns.Bound(p => p.EntityIdValue).Width(110).HtmlAttributes(new { style = "text-align:left" });
+        columns.Bound(p => p.AddedNew).ClientTemplate("#=ConvertAddedNew(AddedNew)#").Title("Operation").Width(130).HtmlAttributes(new { style = "text-align:left" });
+        columns.Bound(p => p.EntityFieldName).Width(130).HtmlAttributes(new { style = "text-align:left" });
+        columns.Bound(p => p.OldValue).HtmlAttributes(new { style = "text-align:left" });
+        columns.Bound(p => p.NewValue).HtmlAttributes(new { style = "text-align:left" });
+    })
+    .Scrollable()
+    .HtmlAttributes(new { style = "height:660px" })
+    .Sortable()
+    .Selectable()
+    .ToolBar(tools => tools.Excel())
+    .Excel(excel => excel
+            .FileName("IslemGrid.xlsx")
+    )
+    .Navigatable()
+    .Groupable()
+    .Resizable(resize => resize.Columns(true))
+    .Selectable(selectable => selectable
+        .Mode(GridSelectionMode.Single)
+        .Type(GridSelectionType.Row)
+    )
+    .AutoBind(false)
+    .DataSource(dataSource => dataSource
+        .Ajax()
+        .ServerOperation(false)
+        .Read(read => read
+            .Action("GridReadData", "IslemLog")                     
+        )
+        .Sort(sort => sort.Add(p => p.RequestMessageDate).Descending())
+    )
+    .Events(events => events.DataBound("OnDataBoundIslemLogListGrid"))
+)
+
+@*<div class="contextMenu" id="myMenu1">
+    <ul>
+        <li id="OldValue">Old Value</li>
+        <li id="NewValue">New Value</li>
+        <li id="ExportExcel">Export Grid To Excel</li>
+    </ul>
+</div>*@
+
+@*<div id="window1"></div>
+<div id="window2"></div>*@
+
+<script>
+    function OnDataBoundIslemLogListGrid() {
+        $("#LogCounter").empty();
+        var recordCount = $("#IslemLogListGrid").data("kendoGrid").dataSource.data.length;
+        var all = $("#IslemLogListGrid").find("tbody > tr").length;
+        var kGroupingRow = $("#IslemLogListGrid").find("tbody > tr.k-grouping-row").length;
+        var ynaLogRows = all - kGroupingRow;
+        $("#LogCounter").append("Number of Records : " + ynaLogRows);
+        $("#LastLogTime").empty();
+        $("#LastLogTime").append("Last Log Time     : " + kendo.toString(kendo.parseDate(new Date(), 'yyyy-MM-ddTHH:mm:ss'), 'HH:mm:ss'));
+    }
+
+    function ConvertResponseStatusId(value) {
+        switch (value) {
+            case 0: return "Success";
+                break;
+            case 1: return "Error";
+                break;
+            case 2: return "CatastrophicError";
+                break;
+        }
+    }
+
+    function ConvertAddedNew(value) {
+        switch (value) {
+            case 0: return "Update";
+                break;
+            case 1: return "Insert";
+                break;
+            case 2: return "Delete";
+                break;
+        }
+    }
+</script>
+
+<script>
+    //$(document).ready(function () {
+    //    $("#IslemLogListGrid tbody").bind("mousedown", function (event) {
+    //        event = event || window.event;
+    //        if (event.button == 2) {
+    //            Values();
+    //            event.stopPropagation();
+    //        }
+    //    });
+    //});
+
+    //function Values() {
+    //    $('tr.k-state-selected').contextMenu('myMenu1', {
+    //        bindings: {
+    //            'NewValue': function (t) {
+    //                if ($('tr.k-state-selected').text() == null || $('tr.k-state-selected').text() == "")
+    //                    alert("Herhangi bir öğe seçilmedi");
+    //                else {
+    //                    var text = $('tr.k-state-selected').children('td').last().text();
+    //                    $("#window1").empty();
+    //                    var wnd1 = $("#window1").kendoWindow({ title: "New Value", visible: false, height: "279px", width: "354px" }).data("kendoWindow");
+    //                    $("#window1").append(text);
+    //                    wnd1.center().open();
+    //                }
+    //            },
+    //            'OldValue': function (t) {
+    //                if ($('tr.k-state-selected').text() == null || $('tr.k-state-selected').text() == "")
+    //                    alert("Herhangi bir öğe seçilmedi");
+    //                else {
+    //                    var text = $('tr.k-state-selected').children('td').last().prev().text();
+    //                    $("#window2").empty();
+    //                    var wnd2 = $("#window2").kendoWindow({ title: "Old Value", visible: false, height: "279px", width: "354px" }).data("kendoWindow");
+    //                    $("#window2").append(text);
+    //                    wnd2.center().open();
+    //                }
+    //            },
+    //            'ExportExcel': function (t) {
+    //                if ($('tr.k-state-selected').text() == null || $('tr.k-state-selected').text() == "")
+    //                    alert("Herhangi bir öğe seçilmedi");
+    //                else {
+    //                    ExportDataToExcel();
+    //                }
+    //            }
+    //        }
+    //    });
+    //}
+
+    //function ExportDataToExcel(e) {
+
+    //    var data = $("#IslemLogListGrid").data("kendoGrid").dataSource.data();
+    //    var result = "data:application/vnd.ms-excel,";
+
+    //    result += "<table><tr><th>Date</th><th>Host</th><th>Type</th><th>User</th><th>Application</th><th>Source</th><th>Message</th></tr>";
+
+    //    for (var i = 1; i < data.length; i++) {
+    //        result += "<tr>";
+
+    //        result += "<td>";
+    //        result += $('tr').eq(i).children('td').last().prev().prev().prev().prev().prev().prev().prev().prev().text();
+    //        result += "</td>";
+
+    //        result += "<td>";
+    //        result += $('tr').eq(i).children('td').last().prev().prev().prev().prev().prev().prev().prev().text();
+    //        result += "</td>";
+
+    //        result += "<td>";
+    //        result += $('tr').eq(i).children('td').last().prev().prev().prev().prev().prev().prev().text();
+    //        result += "</td>";
+
+    //        result += "<td>";
+    //        result += $('tr').eq(i).children('td').last().prev().prev().prev().prev().prev().text();
+    //        result += "</td>";
+
+    //        result += "<td>";
+    //        result += $('tr').eq(i).children('td').last().prev().prev().prev().prev().text();
+    //        result += "</td>";
+
+    //        result += "<td>";
+    //        result += $('tr').eq(i).children('td').last().prev().prev().prev().text();
+    //        result += "</td>";
+
+    //        result += "<td>";
+    //        result += $('tr').eq(i).children('td').last().prev().prev().text();
+    //        result += "</td>";
+
+    //        result += "</tr>";
+    //    }
+    //    result += "</table>";
+
+    //    window.open(result);
+    //};
+</script>
+

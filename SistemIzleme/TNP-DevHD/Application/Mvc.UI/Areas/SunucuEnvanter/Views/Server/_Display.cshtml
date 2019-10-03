@@ -1,0 +1,84 @@
+﻿@model Application.ViewModels.Envanter.ServerCrudViewModel
+@Html.HiddenFor(p => p.Id)
+
+<div class="form-group">
+    @Html.LabelFor(p => p.ServerIp, new { @class = "col-lg-1 control-label" })
+    <div class="col-lg-5">
+        @Html.TextBoxFor(p => p.ServerIp, "", new { @class = "form-control", disabled = "disabled" })
+    </div>
+</div>
+
+<div class="form-group">
+    @Html.LabelFor(p => p.ComputerName, new { @class = "col-lg-1 control-label" })
+    <div class="col-lg-5">
+        @Html.TextBoxFor(p => p.ComputerName, "", new { @class = "form-control", disabled = "disabled" })
+    </div>
+</div>
+
+<div class="form-group">
+    @Html.LabelFor(p => p.Aciklama, new { @class = "col-lg-1 control-label" })
+    <div class="col-lg-5">
+        @Html.TextBoxFor(p => p.Aciklama, "", new { @class = "form-control", disabled = "disabled" })
+    </div>
+</div>
+
+<div class="form-group">
+    @Html.LabelFor(p => p.LokasyonId, new { @class = "col-lg-1 control-label" })
+    <div class="col-lg-5">
+        @Html.TextBoxFor(p => p.LokasyonAd, "", new { @class = "form-control", disabled = "disabled" })
+    </div>
+</div>
+
+
+<div class="form-group">
+    @Html.LabelFor(p => p.ServerTipiId, new { @class = "col-lg-1 control-label" })
+    <div class="col-lg-5">
+        @Html.TextBoxFor(p => p.ServerTipiAd, "", new { @class = "form-control", disabled = "disabled" })
+    </div>
+</div>
+
+<div id="silmeOnayModal" class="modal">
+    <div class="modal-dialog modal-md modal-dialog-top">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" id="closeButton" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title" id="myModalLabel"><b>Onay</b></h4>
+            </div>
+            <div class="modal-body">
+                <p>Sunucu kaydını silmek istediğinizden emin misiniz?</p>
+            </div>
+            <div class="modal-footer">
+                <a class="btn btn-primary" id="deleteServerButton">Evet</a>
+                <a class="btn btn-default" data-dismiss="modal">Vazgeç</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    $(function () {
+        $('#btnDelete').unbind('click').bind('click', function () {
+            $('#silmeOnayModal').modal('show');
+            $('#deleteServerButton').unbind('click').bind('click', function () {
+                $.ajax({
+                    url: '@(Url.Action("DeleteServer","Server"))',
+                    action: 'POST',
+                    data: { Id: @Model.Id },
+                    success: function (data) {
+                        var JsonResult = JSON.parse(data);
+                        if (JsonResult.Statu == "success") {
+                            toastrSuccessMessagesDisplay(JsonResult.SuccessMessages);
+                            refreshGrid("#ServerListGrid");
+                            window.location.replace("/SunucuEnvanter/Server/Index");
+                        }
+                    },
+                    error: function (err) {
+                        toastr.error("Hata: Server kaydı silinemedi. Sunucuya erişilemiyor.");
+                    }
+                });
+
+            });    
+        });
+    });
+</script>

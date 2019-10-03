@@ -1,0 +1,25 @@
+﻿@model Application.ViewModels.Elmah.ElmahErrorSearchViewModel
+@using Rota2.ResourceProviders
+
+@{
+    ViewBag.Title = RResx.GetResource("Elmah", "LabelElmah");
+    ViewBag.ControllerName = "ElmahError";
+    ViewBag.GridName = "ElmahErrorListGrid";
+    Layout = "~/Views/Shared/_LayoutRota2Elmah.cshtml";
+}
+
+
+@section Filter
+{
+    @Html.Partial("_Filter")
+}
+
+@section FilterButton
+{
+    @Html.Partial("_FilterButton")
+}
+
+@section List
+{
+    @Html.Partial("_List")
+}

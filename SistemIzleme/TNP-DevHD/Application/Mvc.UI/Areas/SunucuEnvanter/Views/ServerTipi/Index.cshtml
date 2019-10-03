@@ -1,0 +1,18 @@
+﻿@{
+    ViewBag.Title = Rota2.ResourceProviders.RResx.GetResource("Envanter", "LabelServerTipi");
+    ViewBag.ControllerName = "ServerTipi";
+    ViewBag.GridName = "ServerTipiListGrid";
+    Layout = "~/Views/Shared/_LayoutRota2SunucuEnvanter.cshtml";
+    ViewBag.UpMenu = "Ana Veri";
+    ViewBag.Menu = "Server Tipi";
+}
+
+@section Filter
+{
+    @Html.Partial("_Filter")
+}
+
+@section List
+{
+    @Html.Partial("_List")
+}

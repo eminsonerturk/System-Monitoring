@@ -1,0 +1,6 @@
+C:\Soner.Turk\2018\YazDonemi\Operasyonel Ekip\Soner.TURK\1\SistemIzleme\TNP-DevHD\Application\Application.Enumerations\bin\Debug\Application.Enumerations.dll
+C:\Soner.Turk\2018\YazDonemi\Operasyonel Ekip\Soner.TURK\1\SistemIzleme\TNP-DevHD\Application\Application.Enumerations\bin\Debug\Application.Enumerations.pdb
+C:\Soner.Turk\2018\YazDonemi\Operasyonel Ekip\Soner.TURK\1\SistemIzleme\TNP-DevHD\Application\Application.Enumerations\bin\Debug\Microsoft.Web.Administration.dll
+C:\Soner.Turk\2018\YazDonemi\Operasyonel Ekip\Soner.TURK\1\SistemIzleme\TNP-DevHD\Application\Application.Enumerations\obj\Debug\Application.Enumerations.csprojResolveAssemblyReference.cache
+C:\Soner.Turk\2018\YazDonemi\Operasyonel Ekip\Soner.TURK\1\SistemIzleme\TNP-DevHD\Application\Application.Enumerations\obj\Debug\Application.Enumerations.dll
+C:\Soner.Turk\2018\YazDonemi\Operasyonel Ekip\Soner.TURK\1\SistemIzleme\TNP-DevHD\Application\Application.Enumerations\obj\Debug\Application.Enumerations.pdb

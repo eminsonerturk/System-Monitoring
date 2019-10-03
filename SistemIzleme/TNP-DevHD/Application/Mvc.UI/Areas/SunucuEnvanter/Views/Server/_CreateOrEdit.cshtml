@@ -1,0 +1,59 @@
+﻿@model Application.ViewModels.Envanter.ServerCrudViewModel
+@Html.HiddenFor(p => p.Id)
+
+<div class="form-group">
+    @Html.LabelFor(p => p.ServerIp, new { @class = "col-lg-1 control-label" })
+    <div class="col-lg-5">
+        @Html.EditorFor(p => p.ServerIp)
+        @Html.ValidationMessageFor(p => p.ServerIp)
+    </div>
+</div>
+
+<div class="form-group">
+    @Html.LabelFor(p => p.ComputerName, new { @class = "col-lg-1 control-label" })
+    <div class="col-lg-5">
+        @Html.EditorFor(p => p.ComputerName)
+        @Html.ValidationMessageFor(p => p.ComputerName)
+    </div>
+</div>
+
+
+<div class="form-group">
+    @Html.LabelFor(p => p.Aciklama, new { @class = "col-lg-1 control-label" })
+    <div class="col-lg-5">
+        @Html.EditorFor(p => p.Aciklama)
+        @Html.ValidationMessageFor(p => p.Aciklama)
+    </div>
+</div>
+
+<div class="form-group">
+    @Html.LabelFor(p => p.LokasyonId, new { @class = "col-lg-1 control-label" })
+    <div class="col-lg-5">
+        @Html.EditorFor(p => p.LokasyonId)
+        @Html.ValidationMessageFor(p => p.LokasyonId)
+    </div>
+</div>
+
+<div class="form-group">
+    @Html.LabelFor(p => p.ServerTipiId, new { @class = "col-lg-1 control-label" })
+    <div class="col-lg-5">
+        @Html.EditorFor(p => p.ServerTipiId)
+        @Html.ValidationMessageFor(p => p.ServerTipiId)
+    </div>
+</div>
+
+<div class="form-group">
+    @Html.LabelFor(p => p.OperatingSystemId, new { @class = "col-lg-1 control-label" })
+    <div class="col-lg-5">
+        @Html.EditorFor(p => p.OperatingSystemId)
+        @Html.ValidationMessageFor(p => p.OperatingSystemId)
+    </div>
+</div>
+
+<div class="form-group">
+    @Html.LabelFor(p => p.PingYapilsinMi, new { @class = "col-lg-1 control-label" })
+    <div class="col-lg-5">
+        @Html.EditorFor(p => p.PingYapilsinMi)
+        @Html.ValidationMessageFor(p => p.PingYapilsinMi)
+    </div>
+</div>

@@ -1,0 +1,76 @@
+﻿@model Application.ViewModels.Islem.IslemLogSearchViewModel
+
+<div class="row">
+
+    <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+        <div class="form-group">
+            @Html.LabelFor(p => p.EntityName, new { @class = "col-lg-3 control-label" })
+            <div class="col-lg-5">
+                @Html.Kendo().ComboBox().Name("EntityName").AutoBind(true).Suggest(true).HtmlAttributes(new { style = string.Format("width:{0}px", 230) }).DataSource(dataSource => dataSource
+                    .Read(read => read
+                        .Action("EntityReadData", "EntityName")
+                    )
+                )
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(p => p.EntityFieldName, new { @class = "col-lg-3 control-label" })
+            <div class="col-lg-5">
+                @Html.Kendo().ComboBox().Name("EntityFieldName").AutoBind(false).Suggest(true).HtmlAttributes(new { style = string.Format("width:{0}px", 230) }).DataSource(dataSource => dataSource
+                    .Read(read => read
+                        .Action("EntityFieldReadData", "EntityFieldName")
+                        .Data("ReadEntityNameDropdownData")
+                    )
+                )
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(p => p.EntityIdValue, new { @class = "col-lg-3 control-label" })
+            <div class="col-lg-6">
+                @Html.REditorFor(p => p.EntityIdValue)
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+        <div class="form-group">
+            @Html.LabelFor(p => p.OldValue, new { @class = "col-lg-3 control-label" })
+            <div class="col-lg-6">
+                @Html.REditorFor(p => p.OldValue)
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(p => p.NewValue, new { @class = "col-lg-3 control-label" })
+            <div class="col-lg-6">
+                @Html.REditorFor(p=>p.NewValue)
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+        <div class="form-group">
+            @Html.Label(Rota2.ResourceProviders.RResx.GetResource("IslemLog", "LabelOperationType"), new { @class = "col-lg-4 control-label" })
+            <div class="col-lg-4">
+                 @Html.REditorFor(p=>p.AddedNew)
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(p => p.EnabledServer, new { @class = "col-lg-4 control-label" })
+            <div class="col-lg-5">
+                @Html.EditorFor(p => p.EnabledServer)
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script type="text/javascript">
+    function ReadEntityNameDropdownData() {
+        return { "EntityName": $("#EntityName").val() };
+    }
+
+    $("#EntityName").unbind("change").on("change", function () {
+        var comboBox = $("#EntityFieldName").data("kendoComboBox");
+        comboBox.dataSource.read();
+    });
+</script>

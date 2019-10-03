@@ -1,0 +1,39 @@
+﻿@model Application.ViewModels.Envanter.YoneticiCrudViewModel
+
+<h2>Yönetici Bilgileri</h2>
+@Html.HiddenFor(p => p.Id)
+<div class="form-group">
+    @Html.LabelFor(p => p.Ad, new { @class = "col-lg-2 control-label" })
+    <div class="col-lg-3">
+        @Html.TextBoxFor(p => p.Ad, "", new { @class = "form-control", disabled = "disabled" })
+    </div>
+</div>
+<div class="form-group">
+    @Html.LabelFor(p => p.EMail, new { @class = "col-lg-2 control-label" })
+    <div class="col-lg-3">
+        @Html.TextBoxFor(p => p.EMail, "", new { @class = "form-control", disabled = "disabled" })
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('#btnDelete').unbind('click').bind('click', function () {
+            $.ajax({
+                url: '@(Url.Action("DeleteYonetici","Yonetici"))',
+                action: 'POST',
+                data: { Id: @Model.Id },
+                success: function (data) {
+                    var JsonResult = JSON.parse(data);
+                    if (JsonResult.Statu == "success") {
+                        toastrSuccessMessagesDisplay(JsonResult.SuccessMessages);
+                        refreshGrid("#YoneticiListGrid");
+                        window.location.replace("/sunucuenvanter/yonetici/index");
+                    }
+                },
+                error: function (err) {
+                    toastr.error("Hata: Sorumlu kaydı silinemedi. Sunucuya erişilemiyor.");
+                }
+            });
+        });
+    });
+</script>

@@ -1,0 +1,45 @@
+﻿@Html.Label(" ", new { @class = "col-lg-2 control-label" , @id = "LastLogTime" })
+@Html.Label(" ", new { @class = "col-lg-2 control-label" , @id = "LogCounter" })
+
+<input id="btnCustomFilterSubmit" type="button" value="Filter" class="btn btn-primary" style="display:none"/>
+
+<script>
+    $("#formFilter").kendoValidator({
+        validateOnBlur: false,
+        rules: {
+            customRule1: function (input) {
+                if (input.is("[name=EntityName_input]")) {
+                    return $.trim(input.val()) !== "";
+                }
+                return true;
+            },
+            customRule3: function (input) {
+                if (input.is("[name=EntityIdValue]")) {
+                    if ($("#EntityFieldName").val() == "" && $("#EntityIdValue").val() == "") {
+                        return false;
+                    }
+                }
+                return true;
+            },
+            customRule5: function (input) {
+                if (input.is("[name=OldValue]")) {
+                    if ($("#EntityIdValue").val() == "" && $("#EntityFieldName").val() != "" && $("#NewValue").val() == "" && $("#OldValue").val() == "") {
+                        return false;
+                    }
+                }
+                return true;
+            }
+        },
+        messages: {
+            customRule1: "Entity Name is required",
+            customRule3: "Entity Field Name or Entity Id Value is required",
+            customRule5: "New Value or Old Value is required"
+        }
+    });
+
+    $("#btnCustomFilterSubmit").click(function () {
+        if ($("#formFilter").data("kendoValidator").validate()) {
+            $('#formFilter').submit();
+        }
+    });
+</script>

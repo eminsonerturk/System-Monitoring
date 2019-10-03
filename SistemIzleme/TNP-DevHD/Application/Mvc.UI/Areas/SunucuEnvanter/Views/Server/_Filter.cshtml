@@ -1,0 +1,43 @@
+﻿@model Application.ViewModels.Envanter.ServerSearchViewModel
+@using Rota2.ResourceProviders
+@Html.HiddenFor(p => p.Id)
+
+<div class="form-group">
+    @Html.Label(RResx.GetResource("Envanter", "LabelServerTipiAd"), new { @class = "col-lg-1 control-label" })
+    <div class="col-lg-3">
+        @Html.RFilterPageEditorFor(p => p.ServerTipiId)
+    </div>
+
+    @Html.Label(RResx.GetResource("Envanter", "LabelServerIp"), new { @class = "col-lg-1 control-label" })
+    <div class="col-lg-3">
+        @Html.RFilterPageEditorFor(p => p.ServerIp)
+    </div>
+</div>
+
+<div class="form-group">
+    @Html.Label(RResx.GetResource("Envanter", "LabelLokasyonAd"), new { @class = "col-lg-1 control-label" })
+    <div class="col-lg-3">
+        @Html.RFilterPageEditorFor(p => p.LokasyonId)
+    </div>
+
+    @Html.Label(RResx.GetResource("Envanter", "LabelComputerName"), new { @class = "col-lg-1 control-label" })
+    <div class="col-lg-3">
+        @Html.RFilterPageEditorFor(p => p.ComputerName)
+    </div>
+</div>
+
+<div class="form-group">
+    @Html.Label(RResx.GetResource("Envanter", "LabelOperatingSystemAd"), new { @class = "col-lg-1 control-label" })
+    <div class="col-lg-3">
+        @Html.RFilterPageEditorFor(p => p.OperatingSystemId)
+    </div>  
+
+    @Html.Label(RResx.GetResource("Envanter", "LabelAciklama"), new { @class = "col-lg-1 control-label" })
+    <div class="col-lg-3">
+        @Html.RFilterPageEditorFor(p => p.Aciklama)
+    </div> 
+</div>
+
+<script type="text/javascript">
+        RLayoutScripts.hideNewButton();
+</script>

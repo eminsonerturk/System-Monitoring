@@ -1,0 +1,430 @@
+﻿@using Rota2.ResourceProviders
+
+@{
+    Layout = "~/Views/Shared/_LayoutRota2Smart.cshtml";
+    ViewBag.IndexAction = "Index";
+    ViewBag.DisplayAction = "_Display";
+    ViewBag.CreateAction = "_Create";
+    ViewBag.EditAction = "_Edit";
+    ViewBag.SaveAction = "_Save";
+    ViewBag.DeleteAction = "_Delete";
+    ViewBag.ExportToExcelAction = "ExportToExcel";
+    ViewBag.GetExcelFileAction = "GetExcelFile";
+    if (String.IsNullOrEmpty(ViewBag.GridReadDataAction))
+    {
+        ViewBag.GridReadDataAction = "ServerListGridAction";
+    }
+}
+
+@section Scriptshead {
+    @RenderSection("Scriptshead", required: false)
+}
+
+@section Logo {
+    @Html.Partial("_Logo")
+}
+
+@section CustomKendoCss{
+    <link rel="stylesheet" type="text/css" media="screen" href="@Url.Content("~/Content/Rota/css/kendo/2015.1.528/kendo.common.min.css")">
+    <link rel="stylesheet" type="text/css" media="screen" href="@Url.Content("~/Content/Rota/css/kendo/2015.1.528/kendo.metro.min.css")">
+    <link href="~/Content/Rota/css/loading-modal.css" rel="stylesheet" />
+}
+
+@section Scriptstop {
+    <script>kendo.culture("en-US");</script>
+}
+
+@section LogOut {
+    @RenderSection("LogOut", required: false)
+}
+@section ChangeLanguage {
+    @RenderSection("ChangeLanguage", required: false)
+}
+@section Breadcrumb {
+    @RenderSection("Breadcrumb", required: false)
+}
+
+@section LoginInfo{
+    @RenderSection("LoginInfo", required: false)
+}
+
+@section Navigation{
+    @Html.Partial("_NavSunucuEnvanter")
+}
+
+
+@RenderBody()
+
+@section CustomBodyMain {
+
+   <div id="content">
+        @if (ViewBag.IsIndexPage != null && ViewBag.IsIndexPage)
+        {
+            <div class="row">
+
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="padding:0px">
+                </div>
+               
+            </div>
+        }
+        else
+        {
+            <section id="widget-grid">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        @if (IsSectionDefined("Filter"))
+                        {
+                            <div id="header-fuelux" class="widget-body fuelux">
+                                <div class="wizard">
+                                    <ul class="steps" style="margin-left: 0">
+                                        <li data-target="#step1" class="complete">
+                                            <span class="badge badge-success"></span>@ViewBag.Title<span class="chevron"></span>
+                                        </li>
+                                    </ul>
+                                    <div class="actions">
+                                        <button type="button" id="newItem" class="btn btn-sm btn-success btn-next" data-last="Finish">
+                                            @RResx.GetResource("Rota2.Resources|Layout", "ButtonNew")
+                                            <i class="fa fa-plus"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <br />
+
+                            <section id="listing-wrapper">
+                                <article>
+                                    @if (ViewBag.FilterMode != "Hide")
+                                    {
+                                        <div class="jarviswidget  jarviswidget-color-teal jarviswidget-sortable " id="wid-id-filter" data-widget-togglebutton="true" role="widget" style="">
+                                            <header role="heading">
+                                                <div class="jarviswidget-ctrls" role="menu">
+                                                    <a href="#" class="button-icon jarviswidget-toggle-btn" rel="tooltip" title="" data-placement="bottom" data-original-title="Collapse">
+                                                        <i class="fa fa-minus "></i>
+                                                    </a>
+                                                    <a href="javascript:void(0);" class="button-icon jarviswidget-fullscreen-btn" rel="tooltip" title="" data-placement="bottom" data-original-title="Fullscreen">
+                                                        <i class="fa fa-expand "></i>
+                                                    </a>
+                                                    <a href="javascript:void(0);" class="button-icon jarviswidget-delete-btn" rel="tooltip" title="" data-placement="bottom" data-original-title="Delete"><i class="fa fa-times"></i></a>
+                                                </div>
+                                                <span class="widget-icon"> <i class="fa fa-filter"></i> </span>
+                                                <h2><strong>Search Criteria</strong></h2>
+                                                <span class="jarviswidget-loader" style="display: none;"><i class="fa fa-refresh fa-spin"></i></span>
+                                            </header>
+                                            <!-- widget div-->
+                                            <div role="content" id="wid-filter-content" style="display:block">
+                                                <!-- widget content -->
+                                                <div class="widget-body no-padding">
+                                                    <form id="formFilter" class="form-horizontal" method="POST">
+                                                        <fieldset>
+                                                            @*<legend></legend>*@
+                                                            @RenderSection("Filter", required: false)
+                                                        </fieldset>
+                                                    </form>
+                                                    <div class="widget-footer">
+                                                        <button id="btnFilterSubmit" type="button" class="btn btn-primary" form="formFilter">
+                                                            @RResx.GetResource("Rota2.Resources|Layout", "ButtonSearch")
+                                                            <i class="fa fa-search"></i>
+                                                        </button>
+                                                        <button id="btnClear" type="reset" class="btn btn-danger" form="formFilter">
+                                                            @RResx.GetResource("Rota2.Resources|Layout", "ButtonClear")
+                                                            <i class="fa fa-times"></i>
+                                                        </button>
+                                                    </div>
+
+                                                </div>
+                                                <!-- end widget content -->
+                                            </div>
+                                            <!-- end widget div -->
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        @RenderSection("Filter", required: false)
+                                    }
+                                    @if (IsSectionDefined("List"))
+                                    {
+                                        <div class="jarviswidget jarviswidget-color-teal jarviswidget-sortable" id="wid-id-list" data-widget-togglebutton="true" role="widget" style="">
+                                            <header role="heading">
+                                                <div class="jarviswidget-ctrls" role="menu">
+                                                    <a href="#" class="button-icon jarviswidget-toggle-btn" rel="tooltip" title="" data-placement="bottom" data-original-title="Collapse">
+                                                        <i class="fa fa-minus"></i>
+                                                    </a>
+                                                    <a href="javascript:void(0);" class="button-icon jarviswidget-fullscreen-btn" rel="tooltip" title="" data-placement="bottom" data-original-title="Fullscreen">
+                                                        <i class="fa fa-expand "></i>
+                                                    </a>
+                                                </div>
+                                                <span class="widget-icon"> <i class="fa fa-list"></i> </span>
+                                                <h2><strong>List</strong></h2>
+                                                <span class="jarviswidget-loader" style="display: none;"><i class="fa fa-refresh fa-spin"></i></span>
+                                            </header>
+                                            <!-- widget div-->
+                                            <div role="content">
+                                                <!-- widget content -->
+                                                <div class="widget-body no-padding">
+
+                                                    <div id="createEditPanel">
+                                                        @RenderSection("List", required: false)
+                                                    </div>
+                                                </div>
+                                                <!-- end widget content -->
+                                            </div>
+                                            <!-- end widget div -->
+                                        </div>
+                                    }
+
+                                </article>
+                            </section>
+
+                            <section id="createedit-wrapper" style="display: none;">
+                                <article>
+                                    <div class="jarviswidget jarviswidget-color-teal jarviswidget-sortable" id="wid-id-edit" data-widget-togglebutton="true" role="widget" style="">
+                                        <header role="heading">
+                                            <div class="jarviswidget-ctrls" role="menu">
+                                                <a href="#" class="button-icon jarviswidget-toggle-btn" rel="tooltip" title="" data-placement="bottom" data-original-title="Collapse">
+                                                    <i class="fa fa-minus "></i>
+                                                </a>
+                                                <a href="javascript:void(0);" class="button-icon jarviswidget-fullscreen-btn" rel="tooltip" title="" data-placement="bottom" data-original-title="Fullscreen">
+                                                    <i class="fa fa-expand "></i>
+                                                </a>
+                                            </div>
+                                            <span class="widget-icon"> <i class="fa fa-pencil-square-o"></i> </span>
+                                            <h2><strong>Edit</strong></h2>
+                                            <span class="jarviswidget-loader" style="display: none;"><i class="fa fa-refresh fa-spin"></i></span>
+                                        </header>
+                                        <!-- widget div-->
+                                        <div role="content">
+                                            <!-- widget content -->
+                                            <div class="widget-body no-padding">
+                                                <form id="formCreate" class="form-horizontal" method="POST">
+                                                    @Html.AntiForgeryToken()
+                                                    <div id="createEditPanel">
+                                                        <fieldset>
+                                                            <div id="phCreateEdit"></div>
+                                                        </fieldset>
+                                                    </div>
+                                                </form>
+                                                <div class="widget-footer">
+                                                    <input type="button" id="btnSave" name="save" value="@RResx.GetResource("Rota2.Resources|Layout", "ButtonSave")" class="btn btn-primary" />
+                                                    <input type="button" id="btnSaveContinue" name="savecontinue" value="@RResx.GetResource("Rota2.Resources|Layout", "ButtonSaveContinue")" class="btn btn-primary" />
+                                                    <input type="button" id="btnCancel" value="@RResx.GetResource("Rota2.Resources|Layout", "ButtonCancel")" class="btn btn-danger" form="formCreate" />
+                                                    <script>
+                                                        $("#btnCancel").attr('value', 'Close');
+                                                        $("#btnSaveContinue").hide();
+                                                    </script>
+                                                </div>
+                                            </div>
+                                            <!-- end widget content -->
+                                        </div>
+                                        <!-- end widget div -->
+                                    </div>
+                                </article>
+                            </section>
+
+                            <section id="display-wrapper" style="display: none;">
+                                <article>
+                                    <div class="jarviswidget jarviswidget-color-teal jarviswidget-sortable" id="wid-id-display" data-widget-togglebutton="true" role="widget" style="">
+                                        <header role="heading">
+                                            <div class="jarviswidget-ctrls" role="menu">
+                                                <a href="#" class="button-icon jarviswidget-toggle-btn" rel="tooltip" title="" data-placement="bottom" data-original-title="Collapse">
+                                                    <i class="fa fa-minus "></i>
+                                                </a>
+                                                <a href="javascript:void(0);" class="button-icon jarviswidget-fullscreen-btn" rel="tooltip" title="" data-placement="bottom" data-original-title="Fullscreen">
+                                                    <i class="fa fa-expand "></i>
+                                                </a>
+                                            </div>
+                                            <h2><strong>View</strong></h2>
+                                            <span class="jarviswidget-loader" style="display: none;"><i class="fa fa-refresh fa-spin"></i></span>
+                                        </header>
+                                        <!-- widget div-->
+                                        <div role="content">
+                                            <!-- widget content -->
+                                            <div class="widget-body no-padding">
+                                                <form id="formDisplay" class="form-horizontal" method="POST">
+                                                    @Html.AntiForgeryToken()
+                                                    <div id="displayPanel">
+                                                        <fieldset>
+                                                            <div id="phDisplay"></div>
+                                                        </fieldset>
+                                                    </div>
+                                                </form>
+                                                <div class="widget-footer">
+                                                    <input type="button" id="btnDelete" value="@RResx.GetResource("Rota2.Resources|Layout", "ButtonDelete")" class="btn btn-primary" />
+                                                    <input type="button" id="switchToEdit" value="@RResx.GetResource("Rota2.Resources|Layout", "ButtonUpdate")" class="btn btn-primary" />
+                                                    <input type="button" id="btnCancelFromDisplay" value="@RResx.GetResource("Rota2.Resources|Layout", "ButtonCancel")" class="btn btn-danger" />
+                                                </div>
+                                            </div>
+                                            <!-- end widget content -->
+                                        </div>
+                                        <!-- end widget div -->
+                                    </div>
+                                </article>
+                            </section>
+
+                            if (ViewBag.ControllerName != null)
+                            {
+                                <script type="text/javascript">
+                                    $(document).ready(function () {
+                                        InitForm('@Url.Action(ViewBag.IndexAction, ViewBag.ControllerName)',
+                                                 '@Url.Action(ViewBag.DisplayAction, ViewBag.ControllerName)',
+                                                 '@Url.Action(ViewBag.CreateAction, ViewBag.ControllerName)',
+                                                 '@Url.Action(ViewBag.EditAction, ViewBag.ControllerName)',
+                                                 '@Url.Action(ViewBag.SaveAction, ViewBag.ControllerName)',
+                                                 '@Url.Action(ViewBag.DeleteAction, ViewBag.ControllerName)',
+                                                 '@Url.Action(ViewBag.ServerListGridAction, ViewBag.ControllerName)',
+                                                 '@Url.Action(ViewBag.ExportToExcelAction, ViewBag.ControllerName)',
+                                                 '@Url.Action(ViewBag.GetExcelFileAction, ViewBag.ControllerName)',
+                                                 '@ViewBag.GridName');                                       
+
+                                    });
+                                </script>
+                            }
+                        }
+                        else
+                        {
+                            if (IsSectionDefined("CreateEditBody"))
+                            {
+                                <div class="row">
+                                    <div class="col-xs-12 col-sm-7 col-md-7 col-lg-4">
+                                        <h1 class="page-title txt-color-blueDark">
+                                            <i class="fa fa-edit fa-fw "></i>
+                                            @ViewBag.UpMenu
+                                            <span>
+                                                >
+                                                @ViewBag.Title
+                                            </span>
+                                        </h1>
+                                    </div>
+                                </div>
+
+                                <section id="createedit-wrapper" style="display: none;">
+                                    <article>
+                                        <div class="jarviswidget jarviswidget-color-teal jarviswidget-sortable" id="wid-id-edit2" data-widget-togglebutton="true" role="widget" style="">
+                                            <header role="heading">
+                                                <div class="jarviswidget-ctrls" role="menu">
+                                                    <a href="#" class="button-icon jarviswidget-toggle-btn" rel="tooltip" title="" data-placement="bottom" data-original-title="Collapse">
+                                                        <i class="fa fa-minus "></i>
+                                                    </a>
+                                                    <a href="javascript:void(0);" class="button-icon jarviswidget-fullscreen-btn" rel="tooltip" title="" data-placement="bottom" data-original-title="Fullscreen">
+                                                        <i class="fa fa-expand "></i>
+                                                    </a>
+                                                </div>
+                                                <h2><strong>Edit</strong></h2>
+                                                <span class="jarviswidget-loader" style="display: none;"><i class="fa fa-refresh fa-spin"></i></span>
+                                            </header>
+                                            <!-- widget div-->
+                                            <div role="content">
+                                                <!-- widget content -->
+                                                <div class="widget-body no-padding">
+                                                    <form id="formCreate" class="form-horizontal" method="POST">
+                                                        @Html.AntiForgeryToken()
+                                                        <div id="createEditPanel">
+                                                            <fieldset>
+                                                                @RenderSection("CreateEditBody", required: false)
+                                                            </fieldset>
+                                                        </div>
+                                                    </form>
+                                                    <div class="widget-footer">
+                                                        <input type="button" id="btnSave" name="save" value="@RResx.GetResource("Rota2.Resources|Layout", "ButtonSave")" class="btn btn-primary" />
+                                                    </div>
+                                                </div>
+                                                <!-- end widget content -->
+                                            </div>
+                                            <!-- end widget div -->
+                                        </div>
+                                    </article>
+                                </section>
+
+                                if (ViewBag.ControllerName != null)
+                                {
+                                    <script type="text/javascript">
+                                        $(document).ready(function () {
+                                            InitCreateEditForm('@Url.Action(ViewBag.SaveAction, ViewBag.ControllerName)');
+                                        });
+                                    </script>
+                                }
+                            }
+                        }
+
+                        @if (IsSectionDefined("ReportFilter"))
+                        {
+                            <div class="row">
+                                <div class="col-xs-12 col-sm-7 col-md-7 col-lg-4">
+                                    <h1 class="page-title txt-color-blueDark">
+                                        <i class="fa fa-edit fa-fw "></i>
+                                        @ViewBag.UpMenu
+                                        <span>
+                                            >
+                                            @ViewBag.Title
+                                        </span>
+                                    </h1>
+                                </div>
+                            </div>
+
+                            <section id="reportfilter-wrapper" style="display: none;">
+                                <article>
+                                    <div class="jarviswidget jarviswidget-color-teal jarviswidget-sortable" id="wid-id-report" data-widget-togglebutton="true" role="widget" style="">
+                                        <header role="heading">
+                                            <div class="jarviswidget-ctrls" role="menu">
+                                                <a href="#" class="button-icon jarviswidget-toggle-btn" rel="tooltip" title="" data-placement="bottom" data-original-title="Collapse">
+                                                    <i class="fa fa-minus "></i>
+                                                </a>
+                                                <a href="javascript:void(0);" class="button-icon jarviswidget-fullscreen-btn" rel="tooltip" title="" data-placement="bottom" data-original-title="Fullscreen">
+                                                    <i class="fa fa-expand "></i>
+                                                </a>
+                                            </div>
+                                            <h2><strong>Report Criteria</strong></h2>
+                                            <span class="jarviswidget-loader" style="display: none;"><i class="fa fa-refresh fa-spin"></i></span>
+                                        </header>
+                                        <!-- widget div-->
+                                        <div role="content">
+                                            <!-- widget content -->
+                                            <div class="widget-body no-padding">
+                                                <form id="formReportFilter" class="form-horizontal" method="POST">
+                                                    @Html.AntiForgeryToken()
+                                                    <div>
+                                                        <fieldset>
+                                                            @RenderSection("ReportFilter", required: false)
+                                                        </fieldset>
+                                                    </div>
+                                                </form>
+                                                <div class="widget-footer">
+                                                    <input type="button" id="btnSave" name="save" value="@RResx.GetResource("Rota2.Resources|Layout", "ButtonSave")" class="btn btn-primary" />
+                                                </div>
+                                            </div>
+                                            <!-- end widget content -->
+                                        </div>
+                                        <!-- end widget div -->
+                                    </div>
+                                </article>
+                            </section>
+
+                            if (ViewBag.ControllerName != null)
+                            {
+                                <script type="text/javascript">
+                                    $(document).ready(function () {
+                                        InitGetReportForm('@Url.Action(ViewBag.GetReportAction, ViewBag.ControllerName)');
+                                    });
+                                </script>
+                            }
+                        }
+                    </div>
+                </div>
+            </section>
+        }
+    </div>
+}
+
+@section Scriptsbottom {
+    @RenderSection("Scriptsbottom", required: false)
+}
+
+@section Footer {
+    @Html.Partial("_Footer")
+}
+
+<script type="text/javascript">
+    if (!Modernizr.canvas || $('html').hasClass('k-ie8') || $('html').hasClass('k-ie9')) {
+        alert("Kullandığınız tarayıcı versiyonu veya uyumluluk modu EFat sitesinin kullanımı için uygun değildir. Tarayıcının güncellenebilmesi için hizmet masasına kayıt açtırınız.");
+    }
+</script>

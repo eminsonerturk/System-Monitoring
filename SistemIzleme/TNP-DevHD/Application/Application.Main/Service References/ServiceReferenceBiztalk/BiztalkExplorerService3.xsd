@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/Bimar.Integration.LocalMachineExploper.CustomObjects" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/Bimar.Integration.LocalMachineExploper.CustomObjects" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="http://localhost:29342/Services/BiztalkExplorerService.svc?xsd=xsd3" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
+  <xs:complexType name="IntegrationDetailsTransferMessage">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="ApplicationDescription" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ApplicationName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="AssemblyName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="OchestrationDetails" nillable="true" type="tns:ArrayOfOrchestrationDetailsMessage" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="IntegrationDetailsTransferMessage" nillable="true" type="tns:IntegrationDetailsTransferMessage" />
+  <xs:complexType name="ArrayOfOrchestrationDetailsMessage">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="OrchestrationDetailsMessage" nillable="true" type="tns:OrchestrationDetailsMessage" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfOrchestrationDetailsMessage" nillable="true" type="tns:ArrayOfOrchestrationDetailsMessage" />
+  <xs:complexType name="OrchestrationDetailsMessage">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Desciption" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="HostName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="HostTypeId" type="xs:int" />
+      <xs:element minOccurs="0" name="HostTypeName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="PortDetails" nillable="true" type="tns:ArrayOfPortDetailsMessage" />
+      <xs:element minOccurs="0" name="StatusId" type="xs:int" />
+      <xs:element minOccurs="0" name="StatusName" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="OrchestrationDetailsMessage" nillable="true" type="tns:OrchestrationDetailsMessage" />
+  <xs:complexType name="ArrayOfPortDetailsMessage">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="PortDetailsMessage" nillable="true" type="tns:PortDetailsMessage" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfPortDetailsMessage" nillable="true" type="tns:ArrayOfPortDetailsMessage" />
+  <xs:complexType name="PortDetailsMessage">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Address" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="LogicalPortName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="LogicalPortType" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ReceiveLocations" nillable="true" type="tns:ArrayOfReceiveLocationsMessage" />
+      <xs:element minOccurs="0" name="StatusId" type="xs:int" />
+      <xs:element minOccurs="0" name="StatusName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="TrasportType" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="PortDetailsMessage" nillable="true" type="tns:PortDetailsMessage" />
+  <xs:complexType name="ArrayOfReceiveLocationsMessage">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="ReceiveLocationsMessage" nillable="true" type="tns:ReceiveLocationsMessage" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfReceiveLocationsMessage" nillable="true" type="tns:ArrayOfReceiveLocationsMessage" />
+  <xs:complexType name="ReceiveLocationsMessage">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Address" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Enabled" type="xs:boolean" />
+      <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="StatusName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="TrasportType" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ReceiveLocationsMessage" nillable="true" type="tns:ReceiveLocationsMessage" />
+  <xs:complexType name="ArrayOfHostInstancesTransferMessage">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="HostInstancesTransferMessage" nillable="true" type="tns:HostInstancesTransferMessage" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfHostInstancesTransferMessage" nillable="true" type="tns:ArrayOfHostInstancesTransferMessage" />
+  <xs:complexType name="HostInstancesTransferMessage">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="ErrorDetails" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ErrorMessage" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="HasErrors" type="xs:boolean" />
+      <xs:element minOccurs="0" name="HostInstanceStatusId" type="xs:int" />
+      <xs:element minOccurs="0" name="HostInstanceStatusName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="HostName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="RunningServer" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="UniqueId" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="HostInstancesTransferMessage" nillable="true" type="tns:HostInstancesTransferMessage" />
+  <xs:complexType name="ReceiveLocationsTransferMessage">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="AdapterName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ApplicationName" nillable="true" type="xs:string" />
+      <xs:element xmlns:q1="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="AssemblyNames" nillable="true" type="q1:ArrayOfstring" />
+      <xs:element minOccurs="0" name="IsDisabled" type="xs:boolean" />
+      <xs:element minOccurs="0" name="ReceiveLocationDesc" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ReceiveLocationName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ReceiveLocationStatusName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ReceivePortName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="StartDate" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="URL" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ReceiveLocationsTransferMessage" nillable="true" type="tns:ReceiveLocationsTransferMessage" />
+  <xs:complexType name="ArrayOfReceiveLocationsTransferMessage">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="ReceiveLocationsTransferMessage" nillable="true" type="tns:ReceiveLocationsTransferMessage" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfReceiveLocationsTransferMessage" nillable="true" type="tns:ArrayOfReceiveLocationsTransferMessage" />
+  <xs:complexType name="SendPortsTransferMessage">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="ApplicationName" nillable="true" type="xs:string" />
+      <xs:element xmlns:q2="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="AssemblyNames" nillable="true" type="q2:ArrayOfstring" />
+      <xs:element minOccurs="0" name="Filter" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="PTTransportType" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="SendPortDesc" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="StatusId" type="xs:int" />
+      <xs:element minOccurs="0" name="StatusName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Uri" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="SendPortsTransferMessage" nillable="true" type="tns:SendPortsTransferMessage" />
+  <xs:complexType name="ArrayOfSendPortsTransferMessage">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="SendPortsTransferMessage" nillable="true" type="tns:SendPortsTransferMessage" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfSendPortsTransferMessage" nillable="true" type="tns:ArrayOfSendPortsTransferMessage" />
+  <xs:complexType name="ArrayOfServiceInstancesTransferMessage">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="ServiceInstancesTransferMessage" nillable="true" type="tns:ServiceInstancesTransferMessage" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfServiceInstancesTransferMessage" nillable="true" type="tns:ArrayOfServiceInstancesTransferMessage" />
+  <xs:complexType name="ServiceInstancesTransferMessage">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="ActivationTime" type="xs:dateTime" />
+      <xs:element xmlns:q3="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="AssemblyNames" nillable="true" type="q3:ArrayOfstring" />
+      <xs:element minOccurs="0" name="ErrorDescription" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="HostName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="InstanceId" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Message" nillable="true" type="tns:ArrayOfServiceInstancesTransferMessage.Messages" />
+      <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ServiceClassId" type="xs:int" />
+      <xs:element minOccurs="0" name="ServiceClassName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ServiceName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ServiceStatusId" type="xs:int" />
+      <xs:element minOccurs="0" name="ServiceStatusName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="SuspendTime" type="xs:dateTime" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ServiceInstancesTransferMessage" nillable="true" type="tns:ServiceInstancesTransferMessage" />
+  <xs:complexType name="ArrayOfServiceInstancesTransferMessage.Messages">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="ServiceInstancesTransferMessage.Messages" nillable="true" type="tns:ServiceInstancesTransferMessage.Messages" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfServiceInstancesTransferMessage.Messages" nillable="true" type="tns:ArrayOfServiceInstancesTransferMessage.Messages" />
+  <xs:complexType name="ServiceInstancesTransferMessage.Messages">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Message" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="MessageFileName" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ServiceInstancesTransferMessage.Messages" nillable="true" type="tns:ServiceInstancesTransferMessage.Messages" />
+  <xs:complexType name="OrchestrationsTransferMessage">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="ApplicationName" nillable="true" type="xs:string" />
+      <xs:element xmlns:q4="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="AssemblyNames" nillable="true" type="q4:ArrayOfstring" />
+      <xs:element minOccurs="0" name="HostName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="OrchestrationDesc" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="StatusId" type="xs:int" />
+      <xs:element minOccurs="0" name="StatusName" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="OrchestrationsTransferMessage" nillable="true" type="tns:OrchestrationsTransferMessage" />
+  <xs:complexType name="ArrayOfOrchestrationsTransferMessage">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="OrchestrationsTransferMessage" nillable="true" type="tns:OrchestrationsTransferMessage" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfOrchestrationsTransferMessage" nillable="true" type="tns:ArrayOfOrchestrationsTransferMessage" />
+  <xs:complexType name="ArrayOfWindowsServicesTransferMessage">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="WindowsServicesTransferMessage" nillable="true" type="tns:WindowsServicesTransferMessage" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfWindowsServicesTransferMessage" nillable="true" type="tns:ArrayOfWindowsServicesTransferMessage" />
+  <xs:complexType name="WindowsServicesTransferMessage">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Description" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="DisplayName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Path" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ServiceName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Started" type="xs:boolean" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="WindowsServicesTransferMessage" nillable="true" type="tns:WindowsServicesTransferMessage" />
+</xs:schema>

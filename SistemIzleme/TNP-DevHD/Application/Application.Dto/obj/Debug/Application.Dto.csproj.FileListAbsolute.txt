@@ -1,0 +1,6 @@
+C:\Soner.Turk\2018\YazDonemi\Operasyonel Ekip\Soner.TURK\1\SistemIzleme\TNP-DevHD\Application\Application.Dto\bin\Debug\Application.Dto.dll
+C:\Soner.Turk\2018\YazDonemi\Operasyonel Ekip\Soner.TURK\1\SistemIzleme\TNP-DevHD\Application\Application.Dto\bin\Debug\Application.Dto.pdb
+C:\Soner.Turk\2018\YazDonemi\Operasyonel Ekip\Soner.TURK\1\SistemIzleme\TNP-DevHD\Application\Application.Dto\bin\Debug\Microsoft.Web.Administration.dll
+C:\Soner.Turk\2018\YazDonemi\Operasyonel Ekip\Soner.TURK\1\SistemIzleme\TNP-DevHD\Application\Application.Dto\obj\Debug\Application.Dto.csprojResolveAssemblyReference.cache
+C:\Soner.Turk\2018\YazDonemi\Operasyonel Ekip\Soner.TURK\1\SistemIzleme\TNP-DevHD\Application\Application.Dto\obj\Debug\Application.Dto.dll
+C:\Soner.Turk\2018\YazDonemi\Operasyonel Ekip\Soner.TURK\1\SistemIzleme\TNP-DevHD\Application\Application.Dto\obj\Debug\Application.Dto.pdb

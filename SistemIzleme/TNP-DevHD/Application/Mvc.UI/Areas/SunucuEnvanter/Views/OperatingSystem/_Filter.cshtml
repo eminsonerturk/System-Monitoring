@@ -1,0 +1,11 @@
+﻿@model  Application.ViewModels.Envanter.OperatingSystemSearchViewModel
+@using Rota2.ResourceProviders
+<div class="form-group">
+    @Html.Label(RResx.GetResource("Envanter", "LabelOperatingSystemAd"), new { @class = "col-lg-1 control-label" })
+    <div class="col-lg-3">
+        @Html.RFilterPageEditorFor(p => p.Ad)
+    </div>
+</div>
+
+
+

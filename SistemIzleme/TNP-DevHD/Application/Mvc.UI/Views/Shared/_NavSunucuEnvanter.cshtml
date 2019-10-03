@@ -1,0 +1,49 @@
+﻿<nav>
+    <ul>
+        @if ((bool)Session["IsAdmin"])
+        {
+            <li>
+                <a href="#"><i class="fa fa-lg fa-fw fa-th-large"></i> <span class="menu-item-parent">ANA VERİ</span></a>
+                <ul>
+                    <li><a href="javascript:void(0)" onclick="navItemClicked('sunucuenvanter/envanterkullanici/index')">Kullanıcı</a></li>
+                    <li><a href="javascript:void(0)" onclick="navItemClicked('sunucuenvanter/yonetici/index')">Sorumlu Kişi</a></li>
+                    <li><a href="javascript:void(0)" onclick="navItemClicked('sunucuenvanter/servertipi/index')">Server Tipi</a></li>
+                    <li><a href="javascript:void(0)" onclick="navItemClicked('sunucuenvanter/lokasyon/index')">Lokasyon</a></li>
+                    <li><a href="javascript:void(0)" onclick="navItemClicked('sunucuenvanter/operatingsystem/index')">Operating System</a></li>
+                </ul>
+            </li>
+        }
+        <li>
+            <a href="javascript:void(0)" onclick="navItemClicked('sunucuenvanter/server/index')"><i class=" fa fa-lg fa-fw fa-tasks"></i> <span class="menu-item-parent">ENVANTER</span></a>
+        </li> 
+    </ul>
+</nav>
+
+<script>
+    //$(document).ready(function () {
+    //    $('a[onclick="navItemClicked(\'' + location.pathname.substr(1) + '\')"]')
+    //    .closest('li').addClass('active');
+
+    //    var combobox = $("#Id").data("kendoComboBox");
+    //    combobox.bind("change", combobox_change);
+
+    //    function combobox_change(e) {
+    //        var value = this._prev;
+    //        var selectedItemId = this._selectedValue;
+    //        debugger;
+    //        if (value != '' && value!=selectedItemId) {
+    //            window.location.href = '/SunucuEnvanter/Server/Index/' + selectedItemId;
+    //                e.preventDefault();
+    //            }
+    //        else {
+
+    //                toastr.error("Lütfen bir Entegrasyon Seçiniz");
+    //             }
+    //            combobox.value(null);
+              
+    //    };    
+    //});
+</script>
+
+
+
